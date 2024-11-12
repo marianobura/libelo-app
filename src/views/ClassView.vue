@@ -13,7 +13,7 @@ const route = useRoute();
 
 const subjectData = ref(null);
 
-const fetchClassData = async () => {
+const fetchSubjectData = async () => {
     try {
         const response = await axios.get(`http://localhost:3000/api/subjects/`);
         const subjects = response.data.data;
@@ -24,7 +24,7 @@ const fetchClassData = async () => {
 };
 
 onMounted(() => {
-    fetchClassData();
+    fetchSubjectData();
 });
 </script>
 
