@@ -22,7 +22,7 @@ const routes = [
         component: () => import("../views/HomeView.vue"),
     },
     {
-        path: "/class",
+        path: "/class/:id",
         name: "class",
         component: () => import("../views/ClassView.vue"),
     },
@@ -30,6 +30,7 @@ const routes = [
         path: "/class/chat/fast",
         name: "fast-chat",
         component: () => import("../views/FastChatView.vue"),
+        props: true,
     },
     {
         path: "/class/work",

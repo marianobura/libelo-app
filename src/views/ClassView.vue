@@ -4,15 +4,37 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import BaseCard from "@/components/Class/BaseCard.vue";
 import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, UserRound } from "lucide-vue-next";
-import ClassBanner from "@/components/ClassBanner.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const subjectData = ref(null);
+
+const fetchClassData = async () => {
+    try {
+        const response = await axios.get(`http://localhost:3000/api/subjects/`);
+        const subjects = response.data.data;
+        subjectData.value = subjects.find(subject => subject._id === route.params.id);
+    } catch (error) {
+        console.error("Error al obtener la información de la materia:", error);
+    }
+};
+
+onMounted(() => {
+    fetchClassData();
+});
 </script>
 
 <template>
     <BaseBody>
         <BaseNav title="Materia" />
         <div class="flex flex-col gap-4 p-2">
-            <ClassBanner />
+            <div class="flex flex-col justify-end p-3 h-28 w-full bg-red-800 rounded-xl">
+                <div class="text-white font-semibold text-xl uppercase">{{ subjectData?.name }}</div>
+            </div>
             <BaseTitle title="Opciones de chat" description="Elige entre asistencia inmediata de IA o asesoramiento experto de mentores.">
                 <div class="grid grid-cols-2 gap-2">
                     <BaseCard link-to="/class/chat/fast" title="Chat rápido" description="Realiza una consulta instantánea." :icon="Bot" />
