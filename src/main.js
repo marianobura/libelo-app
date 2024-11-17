@@ -4,7 +4,7 @@ import "./registerServiceWorker";
 import "./style.css";
 import router from "./router";
 import { createPinia } from "pinia";
-import axios from "../src/services/axios";
+import "../src/services/axios";
 
 const app = createApp(App);
 
