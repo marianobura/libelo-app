@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { getUserIdFromToken } from '../utils/auth';
+import { getUserIdFromToken } from '../services/auth';
 
 export const useUserStore = defineStore('user', {
     state: () => ({

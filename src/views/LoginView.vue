@@ -20,10 +20,11 @@ const handleLogin = async () => {
             email: email.value,
             password: password.value,
         });
+        
+        const { token } = response.data;
+        localStorage.setItem('token', token);
 
         if (response.status === 200) {
-            const { token } = response.data;
-            localStorage.setItem('token', token);
             router.push('/');
         }
     } catch (error) {
