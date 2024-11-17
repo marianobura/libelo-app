@@ -15,12 +15,8 @@ const subjectData = ref(null);
 
 const fetchSubjectData = async () => {
     try {
-<<<<<<< HEAD
         const apiUrl = new URL(`/subjects`, process.env.VUE_APP_API_URL);
         const response = await axios.get(apiUrl.toString());
-=======
-        const response = await axios.get(`${process.env.VUE_APP_API_URL}/subjects`);
->>>>>>> 57c2a6d73f0a25e2a53c829c0de8c719b3d4b888
         const subjects = response.data.data;
         subjectData.value = subjects.find(subject => subject._id === route.params.id);
     } catch (error) {

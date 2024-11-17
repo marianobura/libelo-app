@@ -15,12 +15,8 @@ export const useUserStore = defineStore('user', {
             try {
                 const userId = getUserIdFromToken();
 
-<<<<<<< HEAD
                 const apiUrl = new URL(`/users/${userId}`, process.env.VUE_APP_API_URL);
                 const response = await axios.get(apiUrl, {
-=======
-                const response = await axios.get(`${process.env.VUE_APP_API_URL}/users/${userId}`, {
->>>>>>> 57c2a6d73f0a25e2a53c829c0de8c719b3d4b888
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
