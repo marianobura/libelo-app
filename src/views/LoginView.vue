@@ -15,8 +15,7 @@ const errorMessage = ref('');
 const handleLogin = async () => {
     errorMessage.value = '';
     try {
-        const apiUrl = new URL(`/users/login`, process.env.VUE_APP_API_URL);
-        const response = await axios.post(apiUrl.toString(), {
+        const response = await axios.post(`${process.env.VUE_APP_API_URL}users/login`, {
             email: email.value,
             password: password.value,
         });
