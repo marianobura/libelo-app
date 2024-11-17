@@ -25,7 +25,8 @@ const fetchSubjects = async () => {
 
 const addSubject = async (subjectName) => {
     try {
-        const response = await axios.post(`${process.env.VUE_APP_API_URL}/subjects`, { name: subjectName, professor: null });
+        const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
+        const response = await axios.post(apiUrl.toString(), { name: subjectName, professor: null });
         subjects.value.push(response.data.data);
         showModal.value = false;
     } catch (error) {
