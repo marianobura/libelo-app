@@ -21,18 +21,11 @@ const handleLogin = async () => {
             password: password.value,
         });
 
-        if (response.data.token) {
+        if (response.status === 200) {
             const { token } = response.data;
             localStorage.setItem('token', token);
-            console.log('Token guardado en localStorage:', token);
-
-            if (response.status === 200) {
-                router.push('/');
-            }
-        } else {
-            throw new Error('Token no recibido');
+            router.push('/');
         }
-
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
