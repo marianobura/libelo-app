@@ -16,13 +16,19 @@ const handleLogin = async () => {
     errorMessage.value = '';
     try {
         const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
+        const token = localStorage.getItem('token');
         const response = await axios.post(apiUrl.toString(), {
             email: email.value,
             password: password.value,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : '',
+            }
         });
         
-        const { token } = response.data;
-        localStorage.setItem('token', token);
+        const { token: newToken } = response.data;
+        localStorage.setItem('token', newToken);
 
         if (response.status === 200) {
             router.push('/');
