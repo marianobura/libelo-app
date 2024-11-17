@@ -2,6 +2,45 @@
 import BaseInput from '../components/BaseInput.vue';
 import BaseButton from '../components/BaseButton.vue';
 import SignNav from '../components/SignAccount/SignNav.vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
+const router = useRouter();
+
+const firstName = ref('');
+const lastName = ref('');
+const username = ref('');
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
+
+const handleRegister = async () => {
+    errorMessage.value = '';
+    try {
+        const apiUrl = new URL(`/api/users/`, process.env.VUE_APP_API_URL);
+        const response = await axios.post(apiUrl.toString(), {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            username: username.value,
+            email: email.value,
+            password: password.value,
+        });
+
+        if (response.status === 200) {
+            router.push('/');
+        }
+    } catch (error) {
+        if (error.response) {
+            errorMessage.value = error.response.data.msg;
+        } else if (error.request) {
+            errorMessage.value = 'Error de conexión. Inténtalo nuevamente.';
+        } else {
+            errorMessage.value = 'Ocurrió un error inesperado.';
+        }
+        console.error('Error al registrar:', error);
+    }
+};
 </script>
 
 <template>
@@ -11,11 +50,12 @@ import SignNav from '../components/SignAccount/SignNav.vue';
                 <SignNav title="Crear cuenta" description="Crea una cuenta nueva y estudia de manera eficiente." />
                 <div class="flex flex-col gap-5">
                     <div class="grid grid-cols-2 gap-2">
-                        <BaseInput identifier="first-name" placeholder="Introduzca su nombre" label="Nombre" type="text" />
-                        <BaseInput identifier="last-name" placeholder="Introduzca su apellido" label="Apellido" type="text" />
+                        <BaseInput identifier="first-name" placeholder="Introduzca su nombre" label="Nombre" type="text" v-model="firstName" />
+                        <BaseInput identifier="last-name" placeholder="Introduzca su apellido" label="Apellido" type="text" v-model="lastName" />
                     </div>
-                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" />
-                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" />
+                    <BaseInput identifier="username" placeholder="Introduzca su nombre de usuario" label="Nombre de usuario" type="text" v-model="username" />
+                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" />
+                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" v-model="password" />
                     <div class="inline-flex items-center">
                         <label class="flex items-center cursor-pointer relative" for="check-2">
                             <input type="checkbox" checked class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded border border-neutral-300 checked:bg-libelo-500 checked:border-libelo-500" id="check-2" />
@@ -28,7 +68,7 @@ import SignNav from '../components/SignAccount/SignNav.vue';
                         <label class="cursor-pointer ml-2 text-neutral-700 text-sm" for="check-2">Mantener la sesión iniciada</label>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <BaseButton primary content="Crear cuenta" path="/home" />
+                        <BaseButton @click="handleRegister" primary content="Crear cuenta" />
                         <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                             <hr class="w-full border-neutral-300" />
                             <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
