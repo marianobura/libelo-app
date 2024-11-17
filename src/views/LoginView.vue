@@ -1,7 +1,26 @@
 <script setup>
+import axios from 'axios';
 import BaseInput from '../components/BaseInput.vue';
 import BaseButton from '../components/BaseButton.vue';
 import SignNav from '../components/SignAccount/SignNav.vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+
+const handleLogin = async () => {
+    try {
+        const response = await axios.post(process.env.VUE_APP_API_URL + 'users/login', { email: email.value, password: password.value });
+        if (response.status === 200) {
+            router.push('/');
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+    }
+};
 </script>
 
 <template>
@@ -10,8 +29,8 @@ import SignNav from '../components/SignAccount/SignNav.vue';
             <div class="h-full p-2">
                 <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
                 <div class="flex flex-col gap-5">
-                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" />
-                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password />
+                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" />
+                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password v-model="password" />
                     <div class="inline-flex items-center">
                         <label class="flex items-center cursor-pointer relative" for="check-2">
                             <input type="checkbox" checked class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded border border-neutral-300 checked:bg-libelo-500 checked:border-libelo-500" id="check-2" />
@@ -24,7 +43,7 @@ import SignNav from '../components/SignAccount/SignNav.vue';
                         <label class="cursor-pointer ml-2 text-neutral-700 text-sm" for="check-2">Mantener la sesión iniciada</label>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <BaseButton primary content="Iniciar sesión" path="/home" />
+                        <BaseButton @click="handleLogin" primary content="Iniciar sesión" />
                         <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                             <hr class="w-full border-neutral-300" />
                             <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>

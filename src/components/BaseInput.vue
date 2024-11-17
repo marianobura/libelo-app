@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 
 defineProps({
     identifier: String,
@@ -12,8 +12,14 @@ defineProps({
     password: {
         type: Boolean,
         default: false
-    }
+    },
+    modelValue: {
+        type: String,
+        required: false
+    },
 })
+
+defineEmits(['update:modelValue'])
 </script>
 
 <template>
@@ -22,6 +28,6 @@ defineProps({
             <label class="font-semibold" :for="identifier">{{ label }}</label>
             <span v-if="password" class="text-libelo-500 text-sm">Me olvidé la contraseña</span>
         </div>
-        <input class="w-full bg-gray-100 text-gray-700 border border-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500" :name="identifier" :id="identifier" :type="type" :placeholder="placeholder">
+        <input class="w-full bg-gray-100 text-gray-700 border border-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500" :name="identifier" :id="identifier" :type="type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
     </div>
 </template>

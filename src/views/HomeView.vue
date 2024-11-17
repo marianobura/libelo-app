@@ -13,7 +13,7 @@ const subjects = ref([]);
 
 const fetchSubjects = async () => {
     try {
-        const response = await axios.get(process.env.VUE_APP_API_URL + "api/subjects");
+        const response = await axios.get(process.env.VUE_APP_API_URL + "subjects");
         subjects.value = response.data.data;
     } catch (error) {
         console.error("Error al obtener las materias:", error);
@@ -22,7 +22,7 @@ const fetchSubjects = async () => {
 
 const addSubject = async (subjectName) => {
     try {
-        const response = await axios.post(process.env.VUE_APP_API_URL + "api/subjects", { name: subjectName, professor: null });
+        const response = await axios.post(process.env.VUE_APP_API_URL + "subjects", { name: subjectName, professor: null });
         subjects.value.push(response.data.data);
         showModal.value = false;
     } catch (error) {
