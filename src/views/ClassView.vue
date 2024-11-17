@@ -15,7 +15,7 @@ const subjectData = ref(null);
 
 const fetchSubjectData = async () => {
     try {
-        const response = await axios.get(`https://libelo-back.vercel.app/api/subjects`);
+        const response = await axios.get(process.env.VUE_APP_API_URL + "api/subjects");
         const subjects = response.data.data;
         subjectData.value = subjects.find(subject => subject._id === route.params.id);
     } catch (error) {
