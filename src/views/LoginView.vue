@@ -10,14 +10,29 @@ const router = useRouter();
 
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 const handleLogin = async () => {
+    errorMessage.value = '';
     try {
-        const response = await axios.post(process.env.VUE_APP_API_URL + 'users/login', { email: email.value, password: password.value });
+        const response = await axios.post(`${process.env.VUE_APP_API_URL}users/login`, {
+            email: email.value,
+            password: password.value,
+        });
+
         if (response.status === 200) {
+            const { token } = response.data;
+            localStorage.setItem('token', token);
             router.push('/');
         }
     } catch (error) {
+        if (error.response) {
+            errorMessage.value = error.response.data.msg;
+        } else if (error.request) {
+            errorMessage.value = 'Error de conexión. Inténtalo nuevamente.';
+        } else {
+            errorMessage.value = 'Ocurrió un error inesperado.';
+        }
         console.error('Error al iniciar sesión:', error);
     }
 };

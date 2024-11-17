@@ -7,13 +7,15 @@ import { Plus } from "lucide-vue-next";
 import { goTo } from "@/router/index";
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useUserStore } from '../stores/userStore';
 
+const userStore = useUserStore();
 const showModal = ref(false);
 const subjects = ref([]);
 
 const fetchSubjects = async () => {
     try {
-        const response = await axios.get(process.env.VUE_APP_API_URL + "subjects");
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}subjects`);
         subjects.value = response.data.data;
     } catch (error) {
         console.error("Error al obtener las materias:", error);
@@ -22,7 +24,7 @@ const fetchSubjects = async () => {
 
 const addSubject = async (subjectName) => {
     try {
-        const response = await axios.post(process.env.VUE_APP_API_URL + "subjects", { name: subjectName, professor: null });
+        const response = await axios.post(`${process.env.VUE_APP_API_URL}subjects`, { name: subjectName, professor: null });
         subjects.value.push(response.data.data);
         showModal.value = false;
     } catch (error) {
@@ -30,7 +32,8 @@ const addSubject = async (subjectName) => {
     }
 };
 
-onMounted(() => {
+onMounted(async () => {
+    await userStore.fetchUser();
     fetchSubjects();
 });
 </script>
@@ -41,7 +44,7 @@ onMounted(() => {
         <div class="flex flex-col gap-4 p-2">
             <div class="h-[150px] w-full bg-libelo-500 rounded-xl">
                 <div class="p-3 flex flex-col text-neutral-100">
-                    <p>¡Bienvenido <span class="text-orange-400 font-semibold">Usuario</span>!</p>
+                    <p>¡Bienvenido <span class="text-orange-400 font-semibold">{{ userStore.user?.firstName }}</span>!</p>
                     <p class="text-neutral-300 text-sm text-balance">Empieza ahora y conecta con mentores expertos en la materia que elijas, ¡ellos te ayudarán!</p>
                 </div>
             </div>
