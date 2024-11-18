@@ -29,7 +29,7 @@ const handleRegister = async () => {
         });
 
         if (response.status === 200) {
-            router.push('/');
+            router.push('/login');
         }
     } catch (error) {
         if (error.response) {
