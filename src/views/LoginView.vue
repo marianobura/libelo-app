@@ -5,6 +5,7 @@ import BaseButton from '../components/BaseButton.vue';
 import SignNav from '../components/SignAccount/SignNav.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { CircleAlert } from "lucide-vue-next";
 
 const router = useRouter();
 
@@ -29,6 +30,8 @@ const handleLogin = async () => {
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
+        } else if (!email.value || !password.value) {
+            errorMessage.value = 'Por favor, complete todos los campos.';
         } else if (error.request) {
             errorMessage.value = 'Error de conexión. Inténtalo nuevamente.';
         } else {
@@ -45,8 +48,12 @@ const handleLogin = async () => {
             <div class="h-full p-2">
                 <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
                 <div class="flex flex-col gap-5">
-                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" />
-                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password v-model="password" />
+                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" :error="errorMessage ? true : false" />
+                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password v-model="password" :error="errorMessage ? true : false" />
+                    <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
+                        <CircleAlert :size="16" />
+                        <span class="text-sm">{{ errorMessage }}</span>
+                    </div>
                     <div class="inline-flex items-center">
                         <label class="flex items-center cursor-pointer relative" for="check-2">
                             <input type="checkbox" checked class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded border border-neutral-300 checked:bg-libelo-500 checked:border-libelo-500" id="check-2" />

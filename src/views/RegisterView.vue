@@ -5,6 +5,7 @@ import SignNav from '../components/SignAccount/SignNav.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { CircleAlert } from "lucide-vue-next";
 
 const router = useRouter();
 
@@ -33,12 +34,14 @@ const handleRegister = async () => {
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
+        } else if (!firstName.value || !lastName.value || !username.value || !email.value || !password.value) {
+            errorMessage.value = 'Por favor, complete todos los campos.';
         } else if (error.request) {
             errorMessage.value = 'Error de conexión. Inténtalo nuevamente.';
         } else {
             errorMessage.value = 'Ocurrió un error inesperado.';
         }
-        console.error('Error al registrar:', error);
+        console.error('Error al iniciar sesión:', error);
     }
 };
 </script>
@@ -50,12 +53,16 @@ const handleRegister = async () => {
                 <SignNav title="Crear cuenta" description="Crea una cuenta nueva y estudia de manera eficiente." />
                 <div class="flex flex-col gap-5">
                     <div class="grid grid-cols-2 gap-2">
-                        <BaseInput identifier="first-name" placeholder="Introduzca su nombre" label="Nombre" type="text" v-model="firstName" />
-                        <BaseInput identifier="last-name" placeholder="Introduzca su apellido" label="Apellido" type="text" v-model="lastName" />
+                        <BaseInput identifier="first-name" placeholder="Introduzca su nombre" label="Nombre" type="text" v-model="firstName" :error="errorMessage ? true : false" />
+                        <BaseInput identifier="last-name" placeholder="Introduzca su apellido" label="Apellido" type="text" v-model="lastName" :error="errorMessage ? true : false" />
                     </div>
-                    <BaseInput identifier="username" placeholder="Introduzca su nombre de usuario" label="Nombre de usuario" type="text" v-model="username" />
-                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" />
-                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" v-model="password" />
+                    <BaseInput identifier="username" placeholder="Introduzca su nombre de usuario" label="Nombre de usuario" type="text" v-model="username" :error="errorMessage ? true : false" />
+                    <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" :error="errorMessage ? true : false" />
+                    <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" v-model="password" :error="errorMessage ? true : false" />
+                    <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
+                        <CircleAlert :size="16" />
+                        <span class="text-sm">{{ errorMessage }}</span>
+                    </div>
                     <div class="inline-flex items-center">
                         <label class="flex items-center cursor-pointer relative" for="check-2">
                             <input type="checkbox" checked class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded border border-neutral-300 checked:bg-libelo-500 checked:border-libelo-500" id="check-2" />

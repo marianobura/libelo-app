@@ -17,6 +17,10 @@ defineProps({
         type: String,
         required: false
     },
+    error: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 defineEmits(['update:modelValue'])
@@ -28,6 +32,11 @@ defineEmits(['update:modelValue'])
             <label class="font-semibold" :for="identifier">{{ label }}</label>
             <span v-if="password" class="text-libelo-500 text-sm">Me olvidé la contraseña</span>
         </div>
-        <input class="w-full bg-gray-100 text-gray-700 border border-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500" :name="identifier" :id="identifier" :type="type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+        <input class="w-full bg-gray-100 text-gray-700 border rounded-xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"
+        :class="{
+            'border-gray-300': !error, 
+            'bg-red-100 border-red-500': error
+        }"
+        :name="identifier" :id="identifier" :type="type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
     </div>
 </template>
