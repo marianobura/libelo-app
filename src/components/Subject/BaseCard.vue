@@ -1,6 +1,9 @@
 <script setup>
-import { goTo } from '@/router';
+import { useRoute, useRouter } from 'vue-router';
 import { defineProps } from 'vue';
+
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
     title: String,
@@ -15,7 +18,8 @@ const props = defineProps({
 
 const handleClick = () => {
     if (props.linkTo) {
-        goTo(props.linkTo);
+        const path = `${route.path}/${props.linkTo}`;
+        router.push(path);
     }
 };
 </script>

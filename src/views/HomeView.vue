@@ -52,7 +52,7 @@ onMounted(async () => {
             </div>
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">
                 <div class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/class/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-3 rounded-xl bg-red-800 uppercase">{{ subject.name }}</div>
+                    <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/subject/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-3 rounded-xl bg-red-800 uppercase">{{ subject.name }}</div>
                 </div>
             </BaseTitle>
         </div>

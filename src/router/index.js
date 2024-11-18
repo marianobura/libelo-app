@@ -2,50 +2,60 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
     {
+        path: "/welcome",
+        name: "welcome",
+        component: () => import("../views/WelcomeView.vue"),
+        meta: { requiresAuth: false, guestOnly: true },
+    },
+    {
         path: "/login",
         name: "login",
         component: () => import("../views/LoginView.vue"),
+        meta: { requiresAuth: false, guestOnly: true },
     },
     {
         path: "/register",
         name: "register",
         component: () => import("../views/RegisterView.vue"),
-    },
-    {
-        path: "/welcome",
-        name: "welcome",
-        component: () => import("../views/WelcomeView.vue"),
+        meta: { requiresAuth: false, guestOnly: true },
     },
     {
         path: "/",
         name: "home",
         component: () => import("../views/HomeView.vue"),
+        meta: { requiresAuth: true },
     },
     {
-        path: "/class/:id",
-        name: "class",
-        component: () => import("../views/ClassView.vue"),
-    },
-    {
-        path: "/class/chat/fast",
-        name: "fast-chat",
-        component: () => import("../views/FastChatView.vue"),
-        props: true,
-    },
-    {
-        path: "/class/work",
-        name: "work",
-        component: () => import("../views/WorkView.vue"),
-    },
-    {
-        path: "/class/calendar",
-        name: "calendar",
-        component: () => import("../views/CalendarView.vue"),
+        path: "/subject/:id",
+        name: "subject",
+        component: () => import("../views/SubjectView.vue"),
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: "chat/fast",
+                name: "fast-chat",
+                component: () => import("../views/FastChatView.vue"),
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "work",
+                name: "work",
+                component: () => import("../views/WorkView.vue"),
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "calendar",
+                name: "calendar",
+                component: () => import("../views/CalendarView.vue"),
+                meta: { requiresAuth: true },
+            },
+        ],
     },
     {
         path: "/settings",
         name: "settings",
         component: () => import("../views/SettingsView.vue"),
+        meta: { requiresAuth: true },
     },
 ];
 

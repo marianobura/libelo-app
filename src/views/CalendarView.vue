@@ -2,14 +2,14 @@
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from '@/components/BaseTitle.vue'
-import ClassBanner from '@/components/ClassBanner.vue'
+import SubjectBanner from '@/components/SubjectBanner.vue'
 </script>
 
 <template>
     <BaseBody>
         <BaseNav title="Calendario" />
         <div class="flex flex-col gap-4 p-2">
-            <ClassBanner />
+            <SubjectBanner />
             <BaseTitle title="Revisa tus próximas fechas" description="descripción...">
                 <iframe 
                     src="https://calendar.google.com/calendar/embed?src=11e395b11c75f744b50b8474b7105d5e84bbcee94f3dcff80e1fe8d4699bf68a@group.calendar.google.com" 

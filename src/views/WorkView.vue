@@ -2,7 +2,7 @@
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
-import ClassBanner from "@/components/ClassBanner.vue";
+import SubjectBanner from "@/components/SubjectBanner.vue";
 import StatusCard from "@/components/Work/StatusCard.vue";
 import PendingCard from "@/components/Work/PendingCard.vue";
 </script>
@@ -11,7 +11,7 @@ import PendingCard from "@/components/Work/PendingCard.vue";
     <BaseBody>
         <BaseNav title="Trabajos" />
         <div class="flex flex-col gap-4 p-2">
-            <ClassBanner />
+            <SubjectBanner />
             <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados.">
                 <div class="grid grid-cols-2 gap-2 w-full">
                     <StatusCard count="2" description="Trabajos pendientes" />
