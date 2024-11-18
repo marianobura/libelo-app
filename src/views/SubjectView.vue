@@ -3,26 +3,13 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import BaseCard from "@/components/Subject/BaseCard.vue";
+import SubjectBanner from "@/components/SubjectBanner.vue";
 import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, UserRound } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
-import { onMounted, ref } from "vue";
-import axios from "axios";
-import { useRoute } from "vue-router";
+import { onMounted } from "vue";
+import { useSubjectData } from "@/services/subjectData"; 
 
-const route = useRoute();
-
-const subjectData = ref(null);
-
-const fetchSubjectData = async () => {
-    try {
-        const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
-        const response = await axios.get(apiUrl.toString());
-        const subjects = response.data.data;
-        subjectData.value = subjects.find(subject => subject._id === route.params.id);
-    } catch (error) {
-        console.error("Error al obtener la información de la materia:", error);
-    }
-};
+const { fetchSubjectData } = useSubjectData();
 
 onMounted(() => {
     fetchSubjectData();
@@ -33,9 +20,7 @@ onMounted(() => {
     <BaseBody>
         <BaseNav title="Materia" />
         <div class="flex flex-col gap-4 p-2">
-            <div class="flex flex-col justify-end p-3 h-28 w-full bg-red-800 rounded-xl">
-                <div class="text-white font-semibold text-xl uppercase">{{ subjectData?.name }}</div>
-            </div>
+            <SubjectBanner />
             <BaseTitle title="Opciones de chat" description="Elige entre asistencia inmediata de IA o asesoramiento experto de mentores.">
                 <div class="grid grid-cols-2 gap-2">
                     <BaseCard link-to="chat/fast" title="Chat rápido" description="Realiza una consulta instantánea." :icon="Bot" />

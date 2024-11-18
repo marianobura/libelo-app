@@ -2,6 +2,14 @@
 import BaseNav from '../components/BaseNav.vue';
 import BaseBody from '../components/BaseBody.vue';
 import { SendHorizontalIcon, Bot } from 'lucide-vue-next';
+import { onMounted } from 'vue';
+import { useSubjectData } from "@/services/subjectData"; 
+
+const { subjectData, fetchSubjectData } = useSubjectData();
+
+onMounted(() => {
+    fetchSubjectData();
+});
 </script>
 
 <template>
@@ -17,7 +25,7 @@ import { SendHorizontalIcon, Bot } from 'lucide-vue-next';
                         <div class="flex flex-col w-full gap-1">
                             <span class="text-sm text-orange-600 font-semibold">Inteligencia Artificial</span>
                             <div class="bg-orange-600/40 p-2 rounded-xl w-fit">
-                                <p class="text-sm">¡Hola! Bienvenido al chat de Inteligencia Artificial especializado en (materia). ¿En qué puedo asistirte hoy?</p>
+                                <p class="text-sm">¡Hola! Bienvenido al chat de Inteligencia Artificial especializado en {{ subjectData?.name }}. ¿En qué puedo asistirte hoy?</p>
                             </div>
                         </div>
                     </div>
@@ -47,7 +55,7 @@ import { SendHorizontalIcon, Bot } from 'lucide-vue-next';
             </div>
             <div class="flex flex-col gap-3 w-full">
                 <div class="flex justify-center items-center w-full py-2 bg-white rounded-full">
-                    <span class="text-sm text-neutral-700">Estás en un chat rápido de (materia)</span>
+                    <span class="text-sm text-neutral-700">Estás en un chat rápido de {{ subjectData?.name }}</span>
                 </div>
                 <div class="flex items-center gap-3 bg-white rounded-full w-full h-14 p-2">
                     <div class="size-10 rounded-full flex-shrink-0">
