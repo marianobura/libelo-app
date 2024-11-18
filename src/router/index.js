@@ -30,26 +30,24 @@ const routes = [
         name: "subject",
         component: () => import("../views/SubjectView.vue"),
         meta: { requiresAuth: true },
-        children: [
-            {
-                path: "chat/fast",
-                name: "fast-chat",
-                component: () => import("../views/FastChatView.vue"),
-                meta: { requiresAuth: true },
-            },
-            {
-                path: "work",
-                name: "work",
-                component: () => import("../views/WorkView.vue"),
-                meta: { requiresAuth: true },
-            },
-            {
-                path: "calendar",
-                name: "calendar",
-                component: () => import("../views/CalendarView.vue"),
-                meta: { requiresAuth: true },
-            },
-        ],
+    },
+    {
+        path: "/subject/:id/chat/fast",
+        name: "fast-chat",
+        component: () => import("../views/FastChatView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/subject/:id/work",
+        name: "work",
+        component: () => import("../views/WorkView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/subject/:id/calendar",
+        name: "calendar",
+        component: () => import("../views/CalendarView.vue"),
+        meta: { requiresAuth: true },
     },
     {
         path: "/settings",

@@ -1,8 +1,7 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { defineProps } from 'vue';
 
-const router = useRouter();
 const route = useRoute();
 
 const props = defineProps({
@@ -15,21 +14,16 @@ const props = defineProps({
     icon: Function,
     linkTo: String
 });
-
-const handleClick = () => {
-    if (props.linkTo) {
-        const path = `${route.path}/${props.linkTo}`;
-        router.push(path);
-    }
-};
 </script>
 
 <template>
-    <div @click="handleClick" class="flex flex-col p-3 h-fit rounded-xl text-neutral-700" :class="props.color ? 'bg-gradient-to-b from-[#D8D8D8] to-[#CECECE]' : 'border border-neutral-300'" >
-        <div class="flex gap-2">
-            <component :is="props.icon" :size="20" />
-            <p class="font-bold">{{ props.title }}</p>
+    <router-link :to="`${route.path}/${props.linkTo}`">
+        <div class="flex flex-col p-3 h-fit rounded-xl text-neutral-700" :class="props.color ? 'bg-gradient-to-b from-[#D8D8D8] to-[#CECECE]' : 'border border-neutral-300'">
+            <div class="flex gap-2">
+                <component :is="props.icon" :size="20" />
+                <p class="font-bold">{{ props.title }}</p>
+            </div>
+            <p class="text-sm">{{ props.description }}</p>
         </div>
-        <p class="text-sm">{{ props.description }}</p>
-    </div>
+    </router-link>
 </template>

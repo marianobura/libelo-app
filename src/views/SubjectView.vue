@@ -54,6 +54,5 @@ onMounted(() => {
 
             <BaseButton primary content="Configuración" path="/settings" />
         </div>
-        <router-view />
     </BaseBody>
 </template>
