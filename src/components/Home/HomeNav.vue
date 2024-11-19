@@ -5,8 +5,7 @@ import { Bell } from 'lucide-vue-next';
 <template>
     <div class="flex justify-between items-center px-2 bg-white border-b border-gray-300">
         <div>
-            <!-- <img src="/img/logo.png" alt="Logo de Libelo" class="h-8"> -->
-            <p>logo</p>
+            <img src="/img/logo.png" alt="Logo de Libelo" class="h-8">
         </div>
         <div class="flex gap-2 items-center">
             <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
