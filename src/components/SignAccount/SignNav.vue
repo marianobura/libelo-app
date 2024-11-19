@@ -1,10 +1,5 @@
 <script setup>
-import { useRouter } from 'vue-router';
-import { ArrowLeft } from 'lucide-vue-next';
 import { defineProps } from 'vue';
-
-const router = useRouter();
-const goBack = () => router.back();
 
 defineProps({
     title: String,
@@ -13,10 +8,10 @@ defineProps({
 </script>
 
 <template>
-    <div @click="goBack" class="size-12 flex items-center justify-center border border-neutral-300 rounded-xl hover:bg-neutral-200">
-        <ArrowLeft :size="20" />
+    <div class="flex items-center justify-center w-full h-32 bg-libelo-500 rounded-b-xl">
+        <img src="/img/logotipo.png" alt="Logotipo de Libelo">
     </div>
-    <div class="flex flex-col mt-2 mb-6">
+    <div class="flex flex-col px-2 my-3">
         <h1 class="font-semibold text-2xl">{{ title }}</h1>
         <p class="text-neutral-700">{{ description }}</p>
     </div>
