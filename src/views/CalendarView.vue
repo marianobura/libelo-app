@@ -10,7 +10,7 @@ import SubjectBanner from '@/components/SubjectBanner.vue'
         <BaseNav title="Calendario" />
         <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
-            <BaseTitle title="Revisa tus próximas fechas" description="descripción...">
+            <BaseTitle title="Revisa tus próximas fechas" description="Consulta, organiza y planifica tus próximas fechas de forma simple y eficiente en un solo lugar.">
                 <iframe 
                     src="https://calendar.google.com/calendar/embed?src=11e395b11c75f744b50b8474b7105d5e84bbcee94f3dcff80e1fe8d4699bf68a@group.calendar.google.com" 
                     style="border: 0" 
