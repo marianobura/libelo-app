@@ -52,9 +52,9 @@ onMounted(async () => {
                 </div>
             </div>
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">
-                <div v-if="subjects.length === 0" class="w-full font-semibold text-center pt-8">
-                    <span>No tienes ninguna materia creada.</span>
-                    <BaseButton>Agrega tu primer materia</BaseButton>
+                <div v-if="subjects.length === 0" @click="showModal = true" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
+                    <span>Todavía no tienes ninguna materia creada.</span>
+                    <BaseButton primary>Agrega tu primera materia</BaseButton>
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
                     <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/subject/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-3 rounded-xl bg-red-800 uppercase">{{ subject.name }}</div>
