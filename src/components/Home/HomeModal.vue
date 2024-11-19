@@ -46,7 +46,7 @@ const handleAddSubject = () => {
                 </div>
             </div>
             <div class="py-2">
-                <BaseButton @click="handleAddSubject" content="Agregar materia" primary />
+                <BaseButton @click="handleAddSubject" primary>Agregar materia</BaseButton>
             </div>
         </div>
     </div>

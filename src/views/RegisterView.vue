@@ -60,7 +60,7 @@ const handleRegister = async () => {
                     <span class="text-sm">{{ errorMessage }}</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <BaseButton @click="handleRegister" primary content="Crear cuenta" />
+                    <BaseButton @click="handleRegister" primary>Crear cuenta</BaseButton>
                     <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                         <hr class="w-full border-neutral-300" />
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>

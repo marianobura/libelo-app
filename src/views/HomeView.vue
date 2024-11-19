@@ -8,6 +8,7 @@ import { goTo } from "@/router/index";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useUserStore } from '../stores/userStore';
+import BaseButton from "@/components/BaseButton.vue";
 
 const userStore = useUserStore();
 const showModal = ref(false);
@@ -51,12 +52,16 @@ onMounted(async () => {
                 </div>
             </div>
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">
-                <div class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
+                <div v-if="subjects.length === 0" class="w-full font-semibold text-center pt-8">
+                    <span>No tienes ninguna materia creada.</span>
+                    <BaseButton>Agrega tu primer materia</BaseButton>
+                </div>
+                <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
                     <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/subject/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-3 rounded-xl bg-red-800 uppercase">{{ subject.name }}</div>
                 </div>
             </BaseTitle>
         </div>
-        <button id="show-modal" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
+        <button v-if="subjects.length > 0" id="show-modal" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
             <Plus :size="24" />
         </button>
 

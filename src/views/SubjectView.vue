@@ -37,7 +37,7 @@ onMounted(() => {
                 </div>
             </BaseTitle>
 
-            <BaseButton primary content="Configuración" path="/settings" />
+            <BaseButton primary path="/settings">Configuración</BaseButton>
         </div>
     </BaseBody>
 </template>

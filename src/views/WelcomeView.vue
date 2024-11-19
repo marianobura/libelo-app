@@ -243,8 +243,8 @@ import BaseButton from '@/components/BaseButton.vue';
                 <p class="text-neutral-700 text-balance text-center">Estamos encantados de ayudarte a mejorar tu aprendizaje de manera sencilla y eficaz.</p>
             </div>
             <div class="flex flex-col gap-2">
-                <BaseButton primary content="Iniciar sesión" path="/login" />
-                <BaseButton content="Crear cuenta" path="/register" />
+                <BaseButton primary path="/login">Iniciar sesión</BaseButton>
+                <BaseButton path="/register">Crear cuenta</BaseButton>
             </div>
         </div>
     </div>

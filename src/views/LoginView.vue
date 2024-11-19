@@ -62,7 +62,7 @@ const handleLogin = async () => {
                     <label class="cursor-pointer ml-2 text-neutral-700 text-sm" for="check-2">Mantener la sesión iniciada</label>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <BaseButton @click="handleLogin" primary content="Iniciar sesión" />
+                    <BaseButton @click="handleLogin" primary>Iniciar sesión</BaseButton>
                     <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                         <hr class="w-full border-neutral-300" />
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
