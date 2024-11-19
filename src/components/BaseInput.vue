@@ -29,7 +29,7 @@ defineEmits(['update:modelValue'])
 <template>
     <div class="flex flex-col gap-1 w-full">
         <div class="flex justify-between">
-            <label class="font-semibold" :for="identifier">{{ label }}</label>
+            <label class="font-semibold" :class="{ 'text-red-500': error }" :for="identifier">{{ label }}</label>
             <span v-if="password" class="text-libelo-500 text-sm">Me olvidé la contraseña</span>
         </div>
         <input class="w-full text-gray-700 border rounded-xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500"

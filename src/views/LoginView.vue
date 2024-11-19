@@ -32,12 +32,9 @@ const handleLogin = async () => {
             errorMessage.value = error.response.data.msg;
         } else if (!email.value || !password.value) {
             errorMessage.value = 'Por favor, complete todos los campos.';
-        } else if (error.request) {
-            errorMessage.value = 'Error de conexión. Inténtalo nuevamente.';
         } else {
             errorMessage.value = 'Ocurrió un error inesperado.';
         }
-        console.error('Error al iniciar sesión:', error);
     }
 };
 </script>
