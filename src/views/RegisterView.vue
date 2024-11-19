@@ -47,9 +47,9 @@ const handleRegister = async () => {
 </script>
 
 <template>
-    <div class="flex flex-col justify-between min-h-full">
+    <div class="flex flex-col min-h-full">
         <SignNav title="Crear cuenta" description="Crea una cuenta nueva y estudia de manera eficiente." />
-        <div class="h-full p-2">
+        <div class="flex flex-col justify-between gap-2 p-2 flex-grow">
             <div class="flex flex-col gap-5">
                 <div class="grid grid-cols-2 gap-2">
                     <BaseInput identifier="first-name" placeholder="Introduzca su nombre..." label="Nombre" type="text" v-model="firstName" :error="errorMessage ? true : false" />
@@ -80,10 +80,10 @@ const handleRegister = async () => {
                     </button>
                 </div>
             </div>
-        </div>
-        <div class="p-2">
-            <div class="flex items-center justify-center h-12 w-full">
-                <p class="text-neutral-700">¿Ya tienes una cuenta? <router-link to="/login" class="text-libelo-500 font-semibold ml-1">Inicia sesión</router-link></p>
+            <div class="p-2">
+                <div class="flex items-center justify-center h-12 w-full">
+                    <p class="text-neutral-700">¿Ya tienes una cuenta? <router-link to="/login" class="text-libelo-500 font-semibold ml-1">Inicia sesión</router-link></p>
+                </div>
             </div>
         </div>
     </div>
