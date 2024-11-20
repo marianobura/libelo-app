@@ -55,6 +55,12 @@ const routes = [
         component: () => import("../views/SettingsView.vue"),
         meta: { requiresAuth: true },
     },
+    {
+        path: "/settings/edit-profile",
+        name: "edit-profile",
+        component: () => import("../views/EditProfileView.vue"),
+        meta: { requiresAuth: true },
+    },
 ];
 
 const router = createRouter({

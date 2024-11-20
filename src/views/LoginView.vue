@@ -12,8 +12,12 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+const loading = ref(false);
 
 const handleLogin = async () => {
+    loading.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     errorMessage.value = '';
     try {
         const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
@@ -36,6 +40,8 @@ const handleLogin = async () => {
             errorMessage.value = 'Ocurrió un error inesperado.';
         }
     }
+
+    loading.value = false;
 };
 </script>
 
@@ -62,7 +68,7 @@ const handleLogin = async () => {
                     <label class="cursor-pointer ml-2 text-neutral-700 text-sm" for="check-2">Mantener la sesión iniciada</label>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <BaseButton @click="handleLogin" primary>Iniciar sesión</BaseButton>
+                    <BaseButton @click="handleLogin" primary>{{ loading ? 'Iniciando sesión...' : 'Iniciar sesión' }}</BaseButton>
                     <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                         <hr class="w-full border-neutral-300" />
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
