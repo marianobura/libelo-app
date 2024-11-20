@@ -38,6 +38,8 @@ const handleRegister = async () => {
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
+        } else if (password.value < 8) {
+            errorMessage.value = 'La contraseña debe tener al menos 8 caracteres.';
         } else if (!firstName.value || !lastName.value || !username.value || !email.value || !password.value) {
             errorMessage.value = 'Por favor, complete todos los campos.';
         } else {
