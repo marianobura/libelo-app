@@ -5,19 +5,19 @@ const routes = [
         path: "/welcome",
         name: "welcome",
         component: () => import("../views/WelcomeView.vue"),
-        meta: { requiresAuth: false, guestOnly: true },
+        meta: { requiresAuth: false },
     },
     {
         path: "/login",
         name: "login",
         component: () => import("../views/LoginView.vue"),
-        meta: { requiresAuth: false, guestOnly: true },
+        meta: { requiresAuth: false },
     },
     {
         path: "/register",
         name: "register",
         component: () => import("../views/RegisterView.vue"),
-        meta: { requiresAuth: false, guestOnly: true },
+        meta: { requiresAuth: false },
     },
     {
         path: "/",
@@ -60,6 +60,19 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
+});
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem("token");
+
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        next({ name: "welcome" });
+    } else if (!to.meta.requiresAuth && isAuthenticated) {
+        next({ name: "home" });
+    } else {
+        // Deja que pase normalmente
+        next();
+    }
 });
 
 const goTo = (path) => {

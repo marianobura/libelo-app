@@ -4,6 +4,10 @@ import BaseNav from "@/components/BaseNav.vue";
 import LabelTitle from "@/components/Settings/LabelTitle.vue";
 import BaseItem from "@/components/Settings/BaseItem.vue";
 import { UserRoundPen, SquareAsterisk, LayoutDashboard } from "lucide-vue-next";
+import BaseButton from "@/components/BaseButton.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const SHORTCUTS = {
     profile: {
@@ -15,12 +19,17 @@ const SHORTCUTS = {
         ],
     },
 }
+
+const logout = () => {
+    localStorage.removeItem("token");
+    router.push({ path: "/welcome" });
+}
 </script>
 
 <template>
     <BaseBody>
         <BaseNav title="Configuración" />
-        <div class="flex flex-col gap-4 p-2">
+        <div class="flex flex-col gap-2 p-2">
             <template v-for="(category, key) in SHORTCUTS" :key="key">
                 <LabelTitle :label="category.label">
                     <template v-for="(item, index) in category.items" :key="index">
@@ -28,6 +37,7 @@ const SHORTCUTS = {
                     </template>
                 </LabelTitle>
             </template>
+            <BaseButton @click="logout" logout>Cerrar sesión</BaseButton>
         </div>
     </BaseBody>
 </template>
