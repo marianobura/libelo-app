@@ -39,10 +39,10 @@ const handleRegister = async () => {
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
-        } else if (password.value < 8) {
-            errorMessage.value = 'La contraseña debe tener al menos 8 caracteres.';
         } else if (!firstName.value || !lastName.value || !username.value || !email.value || !password.value) {
             errorMessage.value = 'Por favor, complete todos los campos.';
+        } else if (password.value < 8) {
+            errorMessage.value = 'La contraseña debe tener al menos 8 caracteres.';
         } else {
             errorMessage.value = 'Ocurrió un error inesperado.';
         }
@@ -62,7 +62,7 @@ const handleRegister = async () => {
                     <BaseInput identifier="last-name" placeholder="Introduzca su apellido..." label="Apellido" type="text" v-model="lastName" :error="errorMessage ? true : false" />
                 </div>
                 <BaseInput identifier="username" placeholder="Introduzca su nombre de usuario..." label="Nombre de usuario" type="text" v-model="username" :error="errorMessage ? true : false" />
-                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="text" v-model="email" :error="errorMessage ? true : false" />
+                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="errorMessage ? true : false" />
                 <BaseInput identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="errorMessage ? true : false" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
