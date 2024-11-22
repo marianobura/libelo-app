@@ -23,7 +23,8 @@ const updateUser = async () => {
         const response = await axios.put(apiUrl.toString(), { 
             firstName: firstName.value || userStore?.user.firstName,
             lastName: lastName.value || userStore?.user.lastName,
-            username: username.value || userStore?.user.username
+            username: username.value || userStore?.user.username,
+            password: userStore?.user.password
         });
         userStore.user = response.data?.data || {};
         firstName.value = '';
