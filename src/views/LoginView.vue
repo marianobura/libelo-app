@@ -50,7 +50,7 @@ const handleLogin = async () => {
         <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
         <div class="flex flex-col justify-between gap-2 p-2 flex-grow">
             <div class="flex flex-col gap-5">
-                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="text" v-model="email" :error="errorMessage ? true : false" />
+                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="email" v-model="email" :error="errorMessage ? true : false" />
                 <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password v-model="password" :error="errorMessage ? true : false" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
