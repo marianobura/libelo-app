@@ -23,7 +23,10 @@ export default {
       },
       maxWidth: {
         "mobile": "425px",
-      }
+      },
+      backgroundImage: {
+        "banner": "url('assets/banner.png')",
+      },
     },
   },
   plugins: [],

@@ -45,7 +45,7 @@ onMounted(async () => {
     <BaseBody>
         <HomeNav />
         <div class="flex flex-col gap-4 p-2">
-            <div class="h-[150px] w-full bg-libelo-500 rounded-xl">
+            <div class="h-[180px] w-full bg-libelo-500 rounded-xl bg-banner bg-cover">
                 <div class="p-3 flex flex-col text-neutral-100">
                     <p>¡Bienvenido <span class="text-orange-400 font-semibold">{{ userStore.user?.firstName }}</span>!</p>
                     <p class="text-neutral-300 text-sm text-balance">Empieza ahora y conecta con mentores expertos en la materia que elijas, ¡ellos te ayudarán!</p>
