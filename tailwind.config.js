@@ -27,6 +27,9 @@ export default {
       backgroundImage: {
         "banner": "url('assets/banner.png')",
       },
+      backgroundSize: {
+        "banner": "425px auto",
+      }
     },
   },
   plugins: [],
