@@ -7,6 +7,7 @@ import GoogleLogin from '../components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { CircleAlert } from "lucide-vue-next";
+import BaseBody from '@/components/BaseBody.vue';
 const router = useRouter();
 
 const email = ref('');
@@ -79,7 +80,7 @@ const handleLogin = async () => {
 <template>
     <div class="flex flex-col min-h-full">
         <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
-        <div class="flex flex-col justify-between gap-2 p-2 flex-grow">
+        <BaseBody sign>
             <div class="flex flex-col gap-5">
                 <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" @input="validateEmail" />
                 <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
@@ -100,6 +101,6 @@ const handleLogin = async () => {
             <div class="flex items-center justify-center h-12 w-full">
                 <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
             </div>
-        </div>
+        </BaseBody>
     </div>
 </template>
