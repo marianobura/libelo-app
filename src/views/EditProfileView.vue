@@ -80,7 +80,7 @@ onMounted(async () => {
             <div class="flex gap-4 items-center">
                 <img src="https://avatar.iran.liara.run/public/2" alt="Imagen de perfil" class="size-12">
                 <div class="flex flex-col">
-                    <p class="font-semibold">{{ userStore?.user.firstName }} {{ userStore?.user.lastName }}</p>
+                    <p class="font-semibold">{{ userStore?.user.displayName }}</p>
                     <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>
                 </div>
             </div>
