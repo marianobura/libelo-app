@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-3 bg-body">
         <div class="flex items-center justify-center w-full h-32 bg-libelo-500 rounded-b-xl">
             <img src="/img/logotipo.png" alt="Logotipo de Libelo">
         </div>

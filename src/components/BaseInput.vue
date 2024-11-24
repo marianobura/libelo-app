@@ -49,7 +49,7 @@ const togglePasswordVisibility = () => {
                     'bg-red-100 border-red-500': error
                 }"
                 :name="identifier" :id="identifier" :type="password ? (isPasswordVisible ? 'text' : 'password') : type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
-            <button v-if="password" type="button" class="size-[46px] flex items-center justify-center flex-shrink-0 border border-gray-300 rounded-xl" @click="togglePasswordVisibility">
+            <button v-if="password" type="button" class="size-[46px] flex items-center justify-center flex-shrink-0 bg-white border border-gray-300 rounded-xl" @click="togglePasswordVisibility">
                 <Eye v-if="!isPasswordVisible"/>
                 <EyeOff v-else />
             </button>

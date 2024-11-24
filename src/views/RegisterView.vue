@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { CircleAlert } from "lucide-vue-next";
+import BaseBody from '@/components/BaseBody.vue';
 
 const router = useRouter();
 
@@ -98,7 +99,7 @@ const handleRegister = async () => {
 <template>
     <div class="flex flex-col min-h-full">
         <SignNav title="Crear cuenta" description="Crea una cuenta nueva y estudia de manera eficiente." />
-        <div class="flex flex-col justify-between gap-2 p-2 flex-grow">
+        <BaseBody sign>
             <div class="flex flex-col gap-5">
                 <div class="grid grid-cols-2 gap-2">
                     <BaseInput identifier="first-name" placeholder="Introduzca su nombre..." label="Nombre" type="text" v-model="firstName" :error="!!errors.firstName" :error-message="errors.firstName" @input="validateFirstName" />
@@ -125,6 +126,6 @@ const handleRegister = async () => {
                     <p class="text-neutral-700">¿Ya tienes una cuenta? <router-link to="/login" class="text-libelo-500 font-semibold ml-1">Inicia sesión</router-link></p>
                 </div>
             </div>
-        </div>
+        </BaseBody>
     </div>
 </template>
