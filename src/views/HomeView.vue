@@ -17,6 +17,7 @@ const subjects = ref([]);
 const fetchSubjects = async () => {
     try {
         const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
+        apiUrl.searchParams.append("studentId", userStore.user._id);
         const response = await axios.get(apiUrl.toString());
         subjects.value = response.data.data;
     } catch (error) {
@@ -27,7 +28,11 @@ const fetchSubjects = async () => {
 const addSubject = async (subjectName) => {
     try {
         const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
-        const response = await axios.post(apiUrl.toString(), { name: subjectName, professor: null });
+        const response = await axios.post(apiUrl.toString(), {
+            name: subjectName,
+            studentId: userStore.user._id,
+            teacherId: null,
+        });
         subjects.value.push(response.data.data);
         showModal.value = false;
     } catch (error) {

@@ -1,6 +1,6 @@
 <script setup>
 import { goTo } from '@/router';
-import { Bell } from 'lucide-vue-next';
+// import { Bell } from 'lucide-vue-next';
 </script>
 
 <template>
@@ -9,9 +9,9 @@ import { Bell } from 'lucide-vue-next';
             <img src="/img/logo.png" alt="Logo de Libelo" class="h-8">
         </div>
         <div class="flex gap-2 items-center">
-            <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
+            <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
                 <Bell :size="20" />
-            </div>
+            </div> -->
             <img @click="goTo('/settings')" src="https://avatar.iran.liara.run/public/2" alt="Imagen de perfil" class="size-10">
         </div>
     </div>
