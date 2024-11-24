@@ -21,6 +21,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    errorMessage: {
+        type: String,
+        default: ''
+    }
 })
 
 defineEmits(['update:modelValue'])
@@ -38,5 +42,8 @@ defineEmits(['update:modelValue'])
             'bg-red-100 border-red-500': error
         }"
         :name="identifier" :id="identifier" :type="type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+        <span v-if="errorMessage" class="text-red-500 text-sm">
+            {{ errorMessage }}
+        </span>
     </div>
 </template>
