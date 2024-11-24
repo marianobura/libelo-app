@@ -14,7 +14,40 @@ const password = ref('');
 const errorMessage = ref('');
 const loading = ref(false);
 
+const errors = ref({
+    email: '',
+    password: '',
+});
+
 const handleLogin = async () => {
+    const validateEmail = () => {
+        if (email.value === '') {
+            errors.value.email = 'El correo electrónico es obligatorio.';
+        } else {
+            errors.value.email = '';
+        }
+    };
+
+    const validatePassword = () => {
+        if (password.value === '') {
+            errors.value.password = 'La contraseña es obligatoria.';
+        } else if (password.value.length < 8) {
+            errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
+        } else {
+            errors.value.password = '';
+        }
+    };
+
+    const validateForm = () => {
+        validateEmail();
+        validatePassword();
+        return !Object.values(errors.value).some((error) => error !== '');
+    };
+
+    if (!validateForm()) {
+        return;
+    }
+
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -34,8 +67,6 @@ const handleLogin = async () => {
     } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.msg;
-        } else if (!email.value || !password.value) {
-            errorMessage.value = 'Por favor, complete todos los campos.';
         } else {
             errorMessage.value = 'Ocurrió un error inesperado.';
         }
@@ -50,8 +81,8 @@ const handleLogin = async () => {
         <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
         <div class="flex flex-col justify-between gap-2 p-2 flex-grow">
             <div class="flex flex-col gap-5">
-                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico" label="Correo electrónico" type="email" v-model="email" :error="errorMessage ? true : false" />
-                <BaseInput identifier="password" placeholder="Introduzca su contraseña" label="Contraseña" type="password" password v-model="password" :error="errorMessage ? true : false" />
+                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" @input="validateEmail" />
+                <BaseInput identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>
