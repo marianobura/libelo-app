@@ -22,8 +22,11 @@ const errors = ref({
 
 const handleLogin = async () => {
     const validateEmail = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.value === '') {
             errors.value.email = 'El correo electrónico es obligatorio.';
+        } else if (!emailRegex.test(email.value)) {
+            errors.value.email = 'Introduzca un correo electrónico válido.';
         } else {
             errors.value.email = '';
         }
