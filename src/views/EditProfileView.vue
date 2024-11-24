@@ -11,7 +11,6 @@ import BaseButton from '@/components/BaseButton.vue';
 const userStore = useUserStore();
 const firstName = ref('');
 const lastName = ref('');
-const username = ref('');
 const loading = ref(false);
 
 const updateUser = async () => {
@@ -23,13 +22,12 @@ const updateUser = async () => {
         const response = await axios.put(apiUrl.toString(), { 
             firstName: firstName.value || userStore?.user.firstName,
             lastName: lastName.value || userStore?.user.lastName,
-            username: username.value || userStore?.user.username,
+            displayName: firstName.value + ' ' + lastName.value || userStore?.user.displayName,
             password: userStore?.user.password
         });
         userStore.user = response.data?.data || {};
         firstName.value = '';
         lastName.value = '';
-        username.value = '';
     } catch (error) {
         console.error('Error al actualizar el perfil:', error);
     }
@@ -50,16 +48,13 @@ onMounted(async () => {
                 <img src="https://avatar.iran.liara.run/public/2" alt="Imagen de perfil" class="size-12">
                 <div class="flex flex-col">
                     <p class="font-semibold">{{ userStore?.user.firstName }} {{ userStore?.user.lastName }}</p>
-                    <p class="text-sm text-neutral-700">@{{ userStore?.user.username }}</p>
+                    <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>
                 </div>
             </div>
             <hr class="border-neutral-300">
             <div class="flex flex-col gap-2">
-                <div class="grid grid-cols-2 gap-2">
-                    <BaseInput identifier="firstName" :placeholder="userStore?.user.firstName" label="Nombre" type="text" v-model="firstName" />
-                    <BaseInput identifier="lastName" :placeholder="userStore?.user.lastName" label="Apellido" type="text" v-model="lastName" />
-                </div>
-                <BaseInput identifier="username" :placeholder="userStore?.user.username" label="Nombre de usuario" type="text" v-model="username" />
+                <BaseInput identifier="firstName" :placeholder="userStore?.user.firstName" label="Nombre" type="text" v-model="firstName" />
+                <BaseInput identifier="lastName" :placeholder="userStore?.user.lastName" label="Apellido" type="text" v-model="lastName" />
                 <BaseButton primary @click="updateUser">{{ loading ? 'Actualizando perfil...' : 'Actualizar perfil' }}</BaseButton>
             </div>
         </div>
