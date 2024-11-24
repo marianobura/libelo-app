@@ -15,19 +15,41 @@ const confirmPassword = ref('');
 const loading = ref(false);
 const errorMessage = ref('');
 
-const validatePasswords = () => {
-    errorMessage.value = '';
-    if (password.value.length < 8) {
-        errorMessage.value = 'La contraseña debe tener al menos 8 caracteres.';
-    }
-    if (password.value !== confirmPassword.value) {
-        errorMessage.value = 'Las contraseñas no coinciden.';
-    }
-};
+const errors = ref({
+    password: '',
+    confirmPassword: '',
+});
 
 const updateUser = async () => {
-    validatePasswords();
-    if (errorMessage.value.length > 0) return;
+    const validatePassword = () => {
+        if (password.value === '') {
+            errors.value.password = 'La contraseña es obligatoria.';
+        } else if (password.value.length < 8) {
+            errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
+        } else {
+            errors.value.password = '';
+        }
+    };
+
+    const validateConfirmPassword = () => {
+        if (confirmPassword.value === '') {
+            errors.value.confirmPassword = 'La confirmación de la contraseña es obligatoria.';
+        } else if (confirmPassword.value !== password.value) {
+            errors.value.confirmPassword = 'Las contraseñas no coinciden.';
+        } else {
+            errors.value.confirmPassword = '';
+        }
+    };
+
+    const validateForm = () => {
+        validatePassword();
+        validateConfirmPassword();
+        return !Object.values(errors.value).some((error) => error !== '');
+    };
+
+    if (!validateForm()) {
+        return;
+    }
 
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -58,14 +80,8 @@ onMounted(async () => {
         <BaseNav title="Editar perfil" />
         <div class="flex flex-col gap-2 p-2">
             <div class="flex flex-col gap-4">
-                <div class="flex flex-col gap-2">
-                    <BaseInput identifier="password" placeholder="Ingrese una nueva contraseña" label="Contraseña" type="password" v-model="password" />
-                    <span class="text-sm text-neutral-600">Tiene que tener al menos 8 caracteres.</span>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <BaseInput identifier="confirmPassword" placeholder="Confirme su nueva contraseña" label="Confirmar contraseña" type="password" v-model="confirmPassword" />
-                    <span class="text-sm text-neutral-600">Ambas contraseñas tienen que coincidir.</span>
-                </div>
+                <BaseInput identifier="password" placeholder="Ingrese una nueva contraseña" label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
+                <BaseInput identifier="confirmPassword" placeholder="Confirme su nueva contraseña" label="Confirmar contraseña" type="password" v-model="confirmPassword" :error="!!errors.confirmPassword" :error-message="errors.confirmPassword" @input="validateConfirmPassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>
