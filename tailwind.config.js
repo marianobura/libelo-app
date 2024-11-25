@@ -27,10 +27,17 @@ export default {
       },
       backgroundImage: {
         "banner": "url('assets/banner.png')",
-        "contour-line": "url('assets/subject.svg')",
+        "subject": "url('assets/subject.svg')",
       },
       backgroundSize: {
         "banner": "425px auto",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            'overflow-wrap': 'anywhere',
+          }
+        }
       }
     },
   },
