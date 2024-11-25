@@ -80,6 +80,7 @@ const handleRegister = async () => {
             displayName: firstName.value + ' ' + lastName.value,
             email: email.value,
             password: password.value,
+            google: false,
         });
 
         if (response.status === 200) {
