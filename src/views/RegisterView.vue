@@ -17,7 +17,6 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const loading = ref(false);
-const registered = ref(false);
 
 const errors = ref({
     firstName: '',
@@ -83,21 +82,9 @@ const handleRegister = async () => {
         });
 
         if (response.status === 200) {
-            registered.value = true;
-        }
-
-        if (registered.value === true) {
-            const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
-            const response = await axios.post(apiUrl.toString(), {
-                email: email.value,
-                password: password.value,
-            });
-
-            if (response.status === 200) {
-                const { token } = response.data;
-                localStorage.setItem('token', token);
-                router.push('/');
-            }
+            const { token } = response.data;
+            localStorage.setItem('token', token);
+            router.push('/');
         }
     } catch (error) {
         if (error.response) {
