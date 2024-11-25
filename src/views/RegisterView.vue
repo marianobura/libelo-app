@@ -69,7 +69,6 @@ const handleRegister = async () => {
     }
 
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     errorMessage.value = '';
     try {
