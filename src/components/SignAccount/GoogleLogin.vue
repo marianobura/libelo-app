@@ -2,45 +2,50 @@
 import { useRouter } from 'vue-router';
 import { auth, googleProvider, signInWithPopup } from '@/services/firebase';
 import axios from 'axios';
+import { ref } from 'vue';
 
 const router = useRouter();
+const registered = ref(false);
 
 const handleGoogleLogin = async () => {
     try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
 
-        localStorage.setItem('token', user.accessToken);
-
         const firstName = user.displayName.split(' ')[0];
         const lastName = user.displayName.split(' ')[1] || '';
         const email = user.email;
 
-        const apiUrl = new URL('/api/users/', process.env.VUE_APP_API_URL);
+        const apiUrl = new URL('/api/users', process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             firstName: firstName,
             lastName: lastName,
             displayName: `${firstName} ${lastName}`,
             email: email,
+            password: '',
             google: true,
         });
 
         if (response.status === 200) {
-            console.log('Usuario registrado correctamente:', response.data);
-            router.push('/');
-        } else {
-            console.error('Error en la respuesta de la API:', response);
+            registered.value = true;
+            console.log('Usuario registrado con éxito:', response.data);
+        }
+
+        if (registered.value === true) {
+            const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
+            const response = await axios.post(apiUrl.toString(), {
+                email: email,
+                password: '',
+            });
+
+            if (response.status === 200) {
+                const { token } = response.data;
+                localStorage.setItem('token', token);
+                router.push('/');
+            }
         }
     } catch (error) {
-        console.error('Ocurrió un error al iniciar sesión con Google:', error);
-        if (error.response) {
-            console.error('Respuesta del servidor:', error.response.data);
-            console.error('Código de estado:', error.response.status);
-        } else if (error.request) {
-            console.error('No se recibió respuesta del servidor:', error.request);
-        } else {
-            console.error('Error en la configuración de la solicitud:', error.message);
-        }
+        console.error('Error al iniciar sesión con Google:', error);
     }
 };
 </script>
