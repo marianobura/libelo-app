@@ -34,7 +34,7 @@ const handleGoogleLogin = async () => {
         if (registered.value === true) {
             const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
             const response = await axios.post(apiUrl.toString(), {
-                email: email,
+                email: user.email,
                 password: '',
             });
 
