@@ -62,7 +62,7 @@ onMounted(async () => {
                     <BaseButton primary>Agrega tu primera materia</BaseButton>
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/subject/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-4 rounded-xl bg-red-800 uppercase bg-subject">
+                    <div v-for="subject in subjects" :key="subject._id" @click="goTo(`/subject/${subject._id}`)" class="flex items-center justify-center w-full h-20 p-4 rounded-xl bg-red-800 uppercase">
                         <div class="line-clamp-2 text-center break-words">
                             {{ subject.name }}
                         </div>

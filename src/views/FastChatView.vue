@@ -27,13 +27,19 @@ const userMessage = ref('');
 const sendMessage = async () => {
     if (!userMessage.value) return;
 
-    messages.value.push({ sender: 'user', text: userMessage.value });
-
-    const aiResponse = await sendMessageToAI(userMessage.value);
-
-    messages.value.push({ sender: 'ai', text: aiResponse });
+    const userText = userMessage.value;
+    messages.value.push({ sender: 'user', text: userText });
 
     userMessage.value = '';
+
+    try {
+        const aiResponse = await sendMessageToAI(userText);
+
+        messages.value.push({ sender: 'ai', text: aiResponse });
+    } catch (error) {
+        console.error('Error al obtener la respuesta de la IA:', error);
+        messages.value.push({ sender: 'ai', text: 'Lo siento, algo salió mal.' });
+    }
 };
 </script>
 
