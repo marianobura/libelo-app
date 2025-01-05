@@ -27,6 +27,7 @@ const errors = ref({
 });
 
 const handleRegister = async () => {
+    errorMessage.value = '';
     const validateFirstName = () => {
         errors.value.firstName = firstName.value === '' ? 'El nombre es obligatorio.' : '';
     };

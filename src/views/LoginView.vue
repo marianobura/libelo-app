@@ -21,6 +21,7 @@ const errors = ref({
 });
 
 const handleLogin = async () => {
+    errorMessage.value = '';
     const validateEmail = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.value === '') {
