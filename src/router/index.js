@@ -67,6 +67,13 @@ const routes = [
         component: () => import("../views/ChangePasswordView.vue"),
         meta: { requiresAuth: true },
     },
+    {
+        path: "/recover-password",
+        name: "recover-password",
+        component: () => import("../views/PasswordRecover.vue"),
+        meta: { requiresAuth: false },
+    }
+    
 ];
 
 const router = createRouter({

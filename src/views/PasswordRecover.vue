@@ -8,6 +8,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { CircleAlert } from "lucide-vue-next";
 import BaseBody from '@/components/BaseBody.vue';
+
 const router = useRouter();
 
 const email = ref('');
@@ -20,35 +21,35 @@ const errors = ref({
     password: '',
 });
 
-const handleLogin = async () => {
+const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.value === '') {
+        errors.value.email = 'El correo electrónico es obligatorio.';
+    } else if (!emailRegex.test(email.value)) {
+        errors.value.email = 'Introduzca un correo electrónico válido.';
+    } else {
+        errors.value.email = '';
+    }
+};
+
+const validatePassword = () => {
+    if (password.value === '') {
+        errors.value.password = 'La contraseña es obligatoria.';
+    } else if (password.value.length < 8) {
+        errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
+    } else {
+        errors.value.password = '';
+    }
+};
+
+const validateForm = () => {
+    validateEmail();
+    validatePassword();
+    return !Object.values(errors.value).some((error) => error !== '');
+};
+
+const handleRecovery = async () => {
     errorMessage.value = '';
-    const validateEmail = () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email.value === '') {
-            errors.value.email = 'El correo electrónico es obligatorio.';
-        } else if (!emailRegex.test(email.value)) {
-            errors.value.email = 'Introduzca un correo electrónico válido.';
-        } else {
-            errors.value.email = '';
-        }
-    };
-
-    const validatePassword = () => {
-        if (password.value === '') {
-            errors.value.password = 'La contraseña es obligatoria.';
-        } else if (password.value.length < 8) {
-            errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
-        } else {
-            errors.value.password = '';
-        }
-    };
-
-    const validateForm = () => {
-        validateEmail();
-        validatePassword();
-        return !Object.values(errors.value).some((error) => error !== '');
-    };
-
     if (!validateForm()) {
         return;
     }
@@ -56,18 +57,15 @@ const handleLogin = async () => {
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    errorMessage.value = '';
     try {
-        const apiUrl = new URL('api/users/login', process.env.VUE_APP_API_URL);
+        const apiUrl = new URL('api/users/recover-password', process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             email: email.value,
             password: password.value,
         });
 
         if (response.status === 200) {
-            const { token } = response.data;
-            localStorage.setItem('token', token);
-            router.push('/');
+            router.push('/login');
         }
     } catch (error) {
         if (error.response) {
@@ -83,20 +81,19 @@ const handleLogin = async () => {
 
 <template>
     <div class="flex flex-col min-h-full">
-        <SignNav title="Iniciar sesión" description="¡Bienvenido de nuevo a Libelo!" />
+        <SignNav title="Recuperación de Contraseña" description="Ingresa tu correo para recuperar tu contraseña." />
         <BaseBody sign>
             <div class="flex flex-col gap-5">
-                
                 <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" @input="validateEmail" />
-
-                <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
-
+                
+                <BaseInput identifier="password" placeholder="Introduzca su nueva contraseña..." label="Nueva contraseña" type="password" password v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>
                 </div>
+
                 <div class="flex flex-col gap-2">
-                    <BaseButton @click="handleLogin" primary>{{ loading ? 'Iniciando sesión...' : 'Iniciar sesión' }}</BaseButton>
+                    <BaseButton @click="handleRecovery" primary>{{ loading ? 'Enviando correo...' : 'Recuperar contraseña' }}</BaseButton>
                     <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
                         <hr class="w-full border-neutral-300" />
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
@@ -108,11 +105,11 @@ const handleLogin = async () => {
 
             <div>
                 <div class="flex items-center justify-center h-12 w-full">
-                    <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
+                    <p class="text-neutral-700">¿Ya tienes una cuenta? <router-link to="/login" class="text-libelo-500 font-semibold ml-1">Iniciar sesión</router-link></p>
                 </div>
                 
                 <div class="flex items-center justify-center w-full">
-                    <p class="text-neutral-700">¿Olvidaste tu contraseña? <router-link to="/recover-password" class="text-libelo-500 font-semibold ml-1">Recuperar contraseña</router-link></p>
+                    <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
                 </div>
             </div>
         </BaseBody>
