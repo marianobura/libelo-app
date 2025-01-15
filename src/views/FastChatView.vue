@@ -48,7 +48,7 @@ const sendMessage = async () => {
     <BaseBody class="max-h-screen">
         <BaseNav title="Chat rápido" />
         <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]">
-            <div class="flex flex-col items-end overflow-y-auto">
+            <div class="flex flex-col overflow-y-auto">
                 <div class="flex flex-col justify-end gap-5 pt-2">
                     <div v-for="(message, index) in messages" :key="index" class="flex gap-2">
                         <div :class="message.sender === 'ai' ? 'bg-orange-600' : ''" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
