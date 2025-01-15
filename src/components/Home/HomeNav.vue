@@ -1,5 +1,5 @@
 <script setup>
-import { goTo } from '@/router';
+import UserAvatar from '@/components/UserAvatar.vue';
 // import { Bell } from 'lucide-vue-next';
 </script>
 
@@ -12,7 +12,7 @@ import { goTo } from '@/router';
             <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
                 <Bell :size="20" />
             </div> -->
-            <img @click="goTo('/settings')" src="https://avatar.iran.liara.run/public/2" alt="Imagen de perfil" class="size-10">
+            <UserAvatar size="10" />
         </div>
     </div>
 </template>
