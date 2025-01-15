@@ -27,7 +27,7 @@ const SHORTCUTS = {
 
 const logout = async () => {
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     await signOut(auth);
     localStorage.removeItem("token");

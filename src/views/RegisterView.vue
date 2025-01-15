@@ -70,7 +70,7 @@ const handleRegister = async () => {
     }
 
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     errorMessage.value = '';
     try {
