@@ -7,6 +7,7 @@ import BaseInput from '@/components/BaseInput.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 import BaseButton from '@/components/BaseButton.vue';
+import UserAvatar from '@/components/UserAvatar.vue';
 
 const userStore = useUserStore();
 const firstName = ref('');
@@ -78,7 +79,7 @@ onMounted(async () => {
         <BaseNav title="Editar perfil" />
         <div class="flex flex-col gap-4 p-2">
             <div class="flex gap-4 items-center">
-                <img src="https://avatar.iran.liara.run/public/2" alt="Imagen de perfil" class="size-12">
+                <UserAvatar size="12" />
                 <div class="flex flex-col">
                     <p class="font-semibold">{{ userStore?.user.displayName }}</p>
                     <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>
