@@ -1,5 +1,5 @@
 <script setup>
-import OptionsModal from './Navbar/OptionsModal.vue';
+import NavModal from './Navbar/NavModal.vue';
 import { ArrowLeft, EllipsisVertical } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 import { defineProps, ref } from 'vue';
@@ -24,8 +24,6 @@ const goBack = () => router.back();
             <EllipsisVertical :size="20" />
         </div>
 
-        <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition ease-in duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <OptionsModal :show-modal="showModal" @close="showModal = false" />
-        </Transition>
+        <NavModal :show-modal="showModal" @close="showModal = false" />
     </div>
 </template>
