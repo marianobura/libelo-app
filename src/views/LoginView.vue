@@ -58,6 +58,17 @@ const handleLogin = async () => {
 
     errorMessage.value = '';
     try {
+        const emailUrl = new URL(`/api/users/email/${email.value}`, process.env.VUE_APP_API_URL);
+        const emailResponse = await axios.get(emailUrl.toString());
+
+        console.log(emailResponse.data.data.google);
+
+        if (emailResponse.data.data.google) {
+            errorMessage.value = 'Este correo está asociado a una cuenta de Google. Por favor, inicie sesión con Google.';
+            loading.value = false;
+            return;
+        }
+
         const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             email: email.value,
@@ -89,7 +100,7 @@ const handleLogin = async () => {
                 <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" @input="validateEmail" />
                 <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
-                    <CircleAlert :size="16" />
+                    <CircleAlert :size="16" class="flex-shrink-0" />
                     <span class="text-sm">{{ errorMessage }}</span>
                 </div>
                 <div class="flex flex-col gap-2">
