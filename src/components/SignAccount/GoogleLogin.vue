@@ -2,10 +2,8 @@
 import { useRouter } from 'vue-router';
 import { auth, googleProvider, signInWithPopup } from '@/services/firebase';
 import axios from 'axios';
-import { ref } from 'vue';
 
 const router = useRouter();
-const registered = ref(false);
 
 const handleGoogleLogin = async () => {
     try {
@@ -16,33 +14,21 @@ const handleGoogleLogin = async () => {
         const lastName = user.displayName.split(' ')[1] || '';
         const email = user.email;
 
-        const apiUrl = new URL('/api/users', process.env.VUE_APP_API_URL);
+        const apiUrl = new URL('/api/users/google-login', process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             firstName: firstName,
             lastName: lastName,
             displayName: `${firstName} ${lastName}`,
-            email: email,
+            email,
             password: '',
+            role: 'student',
             google: true,
         });
 
         if (response.status === 200) {
-            registered.value = true;
-            console.log('Usuario registrado con éxito:', response.data);
-        }
-
-        if (registered.value === true) {
-            const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
-            const response = await axios.post(apiUrl.toString(), {
-                email: user.email,
-                password: '',
-            });
-
-            if (response.status === 200) {
-                const { token } = response.data;
-                localStorage.setItem('token', token);
-                router.push('/');
-            }
+            const { token } = response.data;
+            localStorage.setItem('token', token);
+            router.push('/');
         }
     } catch (error) {
         console.error('Error al iniciar sesión con Google:', error);
