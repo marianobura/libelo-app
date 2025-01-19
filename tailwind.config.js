@@ -6,6 +6,7 @@ export default {
       gridTemplateRows: {
         body: "60px 1fr",
         welcome: "1.5fr 1fr",
+        modal: "auto auto 1fr auto"
       },
       colors: {
         libelo: {
@@ -21,6 +22,9 @@ export default {
           900: '#040d1e',
         },
         body: '#f0f0f0'
+      },
+      height: {
+        "modal": "80%",
       },
       maxWidth: {
         "mobile": "425px",
