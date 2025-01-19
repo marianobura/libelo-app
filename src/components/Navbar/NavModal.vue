@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import BaseModal from "@/components/BaseModal.vue";
 
 const props = defineProps({
     showModal: Boolean
@@ -19,9 +20,9 @@ const handleOverlayClick = (event) => {
 </script>
 
 <template>
-    <div v-if="props.showModal" class="fixed inset-0 flex justify-end z-50 bg-black/20" @click="handleOverlayClick">
+    <BaseModal v-if="props.showModal" class="justify-end" @click="handleOverlayClick">
         <div class="flex flex-col bg-white p-2 rounded-xl w-fit h-fit mt-16 mr-2 border border-neutral-300 space-y-2 shadow-md">
             <router-link to="/" class="hover:bg-neutral-200 p-2 rounded-[calc(0.75rem-8px)]">Vincular con Classroom</router-link>
         </div>
-    </div>
+    </BaseModal>
 </template>
