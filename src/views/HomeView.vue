@@ -3,7 +3,7 @@ import HomeNav from "@/components/Home/HomeNav.vue";
 import BaseBody from "@/components/BaseBody.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeModal from "@/components/Home/HomeModal.vue";
-import { Plus } from "lucide-vue-next";
+import { LoaderCircle, Plus } from "lucide-vue-next";
 import { goTo } from "@/router/index";
 import { ref, onMounted } from "vue";
 import axios from "axios";
@@ -13,6 +13,7 @@ import BaseButton from "@/components/BaseButton.vue";
 const userStore = useUserStore();
 const showModal = ref(false);
 const subjects = ref([]);
+const loading = ref(true);
 
 const fetchSubjects = async () => {
     try {
@@ -22,6 +23,8 @@ const fetchSubjects = async () => {
         subjects.value = response.data.data;
     } catch (error) {
         console.error("Error al obtener las materias:", error);
+    } finally {
+        loading.value = false;
     }
 };
 
@@ -57,7 +60,15 @@ onMounted(async () => {
                 </div>
             </div>
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">
-                <div v-if="subjects.length === 0" @click="showModal = true" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
+                <div v-if="loading" class="mt-12 flex items-center justify-center w-full h-full text-libelo-500">
+                    <div class="animate-spin">
+                        <LoaderCircle :size="32" />
+                    </div>
+                    <div class="ml-2">
+                        <p class="font-semibold">Cargando...</p>
+                    </div>
+                </div>
+                <div v-else-if="subjects.length === 0" @click="showModal = true" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
                     <span>Todavía no tienes ninguna materia creada.</span>
                     <BaseButton primary>Agrega tu primera materia</BaseButton>
                 </div>

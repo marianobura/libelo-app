@@ -10,10 +10,12 @@ import UserAvatar from '@/components/UserAvatar.vue';
 
 const userStore = useUserStore();
 const { subjectData, fetchSubjectData } = useSubjectData();
+const loading = ref(true);
 
 onMounted(async () => {
     await userStore.fetchUser();
-    fetchSubjectData();
+    await fetchSubjectData();
+    loading.value = false;
 });
 
 const messages = ref([
@@ -65,8 +67,9 @@ const sendMessage = async () => {
                 </div>
             </div>
             <div class="flex flex-col gap-3 w-full">
-                <div class="flex justify-center items-center w-full py-2 bg-white rounded-full">
-                    <span class="text-sm text-neutral-700">Estás en un chat rápido de {{ subjectData?.name }}</span>
+                <div class="flex justify-center items-center w-full py-2 px-4 bg-white rounded-full">
+                    <p v-if="loading" class="text-sm text-neutral-700">Cargando...</p>
+                    <p v-else class="text-sm text-neutral-700 break-all line-clamp-1">Chat rápido de <span class="font-semibold">{{ subjectData?.name }}</span></p>
                 </div>
                 <div class="flex items-center gap-3 bg-white rounded-full w-full h-14 p-2">
                     <div class="flex-shrink-0">
