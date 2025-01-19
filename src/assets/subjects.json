@@ -1,0 +1,120 @@
+{
+    "subjects": {
+        "Matemáticas": [
+            "Álgebra",
+            "Geometría",
+            "Cálculo Diferencial",
+            "Cálculo Integral",
+            "Probabilidad y Estadística",
+            "Trigonometría",
+            "Matemáticas Discretas",
+            "Análisis Numérico",
+            "Topología",
+            "Matemática Financiera"
+        ],
+        "Ciencias Naturales": [
+            "Física",
+            "Química",
+            "Biología",
+            "Ecología",
+            "Astronomía",
+            "Geología",
+            "Ciencias Ambientales",
+            "Microbiología",
+            "Genética",
+            "Anatomía y Fisiología",
+            "Botánica",
+            "Zoología"
+        ],
+        "Lenguas y Literatura": [
+            "Lengua y Literatura",
+            "Español",
+            "Inglés",
+            "Francés",
+            "Alemán",
+            "Italiano",
+            "Latín",
+            "Literatura Universal",
+            "Literatura Argentina",
+            "Redacción y Composición",
+            "Lingüística"
+        ],
+        "Ciencias Sociales": [
+            "Historia Universal",
+            "Historia Argentina",
+            "Geografía",
+            "Civismo",
+            "Economía",
+            "Sociología",
+            "Antropología",
+            "Psicología",
+            "Política y Ciudadanía",
+            "Filosofía",
+            "Historia de América Latina"
+        ],
+        "Artes y Humanidades": [
+            "Arte",
+            "Música",
+            "Teatro",
+            "Danza",
+            "Pintura",
+            "Escultura",
+            "Diseño Gráfico",
+            "Fotografía",
+            "Historia del Arte",
+            "Apreciación Musical",
+            "Cine y Producción Audiovisual",
+            "Literatura Infantil y Juvenil"
+        ],
+        "Tecnología e Informática": [
+            "Computación Básica",
+            "Programación",
+            "Diseño Web",
+            "Redes Informáticas",
+            "Seguridad Cibernética",
+            "Inteligencia Artificial",
+            "Bases de Datos",
+            "Desarrollo de Aplicaciones",
+            "Robótica",
+            "Animación 3D",
+            "Sistemas Operativos"
+        ],
+        "Educación Física y Salud": [
+            "Educación Física",
+            "Nutrición",
+            "Primeros Auxilios",
+            "Deportes en Equipo",
+            "Yoga",
+            "Entrenamiento Funcional",
+            "Anatomía Deportiva",
+            "Salud y Bienestar",
+            "Kinesiología",
+            "Prevención de Lesiones"
+        ],
+        "Formación Técnica y Profesional": [
+            "Electricidad",
+            "Mecánica",
+            "Carpintería",
+            "Tornería",
+            "Construcción",
+            "Soldadura",
+            "Electrónica",
+            "Automatización",
+            "Agricultura",
+            "Gestión de Proyectos"
+        ],
+        "Otros": [
+            "Emprendimiento",
+            "Religión",
+            "Oratoria",
+            "Debate",
+            "Investigación Científica",
+            "Marketing",
+            "Logística",
+            "Derecho Básico",
+            "Administración",
+            "Educación Financiera",
+            "Turismo"
+        ]
+    }
+}
