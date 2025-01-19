@@ -23,8 +23,8 @@ onMounted(() => {
             <SubjectBanner />
             <BaseTitle title="Opciones de chat" description="Elige entre asistencia inmediata de IA o asesoramiento experto de mentores.">
                 <div class="grid grid-cols-2 gap-2">
-                    <BaseCard link-to="chat/fast" title="Chat rápido" description="Realiza una consulta instantánea." :icon="Bot" />
-                    <BaseCard title="Chat profesional" description="Habla con un experto y resuelve tus dudas." :icon="UserRound" />
+                    <BaseCard link-to="chat/fast" title="Rápido" description="Realiza una consulta instantánea." :icon="Bot" />
+                    <BaseCard title="Profesional" description="Habla con un experto y resuelve tus dudas." :icon="UserRound" />
                 </div>
             </BaseTitle>
 
