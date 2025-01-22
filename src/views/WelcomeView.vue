@@ -1,6 +1,10 @@
 <script setup>
 import WelcomeSvg from '@/components/Welcome/WelcomeSvg.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import WelcomeModal from '@/components/Welcome/WelcomeModal.vue';
+import { ref } from 'vue';
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -15,7 +19,9 @@ import BaseButton from '@/components/BaseButton.vue';
             </div>
             <div class="flex flex-col gap-2">
                 <BaseButton primary path="/login">Iniciar sesión</BaseButton>
-                <BaseButton path="/register">Crear cuenta</BaseButton>
+                <BaseButton @click="showModal = true">Crear cuenta</BaseButton>
+
+                <WelcomeModal :show-modal="showModal" @close="showModal = false" />
             </div>
         </div>
     </div>
