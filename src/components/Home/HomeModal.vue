@@ -63,7 +63,7 @@ const handleAddSubject = () => {
 
 <template>
     <BaseModal v-if="props.showModal" class="items-end justify-center" @click="handleOverlayClick">
-        <div class="grid grid-rows-modal bg-white p-4 rounded-t-xl w-full h-modal">
+        <div class="grid grid-rows-[auto_auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-[80%]">
             <div class="flex justify-between items-center pb-4 border-b border-b-neutral-200">
                 <p class="text-lg font-semibold">Nueva materia</p>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
