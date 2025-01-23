@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, onMounted, ref } from 'vue';
 import { goTo } from '@/router';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore();
 const loading = ref(true);

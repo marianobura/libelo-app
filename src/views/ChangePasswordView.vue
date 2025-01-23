@@ -1,7 +1,7 @@
 <script setup>
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 import { onMounted } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import { ref } from 'vue';
