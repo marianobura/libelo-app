@@ -3,8 +3,14 @@ import WelcomeSvg from '@/components/Welcome/WelcomeSvg.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import WelcomeModal from '@/components/Welcome/WelcomeModal.vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const showModal = ref(false);
+const router = useRouter();
+
+const handleRoleSelection = (role) => {
+    router.push({ name: 'register', query: { role } });
+};
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const showModal = ref(false);
                 <BaseButton primary path="/login">Iniciar sesión</BaseButton>
                 <BaseButton @click="showModal = true">Crear cuenta</BaseButton>
 
-                <WelcomeModal :show-modal="showModal" @close="showModal = false" />
+                <WelcomeModal :show-modal="showModal" @close="showModal = false" @select-role="handleRoleSelection" />
             </div>
         </div>
     </div>

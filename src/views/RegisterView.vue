@@ -4,13 +4,15 @@ import BaseButton from '../components/BaseButton.vue';
 import SignNav from '../components/SignAccount/SignNav.vue';
 import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { CircleAlert } from "lucide-vue-next";
 import BaseBody from '@/components/BaseBody.vue';
 
+const route = useRoute();
 const router = useRouter();
 
+const role = ref(route.query.role);
 const firstName = ref('');
 const lastName = ref('');
 const email = ref('');
@@ -81,6 +83,7 @@ const handleRegister = async () => {
             displayName: firstName.value + ' ' + lastName.value,
             email: email.value,
             password: password.value,
+            role: role.value,
         });
 
         if (response.status === 200) {

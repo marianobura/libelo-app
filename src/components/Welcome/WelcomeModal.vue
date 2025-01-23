@@ -7,7 +7,7 @@ const props = defineProps({
     showModal: Boolean
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close, selectRole"]);
 
 const closeModal = () => {
     emit("close");
@@ -17,6 +17,11 @@ const handleOverlayClick = (event) => {
     if (event.target === event.currentTarget) {
         closeModal();
     }
+};
+
+const selectRole = (role) => {
+    emit("selectRole", role);
+    closeModal();
 };
 </script>
 
@@ -30,13 +35,13 @@ const handleOverlayClick = (event) => {
                 </button>
             </div>
             <div class="pt-4 grid grid-cols-2 w-full gap-4">
-                <div class="flex flex-col justify-center items-center gap-2 w-full px-2 py-6 rounded-xl bg-neutral-100 border border-neutral-300">
+                <div @click="selectRole('student')" class="flex flex-col justify-center items-center gap-2 w-full px-2 py-6 rounded-xl bg-neutral-100 border border-neutral-300">
                     <div class="flex items-end justify-center size-12 bg-libelo-500 rounded-full">
                         <img src="/img/student.svg" alt="Ilustración de un chico y una chica" class="h-10" />
                     </div>
                     <p>Estudiante</p>
                 </div>
-                <div class="flex flex-col justify-center items-center gap-2 w-full px-2 py-6 rounded-xl bg-neutral-100 border border-neutral-300">
+                <div @click="selectRole('teacher')" class="flex flex-col justify-center items-center gap-2 w-full px-2 py-6 rounded-xl bg-neutral-100 border border-neutral-300">
                     <div class="flex gap-2">
                         <div class="flex items-end justify-center size-12 bg-libelo-500 rounded-full">
                             <img src="/img/teacher-m.svg" alt="Ilustración de un chico" class="h-10" />
