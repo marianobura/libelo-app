@@ -1,7 +1,7 @@
 <script setup>
-import BaseInput from '../components/BaseInput.vue';
-import BaseButton from '../components/BaseButton.vue';
-import SignNav from '../components/SignAccount/SignNav.vue';
+import BaseInput from '@/components/BaseInput.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import SignNav from '@/components/SignAccount/SignNav.vue';
 import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';

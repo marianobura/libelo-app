@@ -31,7 +31,7 @@ const logout = async () => {
 
     await signOut(auth);
     localStorage.removeItem("token");
-    router.push({ path: "/welcome" });
+    router.push({ path: "/" });
     loading.value = false;
 }
 </script>
