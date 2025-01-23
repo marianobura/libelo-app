@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios';
-import BaseInput from '../components/BaseInput.vue';
-import BaseButton from '../components/BaseButton.vue';
-import SignNav from '../components/SignAccount/SignNav.vue';
-import GoogleLogin from '../components/SignAccount/GoogleLogin.vue';
+import BaseInput from '@/components/BaseInput.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import SignNav from '@/components/SignAccount/SignNav.vue';
+import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { CircleAlert } from "lucide-vue-next";
@@ -74,9 +74,15 @@ const handleLogin = async () => {
         });
 
         if (response.status === 200) {
-            const { token } = response.data;
+            console.log(response.data);
+            const { token, role } = response.data;
             localStorage.setItem('token', token);
-            router.push('/');
+            localStorage.setItem('role', role);
+            if (role === 'student') {
+                router.push('/student');
+            } else if (role === 'teacher') {
+                router.push('/teacher');
+            }
         }
     } catch (error) {
         if (error.response) {
