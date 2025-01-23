@@ -74,7 +74,6 @@ const handleLogin = async () => {
         });
 
         if (response.status === 200) {
-            console.log(response.data);
             const { token, role } = response.data;
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
@@ -118,7 +117,7 @@ const handleLogin = async () => {
                 </div>
             </div>
             <div class="flex items-center justify-center h-12 w-full">
-                <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
+                <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
             </div>
         </BaseBody>
     </div>
