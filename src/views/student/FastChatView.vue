@@ -1,10 +1,10 @@
 <script setup>
-import BaseNav from '../components/BaseNav.vue';
-import BaseBody from '../components/BaseBody.vue';
+import BaseNav from '@/components/BaseNav.vue';
+import BaseBody from '@/components/BaseBody.vue';
 import { SendHorizontalIcon, Bot } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import { useSubjectData } from "@/services/subjectData";
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 import { sendMessageToAI } from '@/services/ai';
 import UserAvatar from '@/components/UserAvatar.vue';
 
