@@ -98,10 +98,15 @@ const handleRegister = async () => {
             });
 
             if (response.status === 200) {
-                const { token } = response.data;
+                const { token, role } = response.data;
                 localStorage.setItem('token', token);
-                router.push('/');
+                localStorage.setItem('role', role);
+                if (role === 'student') {
+                    router.push('/student');
+                } else if (role === 'teacher') {
+                    router.push('/teacher');
             }
+        }
         }
     } catch (error) {
         if (error.response) {
