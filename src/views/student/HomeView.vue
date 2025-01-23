@@ -7,7 +7,7 @@ import { LoaderCircle, Plus } from "lucide-vue-next";
 import { goTo } from "@/router/index";
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 import BaseButton from "@/components/BaseButton.vue";
 
 const userStore = useUserStore();
