@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
+    // General
     {
         path: "/",
         name: "welcome",
@@ -20,42 +21,6 @@ const routes = [
         meta: { requiresAuth: false },
     },
     {
-        path: "/student",
-        name: "student-home",
-        component: () => import("@/views/student/HomeView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
-        path: "/teacher",
-        name: "teacher-home",
-        component: () => import("@/views/teacher/HomeView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
-        path: "/subject/:id",
-        name: "subject",
-        component: () => import("@/views/student/SubjectView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
-        path: "/subject/:id/chat/fast",
-        name: "fast-chat",
-        component: () => import("@/views/student/FastChatView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
-        path: "/subject/:id/work",
-        name: "work",
-        component: () => import("@/views/student/WorkView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
-        path: "/subject/:id/calendar",
-        name: "calendar",
-        component: () => import("@/views/student/CalendarView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
         path: "/settings",
         name: "settings",
         component: () => import("@/views/SettingsView.vue"),
@@ -71,6 +36,52 @@ const routes = [
         path: "/settings/change-password",
         name: "change-password",
         component: () => import("@/views/ChangePasswordView.vue"),
+        meta: { requiresAuth: true },
+    },
+
+    // Estudiante
+    {
+        path: "/student",
+        name: "student-home",
+        component: () => import("@/views/student/HomeView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/student/subject/:id",
+        name: "student-subject",
+        component: () => import("@/views/student/SubjectView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/student/subject/:id/chat/fast",
+        name: "student-fast-chat",
+        component: () => import("@/views/student/FastChatView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/student/subject/:id/work",
+        name: "student-work",
+        component: () => import("@/views/student/WorkView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/student/subject/:id/calendar",
+        name: "student-calendar",
+        component: () => import("@/views/student/CalendarView.vue"),
+        meta: { requiresAuth: true },
+    },
+
+    // Profesor
+    {
+        path: "/teacher",
+        name: "teacher-home",
+        component: () => import("@/views/teacher/HomeView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/teacher/subject",
+        name: "teacher-subject",
+        component: () => import("@/views/teacher/SubjectView.vue"),
         meta: { requiresAuth: true },
     },
 ];
