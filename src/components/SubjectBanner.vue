@@ -14,7 +14,6 @@ onMounted(async () => {
 
 <template>
     <div class="flex items-end p-3 h-28 w-full bg-red-800 rounded-xl">
-        <div v-if="loading" class="text-white font-semibold text-xl uppercase break-all line-clamp-1">Cargando...</div>
-        <div v-else class="text-white font-semibold text-xl uppercase break-all line-clamp-1">{{ subjectData?.name }}</div>
+        <div class="text-white font-semibold text-xl uppercase break-all line-clamp-1">{{ loading ? 'Cargando...' : subjectData?.name || 'Materia' }}</div>
     </div>
 </template>
