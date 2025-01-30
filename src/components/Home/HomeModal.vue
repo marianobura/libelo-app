@@ -78,7 +78,7 @@ const handleAddSubject = () => {
                     <li v-for="(subjects, category) in filteredSubjects" :key="category">
                         <p class="font-semibold text-neutral-700">{{ category }}</p>
                         <ul class="pl-2">
-                            <li v-for="subject in subjects" :key="subject" class="p-2 cursor-pointer hover:bg-neutral-200" @click="subjectSelected = subject">{{ subject }}</li>
+                            <li v-for="subject in subjects" :key="subject" class="p-2 cursor-pointer rounded-md hover:bg-libelo-500 hover:text-white" @click="subjectSelected = subject">{{ subject }}</li>
                         </ul>
                     </li>
                 </ul>

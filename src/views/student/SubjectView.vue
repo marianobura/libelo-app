@@ -6,14 +6,6 @@ import BaseCard from "@/components/Subject/BaseCard.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
 import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, UserRound } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
-import { onMounted } from "vue";
-import { useSubjectData } from "@/services/subjectData"; 
-
-const { fetchSubjectData } = useSubjectData();
-
-onMounted(() => {
-    fetchSubjectData();
-});
 </script>
 
 <template>

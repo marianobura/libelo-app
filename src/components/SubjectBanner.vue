@@ -1,19 +1,24 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useSubjectData } from "@/services/subjectData"; 
+import { computed, watchEffect } from "vue";
+import { useSubjectStore } from "@/stores/subjectStore";
+import { useRoute } from "vue-router";
 
-const { subjectData, fetchSubjectData } = useSubjectData();
+const route = useRoute();
+const subjectStore = useSubjectStore();
 
-const loading = ref(true);
-
-onMounted(async () => {
-    await fetchSubjectData();
-    loading.value = false;
+watchEffect(() => {
+    if (route.params.id) {
+        subjectStore.fetchSubject(route.params.id);
+    }
 });
+
+const subjectName = computed(() => subjectStore.subjectData?.name || "Materia");
 </script>
 
 <template>
     <div class="flex items-end p-3 h-28 w-full bg-red-800 rounded-xl">
-        <div class="text-white font-semibold text-xl uppercase break-all line-clamp-1">{{ loading ? 'Cargando...' : subjectData?.name || 'Materia' }}</div>
+        <div class="text-white font-semibold text-xl uppercase break-all line-clamp-1">
+            {{ subjectStore.loading ? "Cargando..." : subjectName }}
+        </div>
     </div>
 </template>
