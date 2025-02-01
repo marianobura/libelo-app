@@ -1,13 +1,14 @@
 <script setup>
 import BaseNav from '@/components/BaseNav.vue';
 import BaseBody from '@/components/BaseBody.vue';
-import { SendHorizontalIcon, Bot } from 'lucide-vue-next';
+import { SendHorizontalIcon, Bot, LoaderCircle } from 'lucide-vue-next';
 import { ref, computed, watchEffect } from 'vue';
 import { useSubjectStore } from "@/stores/subjectStore";
 import { useUserStore } from '@/stores/userStore';
 import { sendMessageToAI } from '@/services/ai';
 import UserAvatar from '@/components/UserAvatar.vue';
 import { useRoute } from 'vue-router';
+import { reactive } from 'vue';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -36,16 +37,23 @@ const sendMessage = async () => {
 
     const userText = userMessage.value;
     messages.value.push({ sender: 'user', text: userText });
-
     userMessage.value = '';
 
-    try {
-        const aiResponse = await sendMessageToAI(userText);
+    const loadingMessage = reactive({ sender: 'ai', text: '', loading: true });
+    messages.value.push(loadingMessage);
 
-        messages.value.push({ sender: 'ai', text: aiResponse });
+    try {
+        console.log('Enviando mensaje a la IA:', userText);
+        const aiResponse = await sendMessageToAI(userText);
+        console.log('Respuesta de la IA recibida:', aiResponse);
+
+        // Actualizamos el mensaje de carga
+        loadingMessage.text = aiResponse;
+        loadingMessage.loading = false;
     } catch (error) {
         console.error('Error al obtener la respuesta de la IA:', error);
         messages.value.push({ sender: 'ai', text: 'Lo siento, algo salió mal.' });
+        loadingMessage.loading = false;
     }
 };
 </script>
@@ -64,7 +72,12 @@ const sendMessage = async () => {
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>
                             <div :class="message.sender === 'ai' ? 'bg-orange-600/40' : 'bg-libelo-500'" class="p-2 rounded-xl w-fit">
-                                <p :class="message.sender === 'user' ? 'text-white' : ''" class="text-sm">{{ message.text }}</p>
+                                <p v-if="message.sender === 'ai' && message.loading" class="animate-spin">
+                                    <LoaderCircle />
+                                </p>
+                                <p v-else :class="message.sender === 'user' ? 'text-white' : ''" class="text-sm">
+                                    {{ message.text }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -76,11 +89,8 @@ const sendMessage = async () => {
                     <p v-else class="text-sm text-neutral-700 break-all line-clamp-1">Chat rápido de <span class="font-semibold">{{ subjectName }}</span></p>
                 </div>
                 <div class="flex items-center gap-3 bg-white rounded-full w-full h-14 p-2">
-                    <div class="flex-shrink-0">
-                        <UserAvatar size="10" />
-                    </div>
                     <div class="bg-blue-950 h-full w-full">
-                        <input v-model="userMessage" type="text" class="w-full h-full text-black" placeholder="Escribe un mensaje..." />
+                        <input v-model="userMessage" type="text" class="w-full h-full text-black pl-2" placeholder="Escribe un mensaje..." />
                     </div>
                     <div @click="sendMessage" class="flex items-center justify-center bg-libelo-500 size-10 rounded-full flex-shrink-0 text-white">
                         <SendHorizontalIcon :size="20" />
