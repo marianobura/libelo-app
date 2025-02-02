@@ -1,7 +1,7 @@
 <script setup>
 import BaseNav from '@/components/BaseNav.vue';
 import BaseBody from '@/components/BaseBody.vue';
-import { SendHorizontalIcon, Bot, LoaderCircle } from 'lucide-vue-next';
+import { Bot, LoaderCircle } from 'lucide-vue-next';
 import { ref, computed, watchEffect } from 'vue';
 import { useSubjectStore } from "@/stores/subjectStore";
 import { useUserStore } from '@/stores/userStore';
@@ -9,6 +9,7 @@ import { sendMessageToAI } from '@/services/ai';
 import UserAvatar from '@/components/UserAvatar.vue';
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
+import ChatInput from '@/components/Chat/ChatInput.vue';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -19,6 +20,8 @@ watchEffect(() => {
         subjectStore.fetchSubject(route.params.id);
     }
 });
+
+const userLetter = computed(() => userStore.user?.displayName?.charAt(0) || '');
 
 const subjectName = computed(() => subjectStore.subjectData?.name || "Materia");
 const userDisplayName = computed(() => userStore.user?.displayName || '');
@@ -67,7 +70,7 @@ const sendMessage = async () => {
                     <div v-for="(message, index) in messages" :key="index" class="flex gap-2">
                         <div :class="message.sender === 'ai' ? 'bg-orange-600' : ''" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
                             <Bot v-if="message.sender === 'ai'" :size="20" />
-                            <UserAvatar v-if="message.sender === 'user'" size="10" />
+                            <UserAvatar v-if="message.sender === 'user'" :user-letter="userLetter" size="10" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>
@@ -88,14 +91,7 @@ const sendMessage = async () => {
                     <p v-if="!subjectName" class="text-sm text-neutral-700">Cargando...</p>
                     <p v-else class="text-sm text-neutral-700 break-all line-clamp-1">Chat rápido de <span class="font-semibold">{{ subjectName }}</span></p>
                 </div>
-                <div class="flex items-center gap-3 bg-white rounded-full w-full h-14 p-2">
-                    <div class="bg-blue-950 h-full w-full">
-                        <input v-model="userMessage" type="text" class="w-full h-full text-black pl-2" placeholder="Escribe un mensaje..." />
-                    </div>
-                    <div @click="sendMessage" class="flex items-center justify-center bg-libelo-500 size-10 rounded-full flex-shrink-0 text-white">
-                        <SendHorizontalIcon :size="20" />
-                    </div>
-                </div>
+                <ChatInput v-model="userMessage" @sendMessage="sendMessage" />
             </div>
         </div>
     </BaseBody>

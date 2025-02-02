@@ -1,21 +1,23 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps } from 'vue';
 import { goTo } from '@/router';
-import { useUserStore } from '@/stores/userStore';
-
-const userStore = useUserStore();
 
 defineProps({
     size: {
         type: String,
         default: "12"
-    }
+    },
+    userLetter: {
+        type: String,
+        default: "?"
+    },
+    orange: {
+        type: Boolean,
+        default: false
+    },
 });
-
-const avatarLetter = computed(() => userStore.user?.displayName?.charAt(0) || '');
 </script>
 
 <template>
-    <div v-if="!userStore.user" class="animate-pulse flex items-center justify-center bg-libelo-500 text-white rounded-full font-semibold" :class="`size-${size}`"></div>
-    <div v-else @click="goTo('/settings')" class="flex items-center justify-center bg-libelo-500 text-white rounded-full font-semibold" :class="`size-${size}`">{{ avatarLetter }}</div>
+    <div @click="goTo('/settings')" class="flex items-center justify-center text-white rounded-full font-semibold" :class="[`size-${size}`, orange ? 'bg-orange-600' : 'bg-libelo-500']">{{ userLetter }}</div>
 </template>
