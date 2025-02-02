@@ -1,8 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
 import { defineProps } from 'vue';
-
-const route = useRoute();
 
 const props = defineProps({
     title: String,
@@ -17,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <router-link :to="`${route.path}/${props.linkTo}`">
+    <router-link :to="props.linkTo">
         <div class="flex flex-col p-3 h-fit rounded-xl text-neutral-700" :class="props.color ? 'bg-gradient-to-b from-[#D8D8D8] to-[#CECECE]' : 'border border-neutral-300'">
             <div class="flex gap-2">
                 <component :is="props.icon" :size="20" />
