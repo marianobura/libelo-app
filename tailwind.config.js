@@ -27,7 +27,6 @@ export default {
       },
       backgroundImage: {
         "banner": "url('assets/banner.png')",
-        "subject": "url('assets/subject.svg')",
       },
       backgroundSize: {
         "banner": "425px auto",

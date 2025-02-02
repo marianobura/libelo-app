@@ -1,7 +1,7 @@
 <script setup>
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 import { onMounted } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import { ref } from 'vue';
@@ -52,7 +52,7 @@ const updateUser = async () => {
     }
 
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
         const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
@@ -81,7 +81,7 @@ onMounted(async () => {
         <div class="flex flex-col gap-2 p-2">
             <div class="flex flex-col gap-4">
                 <BaseInput password identifier="password" placeholder="Ingrese una nueva contraseña" label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
-                <BaseInput identifier="confirmPassword" placeholder="Confirme su nueva contraseña" label="Confirmar contraseña" type="password" v-model="confirmPassword" :error="!!errors.confirmPassword" :error-message="errors.confirmPassword" @input="validateConfirmPassword" />
+                <BaseInput password identifier="confirmPassword" placeholder="Confirme su nueva contraseña" label="Confirmar contraseña" type="password" v-model="confirmPassword" :error="!!errors.confirmPassword" :error-message="errors.confirmPassword" @input="validateConfirmPassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>

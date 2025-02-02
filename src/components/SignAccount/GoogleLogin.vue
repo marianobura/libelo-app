@@ -10,37 +10,28 @@ const handleGoogleLogin = async () => {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
 
-        localStorage.setItem('token', user.accessToken);
-
         const firstName = user.displayName.split(' ')[0];
         const lastName = user.displayName.split(' ')[1] || '';
         const email = user.email;
 
-        const apiUrl = new URL('/api/users/', process.env.VUE_APP_API_URL);
+        const apiUrl = new URL('/api/users/google-login', process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             firstName: firstName,
             lastName: lastName,
             displayName: `${firstName} ${lastName}`,
-            email: email,
+            email,
+            password: '',
+            role: 'student',
             google: true,
         });
 
         if (response.status === 200) {
-            console.log('Usuario registrado correctamente:', response.data);
+            const { token } = response.data;
+            localStorage.setItem('token', token);
             router.push('/');
-        } else {
-            console.error('Error en la respuesta de la API:', response);
         }
     } catch (error) {
-        console.error('Ocurrió un error al iniciar sesión con Google:', error);
-        if (error.response) {
-            console.error('Respuesta del servidor:', error.response.data);
-            console.error('Código de estado:', error.response.status);
-        } else if (error.request) {
-            console.error('No se recibió respuesta del servidor:', error.request);
-        } else {
-            console.error('Error en la configuración de la solicitud:', error.message);
-        }
+        console.error('Error al iniciar sesión con Google:', error);
     }
 };
 </script>

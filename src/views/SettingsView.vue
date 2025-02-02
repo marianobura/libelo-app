@@ -8,6 +8,8 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useRouter } from "vue-router";
 import { goTo } from "@/router";
 import { ref } from "vue";
+import { signOut } from "firebase/auth";
+import { auth } from "@/services/firebase";
 
 const router = useRouter();
 const loading = ref(false);
@@ -23,14 +25,14 @@ const SHORTCUTS = {
     },
 }
 
-const logout = () => {
+const logout = async () => {
     loading.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    setTimeout(() => {
-        localStorage.removeItem("token");
-        router.push({ path: "/welcome" });
-        loading.value = false;
-    }, 2000);
+    await signOut(auth);
+    localStorage.removeItem("token");
+    router.push({ path: "/" });
+    loading.value = false;
 }
 </script>
 

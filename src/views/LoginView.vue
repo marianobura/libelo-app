@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios';
-import BaseInput from '../components/BaseInput.vue';
-import BaseButton from '../components/BaseButton.vue';
-import SignNav from '../components/SignAccount/SignNav.vue';
-import GoogleLogin from '../components/SignAccount/GoogleLogin.vue';
+import BaseInput from '@/components/BaseInput.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import SignNav from '@/components/SignAccount/SignNav.vue';
+import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { CircleAlert } from "lucide-vue-next";
@@ -54,20 +54,25 @@ const handleLogin = async () => {
     }
 
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     errorMessage.value = '';
     try {
-        const apiUrl = new URL('api/users/login', process.env.VUE_APP_API_URL);
+        const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
             email: email.value,
             password: password.value,
         });
 
         if (response.status === 200) {
-            const { token } = response.data;
+            const { token, role } = response.data;
             localStorage.setItem('token', token);
-            router.push('/');
+            localStorage.setItem('role', role);
+            if (role === 'student') {
+                router.push('/student');
+            } else if (role === 'teacher') {
+                router.push('/teacher');
+            }
         }
     } catch (error) {
         if (error.response) {
@@ -92,7 +97,7 @@ const handleLogin = async () => {
                 <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
 
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
-                    <CircleAlert :size="16" />
+                    <CircleAlert :size="16" class="flex-shrink-0" />
                     <span class="text-sm">{{ errorMessage }}</span>
                 </div>
                 <div class="flex flex-col gap-2">
@@ -105,15 +110,8 @@ const handleLogin = async () => {
                     <GoogleLogin />
                 </div>
             </div>
-
-            <div>
-                <div class="flex items-center justify-center h-12 w-full">
-                    <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
-                </div>
-                
-                <div class="flex items-center justify-center w-full">
-                    <p class="text-neutral-700">¿Olvidaste tu contraseña? <router-link to="/recover-password" class="text-libelo-500 font-semibold ml-1">Recuperar contraseña</router-link></p>
-                </div>
+            <div class="flex items-center justify-center h-12 w-full">
+                <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
             </div>
         </BaseBody>
     </div>

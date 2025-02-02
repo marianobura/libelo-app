@@ -1,16 +1,18 @@
 <script setup>
-import BaseInput from '../components/BaseInput.vue';
-import BaseButton from '../components/BaseButton.vue';
-import SignNav from '../components/SignAccount/SignNav.vue';
+import BaseInput from '@/components/BaseInput.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import SignNav from '@/components/SignAccount/SignNav.vue';
 import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { CircleAlert } from "lucide-vue-next";
 import BaseBody from '@/components/BaseBody.vue';
 
+const route = useRoute();
 const router = useRouter();
 
+const role = ref(route.query.role);
 const firstName = ref('');
 const lastName = ref('');
 const email = ref('');
@@ -27,6 +29,7 @@ const errors = ref({
 });
 
 const handleRegister = async () => {
+    errorMessage.value = '';
     const validateFirstName = () => {
         errors.value.firstName = firstName.value === '' ? 'El nombre es obligatorio.' : '';
     };
@@ -69,7 +72,7 @@ const handleRegister = async () => {
     }
 
     loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     errorMessage.value = '';
     try {
@@ -80,6 +83,7 @@ const handleRegister = async () => {
             displayName: firstName.value + ' ' + lastName.value,
             email: email.value,
             password: password.value,
+            role: role.value,
         });
 
         if (response.status === 200) {
@@ -94,10 +98,15 @@ const handleRegister = async () => {
             });
 
             if (response.status === 200) {
-                const { token } = response.data;
+                const { token, role } = response.data;
                 localStorage.setItem('token', token);
-                router.push('/');
+                localStorage.setItem('role', role);
+                if (role === 'student') {
+                    router.push('/student');
+                } else if (role === 'teacher') {
+                    router.push('/teacher');
             }
+        }
         }
     } catch (error) {
         if (error.response) {
