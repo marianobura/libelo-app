@@ -5,6 +5,14 @@ import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 import { goTo } from "@/router/index";
+import { useUserStore } from '@/stores/userStore';
+import { onMounted } from "vue";
+
+const userStore = useUserStore();
+
+onMounted(async () => {
+    await userStore.fetchUser();
+});
 </script>
 
 <template>

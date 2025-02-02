@@ -2,7 +2,7 @@
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -55,7 +55,6 @@ const updateUser = async () => {
             firstName: firstName.value || userStore?.user.firstName,
             lastName: lastName.value || userStore?.user.lastName,
             displayName: firstName.value + ' ' + lastName.value || userStore?.user.displayName,
-            password: userStore?.user.password
         });
         userStore.user = response.data?.data || {};
         firstName.value = userStore?.user.firstName;
@@ -66,6 +65,10 @@ const updateUser = async () => {
 
     loading.value = false;
 };
+
+const userLetter = computed(() => {
+    return userStore.user?.displayName?.charAt(0) || '';
+});
 
 onMounted(async () => {
     await userStore.fetchUser();
@@ -79,7 +82,7 @@ onMounted(async () => {
         <BaseNav title="Editar perfil" />
         <div class="flex flex-col gap-4 p-2">
             <div class="flex gap-4 items-center">
-                <UserAvatar size="12" />
+                <UserAvatar :user-letter="userLetter" size="12" />
                 <div class="flex flex-col">
                     <p class="font-semibold">{{ userStore?.user.displayName }}</p>
                     <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>

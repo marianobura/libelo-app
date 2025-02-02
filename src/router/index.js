@@ -38,6 +38,12 @@ const routes = [
         component: () => import("@/views/ChangePasswordView.vue"),
         meta: { requiresAuth: true },
     },
+    {
+        path: "/subject/:id/chat",
+        name: "chat",
+        component: () => import("@/views/ChatView.vue"),
+        meta: { requiresAuth: true },
+    },
 
     // Estudiante
     {

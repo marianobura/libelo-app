@@ -1,7 +1,15 @@
 <script setup>
 import UserAvatar from '@/components/UserAvatar.vue';
 import LibeloIsologo from '@/assets/LibeloIsologo.vue'
+import { computed } from 'vue';
+import { useUserStore } from '@/stores/userStore';
+
+const userStore = useUserStore();
 // import { Bell } from 'lucide-vue-next';
+
+const userLetter = computed(() => {
+    return userStore.user?.displayName?.charAt(0) || '';
+});
 </script>
 
 <template>
@@ -13,7 +21,7 @@ import LibeloIsologo from '@/assets/LibeloIsologo.vue'
             <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
                 <Bell :size="20" />
             </div> -->
-            <UserAvatar size="10" />
+            <UserAvatar :user-letter="userLetter" size="10" />
         </div>
     </div>
 </template>
