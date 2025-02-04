@@ -77,7 +77,7 @@ onMounted(async () => {
 
 <template>
     <BaseBody>
-        <BaseNav title="Editar perfil" />
+        <BaseNav title="Cambiar contraseña" />
         <div class="flex flex-col gap-2 p-2">
             <div class="flex flex-col gap-4">
                 <BaseInput password identifier="password" placeholder="Ingrese una nueva contraseña" label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />

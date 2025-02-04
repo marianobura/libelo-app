@@ -39,6 +39,12 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/settings/favorite-subjects",
+        name: "favorite-subjects",
+        component: () => import("@/views/FavoriteSubjectsView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/subject/:id/chat",
         name: "chat",
         component: () => import("@/views/ChatView.vue"),
