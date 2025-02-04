@@ -34,7 +34,7 @@ const path = route.params.id;
                 </div>
             </BaseTitle>
 
-            <BaseButton primary path="/settings">Configuración</BaseButton>
+            <BaseButton primary path="/student/subject/:id/settings">Configuración</BaseButton>
         </div>
     </BaseBody>
 </template>

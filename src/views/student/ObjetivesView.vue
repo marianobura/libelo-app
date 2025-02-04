@@ -45,11 +45,9 @@ const addOption = () => {
     <SubjectBanner />
     
     <div class="max-w-md mx-auto p-5">
-      <!-- Barra de progreso -->
       <div class="relative w-full h-6 rounded-lg border-2 border-blue-500 bg-white overflow-hidden" style="width: 300px;">
         <div class="h-full bg-blue-500 transition-all duration-300" :style="{ width: `${progress}%` }"></div>
 
-        <!-- Puntos de referencia -->
         <div class="absolute top-1/2 left-0 w-full flex justify-between transform -translate-y-1/2">
           <span 
             v-for="(point, index) in checkpoints"
@@ -79,7 +77,6 @@ const addOption = () => {
         <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
       </div>
 
-      <!-- Modal -->
       <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-5 rounded-lg shadow-lg w-80">
           <h2 class="text-lg font-semibold mb-3">Agregar nueva opción</h2>
