@@ -39,7 +39,7 @@ const togglePasswordVisibility = () => {
 
 <template>
     <div class="flex flex-col gap-1 w-full">
-        <div class="flex justify-between">
+        <div v-if="label" class="flex justify-between">
             <label class="font-semibold" :class="{ 'text-red-500': error }" :for="identifier">{{ label }}</label>
         </div>
         <div class="w-full" :class="password ? 'flex gap-2' : ''">
