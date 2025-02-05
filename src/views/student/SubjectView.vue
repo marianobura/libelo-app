@@ -4,11 +4,14 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import BaseCard from "@/components/Subject/BaseCard.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
-import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, UserRound } from "lucide-vue-next";
+import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, Trash2, UserRound } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
+import { ref } from "vue";
+import DeleteModal from "@/components/Subject/DeleteModal.vue";
 
 const route = useRoute();
+const showModal = ref(false);
 
 const path = route.params.id;
 </script>
@@ -34,7 +37,12 @@ const path = route.params.id;
                 </div>
             </BaseTitle>
 
-            <BaseButton primary path="/settings">Configuración</BaseButton>
+            <div class="grid grid-cols-[1fr_48px] gap-2">
+                <BaseButton secondary>Vincular materia con Classroom</BaseButton>
+                <BaseButton logout class="flex items-center justify-center" @click="showModal = true"><Trash2 size="20" /></BaseButton>
+            </div>
+
         </div>
+        <DeleteModal :show-modal="showModal" @close="showModal = false" />
     </BaseBody>
 </template>
