@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 import { useSubjectStore } from '@/stores/subjectStore';
@@ -42,7 +42,7 @@ const fetchChatMessages = async () => {
     }
 };
 
-const sendMessage = async () => {
+const sendMessage = async (resetTextareaHeight) => {
     if (isSending.value || !userMessage.value.trim() || !subjectId.value) return;
 
     isSending.value = true;
@@ -67,7 +67,15 @@ const sendMessage = async () => {
             },
             text: userMessage.value
         });
+
         userMessage.value = '';
+        resetTextareaHeight();
+
+        nextTick(() => {
+            const chatContainer = document.querySelector('#container');
+            const lastMessage = chatContainer.lastElementChild;
+            lastMessage?.scrollIntoView({ behavior: 'smooth' });
+        });
     } catch (error) {
         console.error('Error al enviar mensaje:', error);
     } finally {
@@ -80,6 +88,12 @@ onMounted(async () => {
     await userStore.fetchUser();
     await subjectStore.fetchSubject(subjectId.value);
     await fetchChatMessages();
+
+    nextTick(() => {
+        const chatContainer = document.querySelector('#container');
+        const lastMessage = chatContainer.lastElementChild;
+        lastMessage?.scrollIntoView({ behavior: 'smooth' });
+    });
 });
 </script>
 
@@ -88,7 +102,7 @@ onMounted(async () => {
         <BaseNav title="Chat profesional" />
         <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]">
             <div :class="loading || messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col">
-                <div :class="loading || messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
+                <div id="container" :class="loading || messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
                     <div v-if="loading" class="flex flex-col gap-2 items-center justify-center w-full text-gray-500">
                         <LoaderCircle class="animate-spin" size="32"/>
                         <span class="font-medium text-lg max-w-64">Cargando mensajes...</span>
