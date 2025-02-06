@@ -8,7 +8,7 @@ import BaseNav from '@/components/BaseNav.vue';
 import BaseBody from '@/components/BaseBody.vue';
 import ChatInput from '@/components/Chat/ChatInput.vue';
 import UserAvatar from '@/components/UserAvatar.vue';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, MailX } from 'lucide-vue-next';
 
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
@@ -24,8 +24,7 @@ const isSending = ref(false);
 
 const fetchChatMessages = async () => {
     if (!subjectId.value) return;
-
-    loading.value = true;
+    
     try {
         const apiUrl = new URL(`/api/chats/${subjectId.value}`, process.env.VUE_APP_API_URL);
         const response = await axios.get(apiUrl.toString());
@@ -77,6 +76,7 @@ const sendMessage = async () => {
 };
 
 onMounted(async () => {
+    loading.value = true;
     await userStore.fetchUser();
     await subjectStore.fetchSubject(subjectId.value);
     await fetchChatMessages();
@@ -87,22 +87,27 @@ onMounted(async () => {
     <BaseBody class="max-h-screen">
         <BaseNav title="Chat profesional" />
         <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]">
-            <div :class="loading ? 'overflow-hidden h-full' : 'overflow-y-auto'" class="flex flex-col">
-                <div :class="loading ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
+            <div :class="loading || messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col">
+                <div :class="loading || messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
                     <div v-if="loading" class="flex flex-col gap-2 items-center justify-center w-full text-gray-500">
                         <LoaderCircle class="animate-spin" size="32"/>
-                        <span class="font-medium">Cargando mensajes...</span>
+                        <span class="font-medium text-lg max-w-64">Cargando mensajes...</span>
+                    </div>
+                    <div v-if="!loading && messages.length === 0" class="flex flex-col gap-2 items-center justify-center w-full text-gray-500">
+                        <MailX size="32"/>
+                        <div class="flex flex-col">
+                            <span class="text-center text-lg font-medium border-b border-neutral-300 pb-2">Este chat aún no tiene mensajes.</span>
+                            <span class="text-center pt-2 max-w-64">Escribe tu duda y un profesor te responderá pronto.</span>
+                        </div>
                     </div>
                     <div v-else v-for="(message, index) in messages" :key="index" class="flex gap-2">
                         <div :class="message.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
                             <UserAvatar :userLetter="message.sender.displayName.charAt(0)" :size="'10'" :orange="message.sender.role === 'teacher'" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
-                            <span :class="message.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">
-                                {{ message.sender.displayName }}
-                            </span>
+                            <span :class="message.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">{{ message.sender.displayName }}</span>
                             <div :class="message.sender.role === 'student' ? 'bg-libelo-500 text-white' : 'bg-orange-600/40'" class="p-2 rounded-xl w-fit">
-                                <p class="text-sm">{{ message.text }}</p>
+                                <p class="text-sm break-all">{{ message.text }}</p>
                             </div>
                         </div>
                     </div>
