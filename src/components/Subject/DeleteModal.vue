@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import { TriangleAlert } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
@@ -9,6 +9,7 @@ import axios from "axios";
 
 const route = useRoute();
 const path = route.params.id;
+const loading = ref(false);
 
 const props = defineProps({
     showModal: Boolean
@@ -27,14 +28,17 @@ const handleOverlayClick = (event) => {
 };
 
 const deleteSubject = async () => {
+    loading.value = true;
     try {
         const apiUrl = new URL(`/api/subjects/${path}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
         goTo("/student");
     } catch (error) {
         console.error("Error al eliminar la materia:", error);
+    } finally {
+        closeModal();
+        loading.value = false;
     }
-    closeModal();
 };
 </script>
 
@@ -53,7 +57,7 @@ const deleteSubject = async () => {
             <div class="bg-neutral-100 p-4">
                 <div class="flex justify-end gap-2">
                     <BaseButton secondary @click="closeModal">Cancelar</BaseButton>
-                    <BaseButton logout @click="deleteSubject">Eliminar</BaseButton>
+                    <BaseButton logout @click="deleteSubject">{{ loading ? 'Eliminando...' : 'Eliminar' }}</BaseButton>
                 </div>
             </div>
         </div>
