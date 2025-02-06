@@ -17,6 +17,10 @@ const showModal = ref(false);
 const subjects = ref([]);
 const loading = ref(true);
 
+const refreshSubjects = async (newSubject) => {
+    subjects.value.push(newSubject);
+};
+
 const fetchSubjects = async () => {
     try {
         const apiUrl = new URL(`/api/subjects?studentId=${userStore.user._id}`, process.env.VUE_APP_API_URL);
@@ -26,21 +30,6 @@ const fetchSubjects = async () => {
         console.error("Error al obtener las materias:", error);
     } finally {
         loading.value = false;
-    }
-};
-
-const addSubject = async (subjectName) => {
-    try {
-        const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
-        const response = await axios.post(apiUrl.toString(), {
-            name: subjectName,
-            studentId: userStore.user._id,
-            teacherId: null,
-        });
-        subjects.value.push(response.data.data);
-        showModal.value = false;
-    } catch (error) {
-        console.error("Error al agregar la materia:", error);
     }
 };
 
@@ -78,6 +67,6 @@ onMounted(async () => {
             <Plus :size="24" />
         </button>
 
-        <HomeModal :show-modal="showModal" @close="showModal = false" @add-subject="addSubject" />
+        <HomeModal :show-modal="showModal" @close="showModal = false" @refresh="refreshSubjects" />
     </BaseBody>
 </template>
