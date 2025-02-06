@@ -1,19 +1,22 @@
 <script setup>
 import BaseButton from "@/components/BaseButton.vue";
 import { X } from "lucide-vue-next";
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import subjectsData from "@/assets/subjects.json";
-import { computed } from "vue";
+import { useUserStore } from "@/stores/userStore";
+import axios from "axios";
 
+const userStore = useUserStore();
 const subjects = ref(subjectsData.subjects);
+const loading = ref(false);
 
 const props = defineProps({
     showModal: Boolean
 });
 
-const emit = defineEmits(["close", "add-subject"]);
+const emit = defineEmits(["close", "refresh"]);
 
 const searchQuery = ref("");
 const filteredSubjects = computed(() => {
@@ -52,10 +55,24 @@ const handleOverlayClick = (event) => {
     }
 };
 
-const handleAddSubject = () => {
-    if (subjectSelected.value.trim()) {
-        emit("add-subject", subjectSelected.value.trim());
-        subjectSelected.value = "";
+const addSubject = async () => {
+    loading.value = true;
+
+    try {
+        const newSubject = {
+            name: subjectSelected.value,
+            studentId: userStore.user._id,
+            teacherId: null,
+        };
+
+        const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
+        const response = await axios.post(apiUrl.toString(), newSubject);
+        
+        emit("refresh", response.data.data);
+    } catch (error) {
+        console.error("Error al agregar la materia:", error);
+    } finally {
+        loading.value = false;
         closeModal();
     }
 };
@@ -84,7 +101,7 @@ const handleAddSubject = () => {
                 </ul>
             </div>
             <div class="pt-4 border-t border-t-neutral-200">
-                <BaseButton @click="handleAddSubject" primary>Agregar materia</BaseButton>
+                <BaseButton @click="addSubject" primary>{{ loading ? 'Agregando materia...' : 'Agregar materia' }}</BaseButton>
             </div>
         </div>
     </BaseModal>
