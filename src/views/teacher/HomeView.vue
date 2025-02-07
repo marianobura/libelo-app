@@ -22,7 +22,7 @@ onMounted(async () => {
             <HomeHeader />
 			<BaseTitle title="Tus herramientas" description="Accede a tus chats, consulta puntos y gestiona tus actividades en un solo lugar.">
                 <div class="grid grid-cols-1 gap-2 w-full text-white font-semibold">
-                    <HomeCard @click="goTo(`/teacher/subject`)" content="Chat con estudiantes" />
+                    <HomeCard @click="goTo(`/teacher/objective`)" content="Chat con estudiantes" />
                     <HomeCard content="Mis puntos" />
                     <HomeCard content="Más opciones" />
                 </div>

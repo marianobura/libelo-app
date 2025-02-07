@@ -4,7 +4,7 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import BaseCard from "@/components/Subject/BaseCard.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
-import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, Trash2, UserRound } from "lucide-vue-next";
+import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, UserRound } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import { ref } from "vue";
