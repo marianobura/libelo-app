@@ -46,12 +46,11 @@ const formatDateTime = (timestamp) => {
     const date = new Date(timestamp);
     const messageDate = date.toISOString().split('T')[0];
 
-    const formattedDate =
-        messageDate === nowDate ? 'Hoy' :
-        messageDate === yesterdayDate ? 'Ayer' :
-        new Intl.DateTimeFormat('es-ES', { dateStyle: 'short' }).format(date);
+    const formattedDate = messageDate === nowDate ? 'Hoy' : messageDate === yesterdayDate ? 'Ayer' : new Intl.DateTimeFormat('es-ES', { dateStyle: 'short' }).format(date);
 
-    const formattedHour = new Intl.DateTimeFormat('es-ES', { timeStyle: 'short' }).format(date);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const formattedHour = `${hours}:${minutes}`;
 
     return { date: formattedDate, hour: formattedHour };
 };
