@@ -1,28 +1,39 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
 import axios from "axios";
 
-export const useSubjectStore = defineStore("subjectStore", () => {
-    const subjectData = ref(null);
-    const loading = ref(false);
+export const useSubjectStore = defineStore("subjectStore", {
+    state: () => ({
+        subjectData: null,
+        loading: false,
+    }),
 
-    async function fetchSubject(subjectId) {
-        if (subjectData.value && subjectData.value._id === subjectId) {
-            return;
-        }
+    getters: {
+        isSubjectLoaded: (state) => {
+            return !!state.subjectData;
+        },
 
-        loading.value = true;
-        try {
-            const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
-            const response = await axios.get(apiUrl.toString());
-            const subjects = response.data.data;
-            subjectData.value = subjects.find(subject => subject._id === subjectId);
-        } catch (error) {
-            console.error("Error al obtener la información de la materia:", error);
-        } finally {
-            loading.value = false;
-        }
+        getSubjectData: (state) => {
+            return state.subjectData;
+        },
+    },
+
+    actions: {
+        async fetchSubject(subjectId) {
+            if (this.subjectData && this.subjectData._id === subjectId) {
+                return;
+            }
+
+            this.loading = true;
+            try {
+                const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
+                const response = await axios.get(apiUrl.toString());
+                const subjects = response.data.data;
+                this.subjectData = subjects.find(subject => subject._id === subjectId);
+            } catch (error) {
+                console.error("Error al obtener la información de la materia:", error);
+            } finally {
+                this.loading = false;
+            }
+        },
     }
-
-    return { subjectData, fetchSubject, loading };
 });
