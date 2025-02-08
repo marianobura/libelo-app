@@ -43,7 +43,7 @@ onMounted(() => {
 
 <template>
     <div class="flex items-center gap-3 bg-white rounded-xl max-h-32 w-full p-2 outline outline-none has-[textarea:focus-within]:outline has-[textarea:focus-within]:outline-2 has-[textarea:focus-within]:-outline-offset-2 has-[textarea:focus-within]:outline-libelo-500">
-        <textarea ref="textarea" :value="props.modelValue" @input="onInput" class="w-full max-h-28 text-black pl-2 focus:outline-none" placeholder="Escribe un mensaje..." rows="1" />
+        <textarea ref="textarea" :value="props.modelValue" @input="onInput" class="w-full max-h-28 text-black pl-1 focus:outline-none" placeholder="Escribe un mensaje..." rows="1" />
         <div @click="sendMessage" :disabled="props.isSending" :class="props.isSending ? 'bg-libelo-700' : 'bg-libelo-500'" class="flex items-center justify-center size-10 rounded-xl flex-shrink-0 text-white mb-auto">
             <SendHorizontalIcon :size="20" />
         </div>
