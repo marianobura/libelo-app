@@ -7,6 +7,11 @@ export const useUserStore = defineStore('user', {
         user: null,
         isAuthenticated: false,
     }),
+    getters: {
+        favoriteSubject(state) {
+            return state.user ? state.user.preferredSubjects : null;
+        }
+    },
     actions: {
         async fetchUser() {
             const token = localStorage.getItem('token');
