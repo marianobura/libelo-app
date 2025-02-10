@@ -59,7 +59,7 @@ onMounted(async () => {
                     <BaseButton @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content=subject.name class="flex items-center justify-center w-full h-20 p-4 rounded-xl bg-red-800 uppercase" />
+                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content=subject.name />
                 </div>
             </BaseTitle>
         </div>
