@@ -5,14 +5,18 @@ import UserAvatar from "../UserAvatar.vue";
 const props = defineProps({
     student: Object,
     linkTo: String,
+    color: String,
 });
 </script>
 
 <template>
     <router-link :to="props.linkTo" class="flex items-center justify-between gap-8 w-full p-2 odd:bg-neutral-300 even:bg-neutral-200">
         <div class="flex gap-2 items-center max-w-[70%]">
-            <div>
+            <div class="relative">
                 <UserAvatar :userLetter="props.student.name.charAt(0)" :size="'10'" />
+                <div class="absolute top-0">
+                    <div class="w-3 h-3 rounded-full" :class="`bg-${props.color}-500`"></div>
+                </div>
             </div>
             <div class="flex flex-col">
                 <p class="font-semibold text-sm break-all line-clamp-1">{{ props.student.name }}</p>
