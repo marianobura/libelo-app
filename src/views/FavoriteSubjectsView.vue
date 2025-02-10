@@ -14,6 +14,10 @@ const favoriteSubjects = ref([...userStore?.user?.preferredSubjects || []]);
 const searchQuery = ref("");
 const loading = ref(false);
 
+const teacherSubjects = computed(() => {
+    return userStore.user?.preferredSubjects || [];
+});
+
 const filteredSubjects = computed(() => {
     return Object.keys(subjectsData.subjects).filter(subject =>
         subject.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -52,7 +56,13 @@ const saveSubjects = async () => {
     <BaseBody>
         <BaseNav title="Materias favoritas" />
         <div class="flex flex-col gap-4 p-4">
-            <div class="w-full h-32 bg-neutral-500"></div>
+            <div class="w-full flex flex-col gap-2 h-fit p-3 text-white bg-red-800 rounded-xl">
+                <p class="text-lg font-medium uppercase">Materias favoritas</p>
+                <div class="flex gap-2 flex-wrap">
+                    <span v-if="teacherSubjects.length === 0" class="text-sm">No has seleccionado ninguna materia.</span>
+                    <p v-else v-for="subject in teacherSubjects" class="text-sm px-2 rounded-xl border border-neutral-200">{{ subject }}</p>
+                </div>
+            </div>
             <BaseTitle title="Materias favoritas" description="Selecciona tus materias favoritas y guárdalas en tu perfil.">
                 <BaseInput v-model="searchQuery" identifier="search" placeholder="Buscar materia..." />
                 <div class="flex flex-col gap-4 p-2 border border-neutral-300 rounded-xl">

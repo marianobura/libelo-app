@@ -4,11 +4,13 @@ import BaseBody from "@/components/BaseBody.vue";
 import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
-import { goTo } from "@/router/index";
 import { useUserStore } from '@/stores/userStore';
 import { onMounted } from "vue";
+import { goTo } from "@/router";
 
 const userStore = useUserStore();
+
+const subjects = userStore.user?.preferredSubjects;
 
 onMounted(async () => {
     await userStore.fetchUser();
@@ -23,8 +25,6 @@ onMounted(async () => {
 			<BaseTitle title="Tus herramientas" description="Accede a tus chats, consulta puntos y gestiona tus actividades en un solo lugar.">
                 <div class="grid grid-cols-1 gap-2 w-full text-white font-semibold">
                     <HomeCard @click="goTo(`/teacher/subject`)" content="Chat con estudiantes" />
-                    <HomeCard content="Mis puntos" />
-                    <HomeCard content="Más opciones" />
                 </div>
             </BaseTitle>
 		</div>

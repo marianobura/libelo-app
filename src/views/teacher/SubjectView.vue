@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
 import SubjectData from '@/assets/subjects.json'
@@ -9,14 +8,24 @@ import BaseNav from '@/components/BaseNav.vue';
 import SubjectBanner from '@/components/SubjectBanner.vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import { MailX, User } from 'lucide-vue-next';
+import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
 
+const route = useRoute();
 const userStore = useUserStore();
 const allChats = ref([]);
 const loading = ref(false);
 
-const teacherSubjects = computed(() => 
-    userStore.user?.preferredSubjects?.flatMap(subject => SubjectData.subjects[subject]) || []
-);
+const subjectKeys = Object.keys(SubjectData.subjects);
+
+const currentSubject = computed(() => {
+    const subjectIndex = route.params.id;
+    return subjectKeys[subjectIndex] || null;
+});
+
+const teacherSubjects = computed(() => {
+    return currentSubject.value ? SubjectData.subjects[currentSubject.value] : [];
+});
 
 const fetchChats = async () => {
     loading.value = true;
@@ -46,19 +55,19 @@ const formatDateTime = (timestamp) => {
     const date = new Date(timestamp);
     const messageDate = date.toISOString().split('T')[0];
 
-    const formattedDate =
-        messageDate === nowDate ? 'Hoy' :
-        messageDate === yesterdayDate ? 'Ayer' :
-        new Intl.DateTimeFormat('es-ES', { dateStyle: 'short' }).format(date);
+    const formattedDate = messageDate === nowDate ? 'Hoy' : messageDate === yesterdayDate ? 'Ayer' : new Intl.DateTimeFormat('es-ES', { dateStyle: 'short' }).format(date);
 
-    const formattedHour = new Intl.DateTimeFormat('es-ES', { timeStyle: 'short' }).format(date);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const formattedHour = `${hours}:${minutes}`;
 
     return { date: formattedDate, hour: formattedHour };
 };
 
 const sortedChats = computed(() => {
     return allChats.value
-        .filter(chat => teacherSubjects.value.includes(chat.subjectName))
+        .filter(chat => teacherSubjects.value.includes(chat.subjectName) &&
+            (chat.teacherId?._id === userStore.user._id || chat.teacherId === null))
         .map(chat => {
             const lastMessage = chat.messages.length ? chat.messages[chat.messages.length - 1] : null;
             return {
@@ -90,7 +99,7 @@ onMounted(fetchChats);
                         <span class="text-center font-medium border-b border-neutral-300 pb-2">No hay chats disponibles</span>
                     </div>
                     <div v-else class="flex flex-col w-full">
-                        <StudentCard v-for="chat in sortedChats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :student="{
+                        <StudentCard v-for="chat in sortedChats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'" :student="{
                             name: chat.studentId.displayName,
                             message: chat.lastMessageText,
                             ...chat.lastMessageTime }"
