@@ -3,11 +3,15 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import axios from "axios";
+import { useUserStore } from "@/stores/userStore";
 
+const userStore = useUserStore();
 const options = ref([]);
 const showModal = ref(false);
 const newOptionText = ref("");
+const loading = ref(true);
 
 const maxProgress = 100;
 const checkpoints = computed(() => {
@@ -19,17 +23,45 @@ const progress = computed(() => {
   return checkpoints.value[selectedCount - 1] || 0;
 });
 
-const addOption = () => {
+const fetchObjectives = async () => {
+  try {
+    const apiUrl = new URL(`/api/users/${userStore.user._id}/objectives`, process.env.VUE_APP_API_URL);
+    const response = await axios.get(apiUrl.toString());
+    options.value = response.data.data.map(item => ({
+      text: item,
+      selected: false
+    }));
+  } catch (error) {
+    console.error("Error al obtener los objetivos:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+
+const addOption = async () => {
   if (newOptionText.value.trim()) {
-    options.value.push({
-      id: options.value.length + 1,
+    const newObjective = {
       text: newOptionText.value.trim(),
       selected: false,
-    });
+    };
+
+    try {
+      const response = await axios.post(`/api/users/${userStore.user._id}/objectives`, newObjective);
+      options.value.push(response.data); // Asumimos que la respuesta contiene el nuevo objetivo
+    } catch (error) {
+      console.error("Error al guardar el objetivo:", error);
+    }
+
     newOptionText.value = "";
     showModal.value = false;
   }
 };
+
+onMounted(async () => {
+  await userStore.fetchUser();
+  await fetchObjectives();
+});
 </script>
 
 <template>
@@ -38,9 +70,10 @@ const addOption = () => {
     <SubjectBanner />
     
     <div class="max-w-md mx-auto p-5">
+      <div v-if="loading" class="text-center font-semibold">Cargando...</div>
       
-      <div v-if="options.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
-        <span>Todavía no tienes ningun objetivo.</span>
+      <div v-else-if="options.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
+        <span>Todavía no tienes ningún objetivo.</span>
         <BaseButton @click="showModal = true" primary>Crea tus objetivos</BaseButton>
       </div>
 
@@ -64,7 +97,7 @@ const addOption = () => {
         <ul class="mt-4 space-y-2">
           <li
             v-for="option in options"
-            :key="option.id"
+            :key="option._id"
             class="flex items-center gap-2 p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 cursor-pointer transition duration-200"
           >
             <input type="checkbox" v-model="option.selected" class="w-5 h-5 accent-blue-500 cursor-pointer container-p" />
@@ -79,12 +112,12 @@ const addOption = () => {
 
       <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-5 rounded-lg shadow-lg w-80">
-          <h2 class="text-lg font-semibold mb-3">Agregar nueva opción</h2>
+          <h2 class="text-lg font-semibold mb-3">Agregar nuevo objetivo</h2>
           <input 
             v-model="newOptionText" 
             type="text" 
             class="w-full p-2 border rounded-lg"
-            placeholder="Escribe una opción..."
+            placeholder="Escribe un objetivo..."
           />
           <div class="flex justify-end mt-3 gap-2">
             <BaseButton @click="showModal = false" secondary>Cancelar</BaseButton>
@@ -92,7 +125,6 @@ const addOption = () => {
           </div>
         </div>
       </div>
-
     </div>
   </BaseBody>
 </template>

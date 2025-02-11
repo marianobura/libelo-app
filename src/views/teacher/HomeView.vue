@@ -10,8 +10,6 @@ import { goTo } from "@/router";
 
 const userStore = useUserStore();
 
-const subjects = userStore.user?.preferredSubjects;
-
 onMounted(async () => {
     await userStore.fetchUser();
 });
