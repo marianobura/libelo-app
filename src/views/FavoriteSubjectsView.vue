@@ -9,15 +9,12 @@ import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
 import BaseInput from '@/components/BaseInput.vue';
 import { goTo } from '@/router';
+import { Check } from 'lucide-vue-next';
 
 const userStore = useUserStore();
 const favoriteSubjects = ref([...userStore?.user?.preferredSubjects || []]);
 const searchQuery = ref("");
 const loading = ref(false);
-
-const teacherSubjects = computed(() => {
-    return userStore.user?.preferredSubjects || [];
-});
 
 const filteredSubjects = computed(() => {
     return Object.keys(subjectsData.subjects).filter(subject =>
@@ -58,19 +55,20 @@ const saveSubjects = async () => {
     <BaseBody>
         <BaseNav title="Materias favoritas" />
         <div class="flex flex-col gap-4 p-4">
-            <div class="w-full flex flex-col gap-2 h-fit p-3 text-white bg-red-800 rounded-xl">
-                <p class="text-lg font-medium uppercase">Materias favoritas</p>
-                <div class="flex gap-2 flex-wrap">
-                    <span v-if="teacherSubjects.length === 0" class="text-sm">No has seleccionado ninguna materia.</span>
-                    <p v-else v-for="subject in teacherSubjects" :key="subject" class="text-sm px-2 rounded-xl border border-neutral-200">{{ subject }}</p>
-                </div>
+            <div class="w-full flex justify-center p-2 text-libelo-500 border-2 border-libelo-500 rounded-full text-sm font-semibold">
+                <p>Ver lista de materias</p>
             </div>
             <BaseTitle title="Materias favoritas" description="Selecciona tus materias favoritas y guárdalas en tu perfil.">
                 <BaseInput v-model="searchQuery" identifier="search" placeholder="Buscar materia..." />
-                <div class="flex flex-col gap-4 p-2 border border-neutral-300 rounded-xl">
-                    <div v-for="subject in filteredSubjects" :key="subject" class="flex items-center gap-2">
-                        <input type="checkbox" :id="subject" :checked="favoriteSubjects.includes(subject)" @change="toggleSubject(subject)" class="size-5" />
+                <div class="flex flex-col gap-2">
+                    <div v-for="subject in filteredSubjects" :key="subject" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500 has-[input:checked]:bg-libelo-500 has-[input:checked]:text-white">
                         <label :for="subject" class="line-clamp-1 break-all w-full">{{ subject }}</label>
+                        <div class="relative">
+                            <input type="checkbox" :id="subject" :checked="favoriteSubjects.includes(subject)" @change="toggleSubject(subject)" class="appearance-none peer hidden" />
+                            <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                <Check v-if="favoriteSubjects.includes(subject)" />
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <BaseButton primary @click="saveSubjects">{{ loading ? "Guardando..." : "Guardar materias" }}</BaseButton>
