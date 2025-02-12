@@ -48,7 +48,7 @@ const saveSubjects = async () => {
     } catch (error) {
         console.error("Error al actualizar materias favoritas:", error);
     } finally {
-        goTo('/settings');
+        goTo('/teacher');
         loading.value = false;
     }
 };
