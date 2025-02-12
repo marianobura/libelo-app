@@ -6,6 +6,7 @@ import SubjectBanner from "@/components/SubjectBanner.vue";
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useUserStore } from "@/stores/userStore";
+import draggable from "vuedraggable";
 
 const userStore = useUserStore();
 const options = ref([]);
@@ -81,6 +82,24 @@ onMounted(async () => {
   await userStore.fetchUser();
   await fetchObjectives();
 });
+
+const updateObjectivesOrder = async (userId, newOrder) => {
+  try {
+    const apiUrl = new URL(`/api/users/${userId}/objectives/order`, process.env.VUE_APP_API_URL);
+    const response = await axios.put(apiUrl.toString(), 
+      { objectives: newOrder.map(option => option.text) },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    console.log('Objetivos ordenados:', response.data);
+  } catch (error) {
+    console.error('Error al actualizar el orden de los objetivos', error);
+  }
+};
+
 </script>
 
 <template>
@@ -113,16 +132,15 @@ onMounted(async () => {
 
         <p class="text-center mt-2 font-semibold">{{ progress }}%</p>
 
-        <ul class="mt-4 space-y-2">
-          <li
-            v-for="option in options"
-            :key="option._id"
-            class="flex items-center gap-2 p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 cursor-pointer transition duration-200"
-          >
-            <input type="checkbox" v-model="option.selected" class="w-5 h-5 accent-blue-500 cursor-pointer container-p" />
-            <span>{{ option.text }}</span>
-          </li>
-        </ul>
+        <draggable v-model="options" class="flex flex-col gap-2" tag="ul" @end="updateObjectivesOrder(userStore.user._id, options)">
+          <template #item="{ element: objective }">
+            <li class="flex items-center gap-2 p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 cursor-pointer transition duration-200">
+              <input type="checkbox" v-model="objective.selected" class="w-5 h-5 accent-blue-500 cursor-pointer container-p" />
+              <span>{{ objective.text }}</span>
+              <button class="ml-20 bg-red-500 p-1 pr-2 pl-2">Borrar</button>
+            </li>
+          </template>
+        </draggable>
 
         <div class="mt-4">
           <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
