@@ -5,15 +5,17 @@ import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { goTo } from "@/router";
 
 const userStore = useUserStore();
+const loading = ref(true);
 
 const subjects = userStore.user?.preferredSubjects;
 
 onMounted(async () => {
     await userStore.fetchUser();
+    loading.value = false;
 });
 </script>
 
