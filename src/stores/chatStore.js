@@ -19,6 +19,7 @@ export const useChatStore = defineStore("chatStore", {
         async fetchChatMessages(subjectId) {
             if (!subjectId) return;
 
+            this.messages = [];
             this.loading = true;
             try {
                 const apiUrl = new URL(`/api/chats/${subjectId}`, process.env.VUE_APP_API_URL);

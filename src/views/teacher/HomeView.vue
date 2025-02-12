@@ -5,10 +5,12 @@ import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { goTo } from "@/router";
 
 const userStore = useUserStore();
+
+const subjects = userStore.user?.preferredSubjects;
 
 onMounted(async () => {
     await userStore.fetchUser();
@@ -20,9 +22,9 @@ onMounted(async () => {
         <HomeNav />
         <div class="flex flex-col gap-4 p-2">
             <HomeHeader />
-			<BaseTitle title="Tus herramientas" description="Accede a tus chats, consulta puntos y gestiona tus actividades en un solo lugar.">
-                <div class="grid grid-cols-1 gap-2 w-full text-white font-semibold">
-                    <HomeCard @click="goTo(`/teacher/subject`)" content="Chat con estudiantes" />
+			<BaseTitle title="Materias favoritas" description="Selecciona una materia para acceder a una lista con los chats de los estudiantes y ayudarlos con sus dudas. ">
+                <div class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
+                    <HomeCard v-for="(subject, index) in subjects" :key="index" @click="goTo(`/teacher/subject/${index}`)" :content=subject />
                 </div>
             </BaseTitle>
 		</div>

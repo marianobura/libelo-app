@@ -47,8 +47,8 @@ const addOption = async () => {
     };
 
     try {
-      const response = await axios.post(`/api/users/${userStore.user._id}/objectives`, newObjective);
-      options.value.push(response.data); // Asumimos que la respuesta contiene el nuevo objetivo
+      const response = await axios.put(`/api/users/${userStore.user._id}/objectives`, newObjective);
+      options.value.push(response.data);
     } catch (error) {
       console.error("Error al guardar el objetivo:", error);
     }

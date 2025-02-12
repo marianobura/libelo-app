@@ -8,6 +8,7 @@ import subjectsData from '@/assets/subjects.json';
 import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
 import BaseInput from '@/components/BaseInput.vue';
+import { goTo } from '@/router';
 
 const userStore = useUserStore();
 const favoriteSubjects = ref([...userStore?.user?.preferredSubjects || []]);
@@ -47,6 +48,7 @@ const saveSubjects = async () => {
     } catch (error) {
         console.error("Error al actualizar materias favoritas:", error);
     } finally {
+        goTo('/teacher');
         loading.value = false;
     }
 };
@@ -60,7 +62,7 @@ const saveSubjects = async () => {
                 <p class="text-lg font-medium uppercase">Materias favoritas</p>
                 <div class="flex gap-2 flex-wrap">
                     <span v-if="teacherSubjects.length === 0" class="text-sm">No has seleccionado ninguna materia.</span>
-                    <!-- <p v-else v-for="subject in teacherSubjects" class="text-sm px-2 rounded-xl border border-neutral-200">{{ subject }}</p> -->
+                    <p v-else v-for="subject in teacherSubjects" class="text-sm px-2 rounded-xl border border-neutral-200">{{ subject }}</p>
                 </div>
             </div>
             <BaseTitle title="Materias favoritas" description="Selecciona tus materias favoritas y guárdalas en tu perfil.">
