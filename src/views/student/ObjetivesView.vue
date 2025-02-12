@@ -38,23 +38,42 @@ const fetchObjectives = async () => {
   }
 };
 
-
 const addOption = async () => {
-  if (newOptionText.value.trim()) {
-    const newObjective = {
-      text: newOptionText.value.trim(),
-      selected: false,
-    };
+  if (newOptionText.value.trim() === "") {
+    return;
+  }
 
-    try {
-      const response = await axios.put(`/api/users/${userStore.user._id}/objectives`, newObjective);
-      options.value.push(response.data);
-    } catch (error) {
-      console.error("Error al guardar el objetivo:", error);
+  const newOption = newOptionText.value.trim();
+
+  options.value.push({
+    text: newOption,
+    selected: false
+  });
+
+  newOptionText.value = "";
+  showModal.value = false;
+
+  try {
+    const apiUrl = new URL(`/api/users/${userStore.user._id}/objectives`, process.env.VUE_APP_API_URL);
+    
+    const response = await axios.post(apiUrl.toString(), 
+      { objectives: [newOption] },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    console.log("Respuesta del servidor:", response.data);
+  } catch (error) {
+    console.error("Error al agregar el objetivo:", error);
+
+    options.value.pop();
+
+    if (error.response) {
+      console.error("Detalles del error:", error.response.data);
     }
-
-    newOptionText.value = "";
-    showModal.value = false;
   }
 };
 
