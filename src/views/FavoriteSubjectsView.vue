@@ -8,6 +8,7 @@ import subjectsData from '@/assets/subjects.json';
 import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
 import BaseInput from '@/components/BaseInput.vue';
+import { goTo } from '@/router';
 
 const userStore = useUserStore();
 const favoriteSubjects = ref([...userStore?.user?.preferredSubjects || []]);
@@ -47,6 +48,7 @@ const saveSubjects = async () => {
     } catch (error) {
         console.error("Error al actualizar materias favoritas:", error);
     } finally {
+        goTo('/settings');
         loading.value = false;
     }
 };
