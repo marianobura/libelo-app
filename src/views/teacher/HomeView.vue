@@ -5,14 +5,14 @@ import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { goTo } from "@/router";
 import { LoaderCircle } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
 
 const userStore = useUserStore();
 
-const subjects = userStore.user?.preferredSubjects;
+const subjects = computed(() => userStore.user?.preferredSubjects ?? []);
 
 onMounted(async () => {
     await userStore.fetchUser();
