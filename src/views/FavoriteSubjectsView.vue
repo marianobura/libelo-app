@@ -1,19 +1,15 @@
 <script setup>
 import BaseBody from '@/components/BaseBody.vue';
-import BaseButton from '@/components/BaseButton.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import { ref, computed } from 'vue';
 import subjectsData from '@/assets/subjects.json';
 import { useUserStore } from '@/stores/userStore';
-import axios from 'axios';
 import BaseInput from '@/components/BaseInput.vue';
-import { goTo } from '@/router';
 
 const userStore = useUserStore();
 const favoriteSubjects = ref([...userStore?.user?.preferredSubjects || []]);
 const searchQuery = ref("");
-const loading = ref(false);
 
 const teacherSubjects = computed(() => {
     return userStore.user?.preferredSubjects || [];
@@ -33,25 +29,25 @@ const toggleSubject = (subject) => {
     }
 };
 
-const saveSubjects = async () => {
-    if (loading.value) return;
+// const saveSubjects = async () => {
+//     if (loading.value) return;
 
-    loading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    try {
-        const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
-        await axios.put(apiUrl.toString(), {
-            preferredSubjects: favoriteSubjects.value
-        });
+//     loading.value = true;
+//     await new Promise((resolve) => setTimeout(resolve, 1000));
+//     try {
+//         const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
+//         await axios.put(apiUrl.toString(), {
+//             preferredSubjects: favoriteSubjects.value
+//         });
 
-        userStore.user.preferredSubjects = [...favoriteSubjects.value];
-    } catch (error) {
-        console.error("Error al actualizar materias favoritas:", error);
-    } finally {
-        goTo('/teacher');
-        loading.value = false;
-    }
-};
+//         userStore.user.preferredSubjects = [...favoriteSubjects.value];
+//     } catch (error) {
+//         console.error("Error al actualizar materias favoritas:", error);
+//     } finally {
+//         goTo('/teacher');
+//         loading.value = false;
+//     }
+// };
 </script>
 
 <template>

@@ -11,6 +11,8 @@ import draggable from "vuedraggable";
 const userStore = useUserStore();
 const options = ref([]);
 const showModal = ref(false);
+const checkpointModal = ref(false);
+const selectedCheckpointIndex = ref(null);
 const newOptionText = ref("");
 const loading = ref(true);
 
@@ -21,8 +23,10 @@ const checkpoints = computed(() => {
 
 const progress = computed(() => {
   const selectedCount = options.value.filter(opt => opt.selected).length;
-  return checkpoints.value[selectedCount - 1] || 0;
+  const progressPercentage = (selectedCount / options.value.length) * 100;
+  return Math.round(progressPercentage);
 });
+
 
 const fetchObjectives = async () => {
   try {
@@ -56,7 +60,6 @@ const addOption = async () => {
 
   try {
     const apiUrl = new URL(`/api/users/${userStore.user._id}/objectives`, process.env.VUE_APP_API_URL);
-    
     const response = await axios.post(apiUrl.toString(), 
       { objectives: [newOption] },
       {
@@ -76,6 +79,11 @@ const addOption = async () => {
       console.error("Detalles del error:", error.response.data);
     }
   }
+};
+
+const openCheckpointModal = (index) => {
+  selectedCheckpointIndex.value = index;
+  checkpointModal.value = true;
 };
 
 onMounted(async () => {
@@ -99,7 +107,6 @@ const updateObjectivesOrder = async (userId, newOrder) => {
     console.error('Error al actualizar el orden de los objetivos', error);
   }
 };
-
 </script>
 
 <template>
@@ -116,21 +123,19 @@ const updateObjectivesOrder = async (userId, newOrder) => {
       </div>
 
       <div v-else>
-        <div class="relative w-full h-6 rounded-lg border-2 border-blue-500 bg-white overflow-hidden" style="width: 300px;">
-          <div class="h-full bg-blue-500 transition-all duration-300" :style="{ width: `${progress}%` }"></div>
-          <div class="absolute top-1/2 left-0 w-full flex justify-between transform -translate-y-1/2">
-            <span 
-              v-for="(point, index) in checkpoints"
-              :key="index"
-              class="w-3 h-3 rounded-full border-2 transition-all duration-300"
-              :class="progress >= point ? 'bg-white border-white' : 'bg-blue-500 border-blue-500'"
-              :style="{ left: `${point}%`, transform: 'translateX(-50%)' }"
-              style="margin-left: 13px;"
-            ></span>
+        <p class="text-center mb-2 font-semibold">Progreso actual: {{ progress.toFixed() }}%</p>
+        <div class="relative w-full h-8 rounded-lg border-2 border-libelo-500 bg-white overflow-hidden">
+          <div class="h-full bg-libelo-500 transition-all duration-300" :style="{ width: progress + '%' }">
+        </div>
+          <div class="absolute top-1/2 left-0 w-full h-8 flex transform -translate-y-1/2">
+            <div v-for="(point, index) in checkpoints" :key="index" class="flex items-center justify-center h-full" :style="{ width: (maxProgress / options.length) + '%' }">
+              <span 
+                class="w-2 h-2 rounded-full transition-all duration-300" 
+                :class="progress >= point ? 'bg-white border-white' : 'bg-libelo-500 border-libelo-500'" 
+                @click="openCheckpointModal(index)"></span>
+            </div>
           </div>
         </div>
-
-        <p class="text-center mt-2 font-semibold">{{ progress }}%</p>
 
         <draggable v-model="options" class="flex flex-col gap-2" tag="ul" @end="updateObjectivesOrder(userStore.user._id, options)">
           <template #item="{ element: objective }">
@@ -159,6 +164,17 @@ const updateObjectivesOrder = async (userId, newOrder) => {
           <div class="flex justify-end mt-3 gap-2">
             <BaseButton @click="showModal = false" secondary>Cancelar</BaseButton>
             <BaseButton @click="addOption" primary>Agregar</BaseButton>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para mostrar el contenido del checkpoint -->
+      <div v-if="checkpointModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-5 rounded-lg shadow-lg w-80">
+          <h2 class="text-lg font-semibold mb-3">Objetivo {{ selectedCheckpointIndex + 1 }}</h2>
+          <p>{{ options[selectedCheckpointIndex]?.text }}</p>
+          <div class="flex justify-end mt-3">
+            <BaseButton @click="checkpointModal = false" secondary>Cerrar</BaseButton>
           </div>
         </div>
       </div>

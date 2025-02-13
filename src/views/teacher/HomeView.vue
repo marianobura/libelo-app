@@ -5,7 +5,7 @@ import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 import { useUserStore } from '@/stores/userStore';
-import { onMounted, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { goTo } from "@/router";
 
 const userStore = useUserStore();
