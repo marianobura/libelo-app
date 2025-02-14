@@ -32,13 +32,13 @@ const addObjective = async () => {
         });
         
         emit("objective-added", response.data.data.objectives.at(-1));
-        closeModal();
-        console.log("Objetivo agregado:", response.data.data.objectives);
     } catch (error) {
-        console.error("Error al agregar el objetivo:", error.response?.data?.msg || error.message);
+        console.error("Error al agregar el objetivo:", error);
+    } finally {
+        objectiveText.value = "";
+        closeModal();
     }
 };
-
 </script>
 
 <template>
