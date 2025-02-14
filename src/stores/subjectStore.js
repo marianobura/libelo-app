@@ -25,7 +25,7 @@ export const useSubjectStore = defineStore("subjectStore", {
 
             this.loading = true;
             try {
-                const apiUrl = new URL(`/api/subjects/${subjectId}`, process.env.VUE_APP_API_URL);
+                const apiUrl = `${process.env.VUE_APP_API_URL}/api/subjects/${subjectId}`;
                 const response = await axios.get(apiUrl.toString());
                 this.subjectData = response.data.data;
             } catch (error) {

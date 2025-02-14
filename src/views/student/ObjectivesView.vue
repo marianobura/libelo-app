@@ -10,27 +10,51 @@ import { useRoute } from "vue-router";
 import axios from "axios";
 import { Check, LoaderCircle } from "lucide-vue-next";
 import draggable from "vuedraggable";
+import { watch } from "vue";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
 const loading = ref(true);
 const showModal = ref(false);
+const checkpointModal = ref(false);
+const selectedCheckpointIndex = ref(null);
 
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []);
+const objectives = ref([]);
 
 const maxProgress = 100;
-
 const checkpoints = computed(() => {
-    if (!subjectStore.subjectData || !userObjectives.value.length) return [];
-    return userObjectives.value.map((_, index) => (index + 1) * (maxProgress / userObjectives.value.length));
+    const objectiveCount = userObjectives.value.length;
+    return objectiveCount > 0
+        ? userObjectives.value.map((_, index) => (index + 1) * (maxProgress / objectiveCount))
+        : [];
 });
-
 
 const progress = computed(() => {
-    const completedCount = userObjectives.value.filter(opt => opt.completed).length;
+    const completedCount = userObjectives.value.filter(opt => opt && opt.completed).length;
     return checkpoints.value[completedCount - 1] || 0;
 });
+
+watch(userObjectives, (newVal) => {
+    objectives.value = newVal.filter(obj => obj && obj._id);
+    if (newVal.length === 0) {
+        selectedCheckpointIndex.value = null;
+    }
+}, { immediate: true });
+
+// const updateObjectivesOrder = async () => {
+//     try {
+//         const apiUrl = new URL(`/api/subjects/${subjectId.value}/objectives-order`, process.env.VUE_APP_API_URL);
+//         await axios.put(apiUrl.toString(), {
+//             objectives: objectives.value.map(obj => obj.id)
+//         });
+
+//         subjectStore.subjectData.objectives = [...objectives.value];
+//     } catch (error) {
+//         console.error("Error al actualizar el orden de los objetivos:", error);
+//     }
+// };
 
 const addObjectiveToList = (newObjective) => {
     if (!newObjective || !newObjective._id) {
@@ -38,11 +62,16 @@ const addObjectiveToList = (newObjective) => {
         return;
     }
 
+    if (!newObjective.text || newObjective.text.trim().length === 0) {
+        console.error("El nuevo objetivo tiene un texto inválido:", newObjective.text);
+        return;
+    }
+
     if (!Object.prototype.hasOwnProperty.call(newObjective, "completed")) {
         newObjective.completed = false;
     }
 
-    userObjectives.value.push(newObjective);
+    subjectStore.subjectData.objectives.push(newObjective);
 };
 
 const removeObjective = async (objectiveId) => {
@@ -57,7 +86,8 @@ const removeObjective = async (objectiveId) => {
         const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
 
-        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(obj => obj._id !== objectiveId);
+        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(opt => opt._id !== objectiveId);
+        selectedCheckpointIndex.value = null;  // Resetear selección para evitar referencias incorrectas
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }
@@ -82,23 +112,36 @@ const toggleCompletion = async (objective) => {
 };
 
 watchEffect(() => {
-    if (subjectId.value) {
-        subjectStore.fetchSubject(subjectId.value);
+    subjectStore.fetchSubject(subjectId.value);
+    if (subjectStore.subjectData?.objectives) {
+        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(obj => obj && obj._id && 'completed' in obj);
     }
     setTimeout(() => {
         loading.value = false;
     }, 500);
 });
 
-const updateObjectivesOrder = async (userId, updatedList) => {
-  try {
-    const apiUrl = new URL(`/api/subjects/${subjectId.value}/objectives-order`, process.env.VUE_APP_API_URL);
-    await axios.put(apiUrl.toString(), { objectives: updatedList });
-  } catch (error) {
-    console.error("Error al actualizar el orden de los objetivos:", error);
-  }
+const openCheckpointModal = (index) => {
+  selectedCheckpointIndex.value = index;
+  checkpointModal.value = true;
 };
 
+const clearObjectives = async () => {
+    if (!subjectStore.subjectData || userObjectives.value.length === 0) {
+        console.warn("No hay objetivos para borrar.");
+        return;
+    }
+
+    try {
+        const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/clear-objectives`, process.env.VUE_APP_API_URL);
+        await axios.delete(apiUrl.toString());
+
+        subjectStore.subjectData.objectives = [];
+        selectedCheckpointIndex.value = null;
+    } catch (error) {
+        console.error("Error al borrar todos los objetivos:", error.response?.data?.msg || error.message);
+    }
+};
 </script>
 
 <template>
@@ -124,40 +167,43 @@ const updateObjectivesOrder = async (userId, updatedList) => {
                     <div class="h-full bg-libelo-500 transition-all duration-300" :style="{ width: `${progress}%` }"></div>
                     <div class="absolute top-1/2 left-0 w-full h-8 flex transform -translate-y-1/2">
                         <div v-for="(point, index) in checkpoints" :key="index" class="flex items-center justify-center h-full" :style="{ width: `${maxProgress / userObjectives.length}%` }">
-                            <span class="w-2 h-2 rounded-full transition-all duration-300" :class="progress >= point ? 'bg-white border-white' : 'bg-libelo-500 border-libelo-500'"></span>
+                            <span class="w-2 h-2 rounded-full transition-all duration-300" :class="progress >= point ? 'bg-white border-white' : 'bg-libelo-500 border-libelo-500'" @click="openCheckpointModal(index)"></span>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-2 mt-4">
 
-                    <draggable v-model="options" class="flex flex-col gap-2" tag="ul" @end="updateObjectivesOrder(userStore.user._id, options)">
-          <template #item="{ element: objective }">
-            <li class="flex items-center gap-2 p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 cursor-pointer transition duration-200">
-              <input type="checkbox" v-model="objective.selected" class="w-5 h-5 accent-blue-500 cursor-pointer container-p" />
-              <span>{{ objective.text }}</span>
-              <button class="ml-20 bg-red-500 p-1 pr-2 pl-2" @click="removeObjective">Borrar</button>
-            </li>
-          </template>
-        </draggable>
+                <draggable v-model="userObjectives" tag="ul" :item-key="objective?._id" @end="updateObjectivesOrder(userObjectives)" class="flex flex-col gap-2 mt-4">
+                    <template #item="{ element: objective }">
+                        <li v-if="objective && objective.text" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
+                            <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
+                            <div class="relative">
+                                <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
+                                <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                    <Check v-if="objective.completed"/>
+                                </span>
+                                <button @click="removeObjective(objective._id)" class="border-2 border-red-500 border-rounded bg-red-500">Eliminar</button>
+                            </div>
+                        </li>
+                    </template>
+                </draggable>
 
-                    
-                    <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
-                        <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
-                        <div class="relative">
-                            <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                            <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                <Check v-if="objective.completed" />
-                            </span>
-                        </div>
-                    </div>
-                </div>
                 <div class="mt-4">
                     <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
+                    <BaseButton @click="clearObjectives" class="bg-red-500 text-white" danger>Borrar lista</BaseButton>
                 </div>
             </div>
 
-            <ObjectivesModal v-if="subjectId" :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
+            <ObjectivesModal :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
 
+            <div v-if="checkpointModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-5 rounded-lg shadow-lg w-80">
+                    <h2 class="text-lg font-semibold mb-3">Objetivo {{ selectedCheckpointIndex + 1 }}</h2>
+                    <p>{{ userObjectives[selectedCheckpointIndex]?.text }}</p>
+                    <div class="flex justify-end mt-3">
+                        <BaseButton @click="checkpointModal = false" secondary>Cerrar</BaseButton>
+                    </div>
+                </div>
+            </div>
         </div>
     </BaseBody>
 </template>
