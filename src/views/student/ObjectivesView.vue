@@ -39,7 +39,7 @@ const addObjectiveToList = (newObjective) => {
         newObjective.completed = false;
     }
 
-    subjectStore.userObjectives.push(newObjective);
+    userObjectives.value.push(newObjective);
 };
 
 const removeObjective = async (objectiveId) => {
