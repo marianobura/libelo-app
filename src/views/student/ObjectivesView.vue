@@ -9,6 +9,8 @@ import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { Check, LoaderCircle } from "lucide-vue-next";
+import draggable from "vuedraggable";
+import { watch } from "vue";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
@@ -17,9 +19,9 @@ const showModal = ref(false);
 
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []);
+const objectives = ref([]);
 
 const maxProgress = 100;
-
 const checkpoints = computed(() => {
     return userObjectives.value.map((_, index) => (index + 1) * (maxProgress / userObjectives.value.length));
 });
@@ -28,6 +30,23 @@ const progress = computed(() => {
     const completedCount = userObjectives.value.filter(opt => opt.completed).length;
     return checkpoints.value[completedCount - 1] || 0;
 });
+
+watch(userObjectives, (newVal) => {
+    objectives.value = newVal.filter(obj => obj && obj._id);
+}, { immediate: true });
+
+const updateObjectivesOrder = async () => {
+    try {
+        const apiUrl = new URL(`/api/subjects/${subjectId.value}/objectives-order`, process.env.VUE_APP_API_URL);
+        await axios.put(apiUrl.toString(), {
+            objectives: objectives.value.map(obj => obj.id)
+        });
+
+        subjectStore.subjectData.objectives = [...objectives.value];
+    } catch (error) {
+        console.error("Error al actualizar el orden de los objetivos:", error);
+    }
+};
 
 const addObjectiveToList = (newObjective) => {
     if (!newObjective || !newObjective._id) {
@@ -54,7 +73,7 @@ const removeObjective = async (objectiveId) => {
         const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
 
-        subjectStore.userObjectives = subjectStore.userObjectives.filter(obj => obj._id !== objectiveId);
+        userObjectives.value = userObjectives.value.filter(opt => opt._id !== objectiveId);
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }
@@ -113,17 +132,19 @@ watchEffect(() => {
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-2 mt-4">
-                    <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
-                        <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
-                        <div class="relative">
-                            <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                            <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                <Check v-if="objective.completed" />
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <draggable v-model="userObjectives" tag="ul" :item-key="objective?._id" @end="updateObjectivesOrder(userObjectives)" class="flex flex-col gap-2 mt-4">
+                    <template #item="{ element: objective }">
+                        <li class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
+                            <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
+                            <div class="relative">
+                                <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
+                                <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                    <Check v-if="objective.completed" />
+                                </span>
+                            </div>
+                        </li>
+                    </template>
+                </draggable>
                 <div class="mt-4">
                     <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
                 </div>
