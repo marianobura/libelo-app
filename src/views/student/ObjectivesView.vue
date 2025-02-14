@@ -9,6 +9,7 @@ import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { Check, LoaderCircle } from "lucide-vue-next";
+import draggable from "vuedraggable";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
@@ -21,8 +22,10 @@ const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []
 const maxProgress = 100;
 
 const checkpoints = computed(() => {
+    if (!subjectStore.subjectData || !userObjectives.value.length) return [];
     return userObjectives.value.map((_, index) => (index + 1) * (maxProgress / userObjectives.value.length));
 });
+
 
 const progress = computed(() => {
     const completedCount = userObjectives.value.filter(opt => opt.completed).length;
@@ -54,7 +57,7 @@ const removeObjective = async (objectiveId) => {
         const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
 
-        subjectStore.userObjectives = subjectStore.userObjectives.filter(obj => obj._id !== objectiveId);
+        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(obj => obj._id !== objectiveId);
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }
@@ -79,11 +82,23 @@ const toggleCompletion = async (objective) => {
 };
 
 watchEffect(() => {
-    subjectStore.fetchSubject(subjectId.value);
+    if (subjectId.value) {
+        subjectStore.fetchSubject(subjectId.value);
+    }
     setTimeout(() => {
         loading.value = false;
     }, 500);
 });
+
+const updateObjectivesOrder = async (userId, updatedList) => {
+  try {
+    const apiUrl = new URL(`/api/subjects/${subjectId.value}/objectives-order`, process.env.VUE_APP_API_URL);
+    await axios.put(apiUrl.toString(), { objectives: updatedList });
+  } catch (error) {
+    console.error("Error al actualizar el orden de los objetivos:", error);
+  }
+};
+
 </script>
 
 <template>
@@ -114,6 +129,18 @@ watchEffect(() => {
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 mt-4">
+
+                    <draggable v-model="options" class="flex flex-col gap-2" tag="ul" @end="updateObjectivesOrder(userStore.user._id, options)">
+          <template #item="{ element: objective }">
+            <li class="flex items-center gap-2 p-2 border rounded-lg bg-gray-100 hover:bg-gray-200 cursor-pointer transition duration-200">
+              <input type="checkbox" v-model="objective.selected" class="w-5 h-5 accent-blue-500 cursor-pointer container-p" />
+              <span>{{ objective.text }}</span>
+              <button class="ml-20 bg-red-500 p-1 pr-2 pl-2" @click="removeObjective">Borrar</button>
+            </li>
+          </template>
+        </draggable>
+
+                    
                     <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
                         <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
                         <div class="relative">
@@ -129,7 +156,8 @@ watchEffect(() => {
                 </div>
             </div>
 
-            <ObjectivesModal :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
+            <ObjectivesModal v-if="subjectId" :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
+
         </div>
     </BaseBody>
 </template>

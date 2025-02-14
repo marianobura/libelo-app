@@ -71,12 +71,6 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/student/subject/:id/objectives",
-        name: "student-objectives",
-        component: () => import("@/views/student/ObjectivesView.vue"),
-        meta: { requiresAuth: true },
-    },
-    {
         path: "/student/subject/:id/work",
         name: "student-work",
         component: () => import("@/views/student/WorkView.vue"),
@@ -89,9 +83,9 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/student/subject/:id/objective",
+        path: "/student/subject/:id/objectives",
         name: "student-objective",
-        component: () => import("@/views/student/ObjetivesView.vue"),
+        component: () => import("@/views/student/ObjectivesView.vue"),
         meta: { requiresAuth: true },
     },
     {
