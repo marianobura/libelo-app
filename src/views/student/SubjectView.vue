@@ -30,7 +30,7 @@ const path = route.params.id;
 
             <BaseTitle title="Progreso y planificación" description="Gestiona tus sesiones, evalúa tu avance y mejora con ejercicios prácticos.">
                 <div class="grid grid-cols-2 gap-2">
-                    <BaseCard :link-to="`/student/subject/${path}/objective`" title="Objetivos" description="Establece y sigue tus metas de aprendizaje." :color="false" :icon="Goal" />
+                    <BaseCard link-to="/student" title="Objetivos" description="Establece y sigue tus metas de aprendizaje." :color="false" :icon="Goal" />
                     <BaseCard :link-to="`/student/subject/${path}/calendar`" title="Calendario" description="Planifica y agenda tus próximas sesiones." :color="false" :icon="CalendarDays" />
                     <BaseCard :link-to="`/student/subject/${path}/work`" title="Trabajos" description="Revisa y evalúa tu progreso académico." :color="false" :icon="BookOpenCheck" />
                     <BaseCard link-to="/student" title="Ejercicios" description="Practica con ejercicios y mejora tus habilidades." :color="false" :icon="NotebookPen" />

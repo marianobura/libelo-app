@@ -9,22 +9,22 @@ const userStore = useUserStore();
 const subjectStore = useSubjectStore();
 
 watchEffect(() => {
-    if (route.params.id && userStore.user) {
+    if (route.params.id) {
         if (userStore.user.role === 'student') {
             subjectStore.fetchSubject(route.params.id);
-        } else if (userStore.user.role === 'teacher') {
+        } else if (userStore.user?.role === 'teacher') {
             userStore.user?.preferredSubjects[route.params.id];
         }
     }
 });
 
 const subjectName = computed(() => {
-    if (userStore.user) {
-        if (userStore.user.role === 'student') {
-            return subjectStore.subjectData?.name ?? "Materia";
-        } else if (userStore.user.role === 'teacher') {
-            return userStore.user?.preferredSubjects[route.params.id] ?? "Materia";
-        }
+    if (userStore.user.role === 'student') {
+        return subjectStore.subjectData?.name ?? "Materia";
+    } else if (userStore.user.role === 'teacher') {
+        return userStore.user?.preferredSubjects[route.params.id] ?? "Materia";
+    } else {
+        return "Materia";
     }
     return "Materia";
 });

@@ -63,10 +63,15 @@ const toggleSubject = (subject) => {
             </div>
             <BaseTitle title="Materias favoritas" description="Selecciona tus materias favoritas y guárdalas en tu perfil.">
                 <BaseInput v-model="searchQuery" identifier="search" placeholder="Buscar materia..." />
-                <div class="flex flex-col gap-4 p-2 border border-neutral-300 rounded-xl">
-                    <div v-for="subject in filteredSubjects" :key="subject" class="flex items-center gap-2">
-                        <input type="checkbox" :id="subject" :checked="favoriteSubjects.includes(subject)" @change="toggleSubject(subject)" class="size-5" />
+                <div class="flex flex-col gap-2">
+                    <div v-for="subject in filteredSubjects" :key="subject" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500 has-[input:checked]:bg-libelo-500 has-[input:checked]:text-white">
                         <label :for="subject" class="line-clamp-1 break-all w-full">{{ subject }}</label>
+                        <div class="relative">
+                            <input type="checkbox" :id="subject" :checked="favoriteSubjects.includes(subject)" @change="toggleSubject(subject)" class="appearance-none peer hidden" />
+                            <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                <Check v-if="favoriteSubjects.includes(subject)" />
+                            </span>
+                        </div>
                     </div>
                 </div>
             </BaseTitle>
