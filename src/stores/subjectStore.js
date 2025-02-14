@@ -25,10 +25,9 @@ export const useSubjectStore = defineStore("subjectStore", {
 
             this.loading = true;
             try {
-                const apiUrl = new URL(`/api/subjects`, process.env.VUE_APP_API_URL);
+                const apiUrl = new URL(`/api/subjects/${subjectId}`, process.env.VUE_APP_API_URL);
                 const response = await axios.get(apiUrl.toString());
-                const subjects = response.data.data;
-                this.subjectData = subjects.find(subject => subject._id === subjectId);
+                this.subjectData = response.data.data;
             } catch (error) {
                 console.error("Error al obtener la información de la materia:", error);
             } finally {
