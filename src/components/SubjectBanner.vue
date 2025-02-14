@@ -24,9 +24,10 @@ const subjectName = computed(() => {
             return subjectStore.subjectData?.name ?? "Materia";
         } else if (userStore.user?.role === 'teacher') {
             return userStore.user?.preferredSubjects[route.params.id] ?? "Materia";
+        } else {
+            return "Materia";
         }
     }
-    return "Materia";
 });
 </script>
 
