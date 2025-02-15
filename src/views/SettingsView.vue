@@ -56,7 +56,7 @@ const logout = async () => {
                     </template>
                 </LabelTitle>
             </template>
-            <BaseButton @click="logout" logout>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</BaseButton>
+            <BaseButton @click="logout" danger>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</BaseButton>
         </div>
     </BaseBody>
 </template>

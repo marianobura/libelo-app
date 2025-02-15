@@ -15,7 +15,7 @@ const props = defineProps({
         type: Function,
         default: null
     },
-    logout: {
+    danger: {
         type: Boolean,
         default: false
     }
@@ -34,9 +34,9 @@ const handleClick = () => {
     <button @click="handleClick" 
         class="w-full h-12 rounded-xl font-semibold"
         :class="{
-            'bg-libelo-500 text-white hover:bg-libelo-600': props.primary && !props.logout,
-            'bg-neutral-200 text-black border border-neutral-300 hover:bg-neutral-300': !props.primary && !props.logout,
-            'bg-red-700 text-white hover:bg-red-800': props.logout
+            'bg-libelo-500 text-white hover:bg-libelo-600': props.primary && !props.danger,
+            'bg-neutral-200 text-black border border-neutral-300 hover:bg-neutral-300': !props.primary && !props.danger,
+            'bg-red-700 text-white hover:bg-red-800': props.danger
         }">
         <slot />
     </button>
