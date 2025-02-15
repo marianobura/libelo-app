@@ -3,12 +3,12 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, watchEffect, watch } from "vue";
 import { useSubjectStore } from "@/stores/subjectStore";
 import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
-import { Check, LoaderCircle } from "lucide-vue-next";
+import { Check, LoaderCircle, X, Trash2 } from "lucide-vue-next";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
@@ -16,6 +16,7 @@ const loading = ref(true);
 const showModal = ref(false);
 const checkpointModal = ref(false);
 const selectedCheckpointIndex = ref(null);
+const showDeleteModal = ref(false);
 
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []);
@@ -84,7 +85,7 @@ const removeObjective = async (objectiveId) => {
         const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
 
-        subjectStore.userObjectives = subjectStore.userObjectives.filter(obj => obj._id !== objectiveId);
+        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(obj => obj._id !== objectiveId);
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }
@@ -120,7 +121,7 @@ const openCheckpointModal = (index) => {
   checkpointModal.value = true;
 };
 
-const clearObjectives = async () => {
+const confirmDeleteObjectives = async () => {
     if (!subjectStore.subjectData || userObjectives.value.length === 0) {
         console.warn("No hay objetivos para borrar.");
         return;
@@ -134,6 +135,8 @@ const clearObjectives = async () => {
         selectedCheckpointIndex.value = null;
     } catch (error) {
         console.error("Error al borrar todos los objetivos:", error.response?.data?.msg || error.message);
+    } finally {
+        showDeleteModal.value = false;
     }
 };
 </script>
@@ -165,20 +168,28 @@ const clearObjectives = async () => {
                         </div>
                     </div>
                 </div>
+
                 <div class="flex flex-col gap-2 mt-4">
-                    <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-2 border border-neutral-300 px-4 py-2 rounded-xl has-[input:checked]:border-libelo-500">
-                        <label :for="objective._id" class="line-clamp-1 break-all w-full">{{ objective.text }}</label>
-                        <div class="relative">
-                            <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                            <span class="w-5 h-5 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                <Check v-if="objective.completed" />
-                            </span>
+                    <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500">
+                        <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
+                            <div class="relative mb-auto">
+                                <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
+                                <span class="size-6 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                    <Check v-if="objective.completed" />
+                                </span>
+                            </div>
+                            <span>{{ objective.text }}</span>
+                        </label>
+                        <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 border border-red-700 rounded-lg text-red-700 hover:bg-red-700 hover:text-white" @click="removeObjective(objective._id)">
+                            <X :size="12"/>
                         </div>
                     </div>
                 </div>
-                <div class="mt-4">
+
+                <div class=" mt-4 grid grid-cols-[1fr_48px] gap-2">
                     <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
-                    <BaseButton @click="clearObjectives" class="bg-red-500 text-white" danger>Borrar lista</BaseButton>
+                    <BaseButton danger @click="showDeleteModal = true" class="flex items-center justify-center"><Trash2 size="20" /></BaseButton>
+
                 </div>
             </div>
 
@@ -190,6 +201,19 @@ const clearObjectives = async () => {
                     <p>{{ userObjectives[selectedCheckpointIndex]?.text }}</p>
                     <div class="flex justify-end mt-3">
                         <BaseButton @click="checkpointModal = false" secondary>Cerrar</BaseButton>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div class="bg-white p-5 rounded-lg shadow-lg w-80 m-2">
+                    <div class="flex flex-col gap-1 w-full p-2">
+                    <p class="font-semibold">Eliminar objetivos</p>
+                    <p class="text-sm text-neutral-700">¿Está seguro de eliminar todos los objetivos actuales?</p>
+                    </div>
+                    <div class="flex justify-end mt-3 gap-4">
+                        <BaseButton @click="showDeleteModal = false" secondary>Cancelar</BaseButton>
+                        <BaseButton @click="confirmDeleteObjectives" danger>Eliminar</BaseButton>
                     </div>
                 </div>
             </div>
