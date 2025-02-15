@@ -39,7 +39,7 @@ const path = route.params.id;
 
             <div class="grid grid-cols-[1fr_48px] gap-2">
                 <BaseButton secondary>Vincular materia con Classroom</BaseButton>
-                <BaseButton logout class="flex items-center justify-center" @click="showModal = true"><Trash2 size="20" /></BaseButton>
+                <BaseButton danger class="flex items-center justify-center" @click="showModal = true"><Trash2 size="20" /></BaseButton>
             </div>
 
         </div>
