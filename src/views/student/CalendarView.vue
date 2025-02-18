@@ -42,15 +42,22 @@ const initClient = async () => {
 
 
 onMounted(async () => {
-  await new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.src = "https://apis.google.com/js/api.js";
+  const script = document.createElement("script");
+  script.src = "https://apis.google.com/js/api.js";
+  document.head.appendChild(script);
+  
+  await new Promise((resolve, reject) => {
     script.onload = resolve;
-    document.head.appendChild(script);
+    script.onerror = () => reject("Error loading Google API script.");
   });
 
-  window.gapi.load("client:auth2", initClient);
+  if (window.gapi) {
+    window.gapi.load("client:auth2", initClient);
+  } else {
+    console.error("Google API failed to load.");
+  }
 });
+
 
 
 

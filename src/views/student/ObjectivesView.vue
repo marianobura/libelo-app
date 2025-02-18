@@ -139,6 +139,13 @@ const confirmDeleteObjectives = async () => {
         showDeleteModal.value = false;
     }
 };
+
+const cortarObjetivo = (text, maxLength = 16) => {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength - 3) + '...';
+  }
+  return text;
+};
 </script>
 
 <template>
@@ -197,8 +204,20 @@ const confirmDeleteObjectives = async () => {
 
             <div v-if="checkpointModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <div class="bg-white p-5 rounded-lg shadow-lg w-80">
-                    <h2 class="text-lg font-semibold mb-3">Objetivo {{ selectedCheckpointIndex + 1 }}</h2>
-                    <p>{{ userObjectives[selectedCheckpointIndex]?.text }}</p>
+                    <h2 class="text-lg font-semibold">
+                    Objetivo {{ selectedCheckpointIndex + 1 }}: 
+                    {{ cortarObjetivo(userObjectives[selectedCheckpointIndex]?.text) }}
+                    </h2>
+                    
+                    <div class="flex items-center gap-2 mt-3 mb-3">
+                        <span v-if="userObjectives[selectedCheckpointIndex]?.completed" class="text-libelo-500 font-bold flex items-center">
+                            <Check class="mr-5" /> Completado
+                        </span>
+                        <span v-else class="text-red-500 font-bold flex items-center">
+                            <X class="mr-5" /> No completado
+                        </span>
+                    </div>
+
                     <div class="flex justify-end mt-3">
                         <BaseButton @click="checkpointModal = false" secondary>Cerrar</BaseButton>
                     </div>
