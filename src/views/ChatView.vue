@@ -23,7 +23,7 @@ const sendMessage = (resetTextareaHeight) => {
         chatStore.userMessage,
         user.value,
         subjectId.value,
-        subjectStore.subjectData?.name,
+        subjectStore.subject?.name,
         resetTextareaHeight
         );
     };
