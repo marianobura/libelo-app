@@ -22,7 +22,7 @@ watchEffect(() => {
 });
 
 const userLetter = computed(() => userStore.user?.displayName?.charAt(0) || '');
-const subjectName = computed(() => subjectStore.subjectData?.name || "Materia");
+const subjectName = computed(() => subjectStore.subject?.name || "Materia");
 const userDisplayName = computed(() => userStore.user?.displayName || '');
 
 const messages = ref([
