@@ -113,6 +113,12 @@ const routes = [
         name: "recover-password",
         component: () => import("../views/PasswordRecover.vue"),
         meta: { requiresAuth: false },
+    },
+    {
+        path: "/teacher/points",
+        name: "teacher-points",
+        component: () => import("@/views/teacher/PointsView.vue"),
+        meta: { requiresAuth: true },
     }
     
 ];

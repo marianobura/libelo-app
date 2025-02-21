@@ -26,7 +26,7 @@ const sendMessage = (resetTextareaHeight) => {
         subjectStore.subjectData?.name,
         resetTextareaHeight
         );
-    };
+};
 
 onMounted(async () => {
     chatStore.loading = true;

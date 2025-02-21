@@ -4,79 +4,18 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
+import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
 
-
-const CLIENT_ID = "126564330884-dk5npteq22ej2r1kb809h9etgfebo92g.apps.googleusercontent.com";
-const API_KEY = "AIzaSyDt6k26D7J2za3E1v1imf-wzDLJunN7WgA";
-const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-const SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
-
-const authInstance = ref(null);
-const isAuthenticated = ref(false);
 const calendarUrl = ref("");
 const userSubjects = ref([]);
-const initClient = async () => {
-  if (!window.gapi) {
-    console.error("Google API no está disponible.");
-    return;
-  }
-
-  try {
-    await window.gapi.client.init({
-      apiKey: API_KEY,
-      clientId: CLIENT_ID,
-      discoveryDocs: DISCOVERY_DOCS,
-      scope: SCOPES,
-    });
-
-    authInstance.value = window.gapi.auth2.getAuthInstance();
-    isAuthenticated.value = authInstance.value.isSignedIn.get();
-
-    if (isAuthenticated.value) {
-      fetchUserSubjects();
-    }
-  } catch (error) {
-    console.error("Error al inicializar Google API:", error);
-  }
-};
-
-
-onMounted(async () => {
-  const script = document.createElement("script");
-  script.src = "https://apis.google.com/js/api.js";
-  document.head.appendChild(script);
-  
-  await new Promise((resolve, reject) => {
-    script.onload = resolve;
-    script.onerror = () => reject("Error loading Google API script.");
-  });
-
-  if (window.gapi) {
-    window.gapi.load("client:auth2", initClient);
-  } else {
-    console.error("Google API failed to load.");
-  }
-});
-
-
-
-
-const signIn = async () => {
-  try {
-    await authInstance.value.signIn();
-    isAuthenticated.value = true;
-    fetchUserSubjects();
-  } catch (error) {
-    console.error("Error al iniciar sesión:", error);
-  }
-};
+const isAuthenticated = ref(false);
+let authInstance;
 
 const fetchUserSubjects = async () => {
   try {
     const response = await fetch("/api/user/subjects");
     userSubjects.value = await response.json();
-
-    fetchCalendar();
+    fetchCalendar(); 
   } catch (error) {
     console.error("Error al obtener las materias del usuario:", error);
   }
@@ -92,7 +31,7 @@ const fetchCalendar = async () => {
     );
 
     if (userCalendar) {
-      calendarUrl.value = `https://calendar.google.com/calendar/embed?src=${userCalendar.id}`;
+      calendarUrl.value = `http://calendar.google.com/calendar/embed?src=${userCalendar.id}`;
     } else {
       console.error("No se encontraron calendarios relacionados con las materias del usuario.");
     }
@@ -111,6 +50,30 @@ const signOut = async () => {
     console.error("Error al cerrar sesión:", error);
   }
 };
+
+const initGoogleAPI = () => {
+  if (window.gapi) {
+    window.gapi.load("client:auth2", () => {
+      window.gapi.auth2.init({
+        client_id: "39835059225-lfbhq2998imrbdm5m9out87hprs0mkj6.apps.googleusercontent.com",
+      }).then(() => {
+        authInstance = window.gapi.auth2.getAuthInstance();
+        isAuthenticated.value = authInstance.isSignedIn.get();
+        if (isAuthenticated.value) {
+          fetchUserSubjects();
+        }
+      }).catch(error => {
+        console.error("Error al inicializar la API de Google: ", error);
+      });
+    });
+  } else {
+    console.error("La librería de Google API no está disponible.");
+  }
+};
+
+onMounted(() => {
+  initGoogleAPI();
+});
 </script>
 
 <template>
@@ -125,7 +88,7 @@ const signOut = async () => {
         </div>
         <div v-else class="text-center">
           <p>No has iniciado sesión.</p>
-          <button @click="signIn" class="bg-blue-500 text-white p-2 rounded">Iniciar sesión con Google</button>
+          <GoogleLogin />
         </div>
       </BaseTitle>
     </div>
