@@ -1,6 +1,7 @@
 <script setup>
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
+import axios from "axios";
 import { ref, watch, onMounted } from "vue";
 
 const isDropdownOpen = ref(false);
@@ -13,9 +14,10 @@ const loading = ref(true);
 
 const fetchPromotions = async () => {
   try {
-    const response = await fetch('/promotions.json');
-    const data = await response.json();
-    promotions.value = data;
+    const apiUrl = new URL(`/api/promotions`, process.env.VUE_APP_API_URL);
+    console.log('API URL:', apiUrl.toString()); // Verifica la URL que se está construyendo
+    const response = await axios.get('/promotions.json');
+    promotions.value = response.data.promotions; // Usar la estructura correcta
   } catch (error) {
     console.error("Error al obtener las promociones:", error);
   } finally {
@@ -48,7 +50,7 @@ watch(slider, (sliderElement) => {
       <div class="relative bg-gray-100 p-2 rounded mb-4">
         <div class="flex items-center justify-between">
           <span class="text-lg font-semibold">Tienes 15 puntos</span>
-          <button @click="toggleDropdown" @keydown.enter="toggleDropdown" class="bg-gray-300 rounded px-2 py-1">
+          <button @click="toggleDropdown" class="bg-gray-300 rounded px-2 py-1">
             ▼
           </button>
         </div>
@@ -84,6 +86,7 @@ watch(slider, (sliderElement) => {
         <p class="text-sm font-bold">CÓDIGO: PY-8C51B4E</p>
       </div>
 
+      <!-- Mostrar promociones por categoría -->
       <div class="p-4">
         <h2 class="font-bold text-lg mb-2">Lista de promociones</h2>
         
@@ -91,13 +94,18 @@ watch(slider, (sliderElement) => {
         <div v-if="loading" class="text-center">Cargando promociones...</div>
 
         <!-- Contenedor de promociones -->
-        <div v-if="!loading && promotions.length" ref="slider" class="flex space-x-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x">
-          <div
-            v-for="(promotion, index) in promotions"
-            :key="index"
-            class="snap-center min-w-[80%] sm:min-w-[50%] md:min-w-[33%] lg:min-w-[25%] p-4 rounded text-center bg-gray-100">
-            <p class="text-lg font-bold">{{ promotion.points }} puntos</p>
-            <p class="text-sm">{{ promotion.description }}</p>
+        <div v-if="!loading && promotions.length">
+          <div v-for="category in promotions" :key="category.category" class="mb-6">
+            <h3 class="font-bold text-lg mb-2">{{ category.category }}</h3>
+            <div class="flex space-x-4 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x">
+              <div v-for="(promotion, index) in category.promotions" :key="index" class="snap-center min-w-[70%] sm:min-w-[40%] md:min-w-[30%] lg:min-w-[20%] p-2 rounded text-center bg-gray-100 shadow-md">
+                <p class="text-lg font-bold">{{ promotion.title }}</p>
+                <p class="text-sm truncate">{{ promotion.description }}</p>
+                <p class="text-sm">Ubicación: {{ promotion.location }}</p>
+                <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
+                <p class="text-sm font-bold">{{ promotion.terms }}</p>
+              </div>
+            </div>
           </div>
         </div>
 
