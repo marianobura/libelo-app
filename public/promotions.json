@@ -9,7 +9,8 @@
             "description": "Disfrutá de un 2x1 en cucuruchos en Heladería Patagonia.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Válido hasta las 20:00 hs."
+            "terms": "Válido hasta las 20:00 hs.",
+            "points": 10
           },
           {
             "id": 2,
@@ -17,7 +18,8 @@
             "description": "15% off en pedidos a domicilio de Helados del Sur.",
             "location": "Santa Fe",
             "valid_until": "12-04-2025",
-            "terms": "Válido para envíos en la ciudad."
+            "terms": "Válido para envíos en la ciudad.",
+            "points": 10
           },
           {
             "id": 3,
@@ -25,7 +27,8 @@
             "description": "Combo de 1kg de helado + 6 cucuruchos en Helado Mágico.",
             "location": "Córdoba",
             "valid_until": "12-04-2025",
-            "terms": "No acumulable con otras ofertas."
+            "terms": "No acumulable con otras ofertas.",
+            "points": 10
           },
           {
             "id": 4,
@@ -33,7 +36,8 @@
             "description": "Descuento en el sabor del mes en Helados del Centro.",
             "location": "Rosario",
             "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad."
+            "terms": "Sujeto a disponibilidad.",
+            "points": 20
           },
           {
             "id": 5,
@@ -41,7 +45,8 @@
             "description": "Envase extra gratuito al comprar 1kg de helado.",
             "location": "Mendoza",
             "valid_until": "12-04-2025",
-            "terms": "Solo para compras en el local."
+            "terms": "Solo para compras en el local.",
+            "points": 15
           },
           {
             "id": 6,
@@ -49,7 +54,8 @@
             "description": "20% de descuento los martes en Heladería Los Andes.",
             "location": "Tucumán",
             "valid_until": "12-04-2025",
-            "terms": "Solo efectivo."
+            "terms": "Solo efectivo.",
+            "points": 10
           },
           {
             "id": 7,
@@ -57,7 +63,8 @@
             "description": "Llevá 3 helados chicos al precio de 2.",
             "location": "Salta",
             "valid_until": "12-04-2025",
-            "terms": "Stock limitado."
+            "terms": "Stock limitado.",
+            "points": 15
           },
           {
             "id": 8,
@@ -65,7 +72,8 @@
             "description": "Helado chico gratis para menores de 10 años.",
             "location": "Neuquén",
             "valid_until": "12-04-2025",
-            "terms": "Con consumo de adulto."
+            "terms": "Con consumo de adulto.",
+            "points": 10
           },
           {
             "id": 9,
@@ -73,7 +81,8 @@
             "description": "Descuento en pedidos online en Heladería Nieve.",
             "location": "Bariloche",
             "valid_until": "12-04-2025",
-            "terms": "Solo para envíos."
+            "terms": "Solo para envíos.",
+            "points": 15
           },
           {
             "id": 10,
@@ -81,7 +90,8 @@
             "description": "Con la compra de 2kg, llevate 1kg extra.",
             "location": "Mar del Plata",
             "valid_until": "12-04-2025",
-            "terms": "Válido solo los sábados."
+            "terms": "Válido solo los sábados.",
+            "points": 20
           }
         ]
       },
@@ -94,7 +104,8 @@
             "description": "Descuento en jeans seleccionados en Tienda Urbana.",
             "location": "Córdoba",
             "valid_until": "12-04-2025",
-            "terms": "No acumulable."
+            "terms": "No acumulable.",
+            "points": 15
           },
           {
             "id": 2,
@@ -102,7 +113,8 @@
             "description": "Liquidación de temporada en Boutique del Sol.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Aplica a prendas seleccionadas."
+            "terms": "Aplica a prendas seleccionadas.",
+            "points": 20
           },
           {
             "id": 3,
@@ -110,7 +122,8 @@
             "description": "Descuento en compras por la web de Ropas Argentinas.",
             "location": "Rosario",
             "valid_until": "12-04-2025",
-            "terms": "Solo en compras mayores a $10,000."
+            "terms": "Solo en compras mayores a $10,000.",
+            "points": 10
           },
           {
             "id": 4,
@@ -118,7 +131,8 @@
             "description": "Pagá 2 remeras y llevate 3 en Fashion Store.",
             "location": "Santa Fe",
             "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad."
+            "terms": "Sujeto a disponibilidad.",
+            "points": 15
           },
           {
             "id": 5,
@@ -126,7 +140,8 @@
             "description": "Descuento con tarjeta de crédito en Moda Premium.",
             "location": "Mendoza",
             "valid_until": "12-04-2025",
-            "terms": "Solo pagos en una cuota."
+            "terms": "Solo pagos en una cuota.",
+            "points": 10
           },
           {
             "id": 6,
@@ -134,7 +149,8 @@
             "description": "Comprá un par y llevate otro gratis en Zapatilandia.",
             "location": "Córdoba",
             "valid_until": "12-04-2025",
-            "terms": "Aplica a modelos seleccionados."
+            "terms": "Aplica a modelos seleccionados.",
+            "points": 15
           },
           {
             "id": 7,
@@ -142,7 +158,8 @@
             "description": "Hasta 40% off en toda la tienda por cambio de temporada.",
             "location": "Bariloche",
             "valid_until": "12-04-2025",
-            "terms": "Sin excepciones."
+            "terms": "Sin excepciones.",
+            "points": 20
           },
           {
             "id": 8,
@@ -150,7 +167,8 @@
             "description": "Descuento en camisas formales en Elegancia Ropa.",
             "location": "Salta",
             "valid_until": "12-04-2025",
-            "terms": "Válido hasta agotar stock."
+            "terms": "Válido hasta agotar stock.",
+            "points": 10
           },
           {
             "id": 9,
@@ -158,7 +176,8 @@
             "description": "Promoción en accesorios en Tienda Look.",
             "location": "Tucumán",
             "valid_until": "12-04-2025",
-            "terms": "Promoción válida solo en tienda física."
+            "terms": "Promoción válida solo en tienda física.",
+            "points": 10
           },
           {
             "id": 10,
@@ -166,7 +185,8 @@
             "description": "Reintegro en efectivo por compras en Ropa Moderna.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Solo efectivo."
+            "terms": "Solo efectivo.",
+            "points": 10
           }
         ]
       },
@@ -179,7 +199,8 @@
             "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Válido solo de lunes a jueves."
+            "terms": "Válido solo de lunes a jueves.",
+            "points": 10
           },
           {
             "id": 2,
@@ -187,7 +208,8 @@
             "description": "Descuento en todas las funciones del Teatro Luna.",
             "location": "Rosario",
             "valid_until": "12-04-2025",
-            "terms": "No acumulable con otras promociones."
+            "terms": "No acumulable con otras promociones.",
+            "points": 20
           },
           {
             "id": 3,
@@ -195,7 +217,8 @@
             "description": "Recorridos turísticos con descuento en Viajes City Tour.",
             "location": "Mendoza",
             "valid_until": "12-04-2025",
-            "terms": "Solo en compras online."
+            "terms": "Solo en compras online.",
+            "points": 15
           },
           {
             "id": 4,
@@ -203,7 +226,8 @@
             "description": "Pagá 2 y llevate 3 excursiones en Caminatas Andinas.",
             "location": "Bariloche",
             "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad."
+            "terms": "Sujeto a disponibilidad.",
+            "points": 25
           },
           {
             "id": 5,
@@ -211,7 +235,8 @@
             "description": "Hasta 30% en paquetes a Cataratas del Iguazú.",
             "location": "Misiones",
             "valid_until": "12-04-2025",
-            "terms": "Reservas con 30 días de anticipación."
+            "terms": "Reservas con 30 días de anticipación.",
+            "points": 25
           },
           {
             "id": 6,
@@ -219,7 +244,8 @@
             "description": "20% de descuento en Escape Room Argentina.",
             "location": "Córdoba",
             "valid_until": "12-04-2025",
-            "terms": "No aplica en eventos privados."
+            "terms": "No aplica en eventos privados.",
+            "points": 15
           },
           {
             "id": 7,
@@ -227,7 +253,8 @@
             "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
             "location": "Tucumán",
             "valid_until": "12-04-2025",
-            "terms": "Con acompañante adulto."
+            "terms": "Con acompañante adulto.",
+            "points": 10
           },
           {
             "id": 8,
@@ -235,7 +262,8 @@
             "description": "Entradas 2x1 los viernes en Teatro Independiente.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad."
+            "terms": "Sujeto a disponibilidad.",
+            "points": 10
           },
           {
             "id": 9,
@@ -243,7 +271,8 @@
             "description": "15% de descuento en Museo Histórico Nacional.",
             "location": "Salta",
             "valid_until": "12-04-2025",
-            "terms": "Aplica solo para residentes locales."
+            "terms": "Aplica solo para residentes locales.",
+            "points": 10
           },
           {
             "id": 10,
@@ -251,7 +280,8 @@
             "description": "Descuento en paseos en kayak en Río Paraná.",
             "location": "Santa Fe",
             "valid_until": "12-04-2025",
-            "terms": "Sujeto a condiciones climáticas."
+            "terms": "Sujeto a condiciones climáticas.",
+            "points": 25
           }
         ]
       },
@@ -264,7 +294,8 @@
             "description": "20% off en menú ejecutivo en Restaurante Gourmet.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "No válido los domingos."
+            "terms": "No válido los domingos.",
+            "points": 15
           },
           {
             "id": 2,
@@ -272,7 +303,8 @@
             "description": "Llevate 2 pizzas por el precio de 1 en Pizzería El Rincón.",
             "location": "Córdoba",
             "valid_until": "12-04-2025",
-            "terms": "Válido solo de lunes a jueves."
+            "terms": "Válido solo de lunes a jueves.",
+            "points": 5
           },
           {
             "id": 3,
@@ -280,7 +312,8 @@
             "description": "25% de descuento en parrillada para 4 personas.",
             "location": "Rosario",
             "valid_until": "12-04-2025",
-            "terms": "Solo efectivo."
+            "terms": "Solo efectivo.",
+            "points": 10
           },
           {
             "id": 4,
@@ -288,7 +321,8 @@
             "description": "Incluí una bebida gratis en Restaurante Buen Sabor.",
             "location": "Mendoza",
             "valid_until": "12-04-2025",
-            "terms": "Una bebida por persona."
+            "terms": "Una bebida por persona.",
+            "points": 5
           },
           {
             "id": 5,
@@ -296,7 +330,8 @@
             "description": "Descuento en tu segunda hamburguesa en Hamburguesería XXL.",
             "location": "Salta",
             "valid_until": "12-04-2025",
-            "terms": "No acumulable."
+            "terms": "No acumulable.",
+            "points": 10
           },
           {
             "id": 6,
@@ -304,7 +339,8 @@
             "description": "Hasta 30% en rolls seleccionados en Sushi Bar.",
             "location": "Bariloche",
             "valid_until": "12-04-2025",
-            "terms": "Aplica solo a take-away."
+            "terms": "Aplica solo a take-away.",
+            "points": 15
           },
           {
             "id": 7,
@@ -312,7 +348,8 @@
             "description": "Obtené un postre gratis en Café del Lago.",
             "location": "Tucumán",
             "valid_until": "12-04-2025",
-            "terms": "Solo para cenas."
+            "terms": "Solo para cenas.",
+            "points": 5
           },
           {
             "id": 8,
@@ -320,7 +357,8 @@
             "description": "Reintegro en efectivo por tu comida en Restaurante Local.",
             "location": "Santa Fe",
             "valid_until": "12-04-2025",
-            "terms": "Solo pagos en efectivo."
+            "terms": "Solo pagos en efectivo.",
+            "points": 10
           },
           {
             "id": 9,
@@ -328,7 +366,8 @@
             "description": "Menú infantil sin costo en Restaurante Familiar.",
             "location": "Buenos Aires",
             "valid_until": "12-04-2025",
-            "terms": "Con consumo mínimo de $5,000."
+            "terms": "Con consumo mínimo de $5,000.",
+            "points": 5
           },
           {
             "id": 10,
@@ -336,7 +375,8 @@
             "description": "Descuento en tapas en Bar de Tapas.",
             "location": "Mendoza",
             "valid_until": "12-04-2025",
-            "terms": "Solo de 18:00 a 20:00 hs."
+            "terms": "Solo de 18:00 a 20:00 hs.",
+            "points": 10
           }
         ]
       }

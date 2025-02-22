@@ -119,7 +119,13 @@ const routes = [
         name: "teacher-points",
         component: () => import("@/views/teacher/PointsView.vue"),
         meta: { requiresAuth: true },
-    }
+    },
+    {
+    path: "/teacher/points/:id",
+    name: "teacher-promotion",
+    component: () => import("@/views/teacher/PromotionView.vue"),
+    meta: { requiresAuth: true },
+    },
     
 ];
 
