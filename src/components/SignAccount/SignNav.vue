@@ -1,23 +1,26 @@
 <script setup>
 import { defineProps } from 'vue';
-import LibeloLogotipo from '@/assets/LibeloLogotipo.vue'
+import LibeloImagotipo from '@/assets/LibeloImagotipo.vue'
+import { ArrowLeft } from 'lucide-vue-next';
+import { goTo } from '@/router';
 
 defineProps({
     title: String,
-    description: String
 });
 </script>
 
 <template>
-    <div class="flex flex-col gap-3 bg-body">
-        <div class="flex items-center justify-center w-full h-32 bg-libelo-500 rounded-b-xl">
-            <div class="w-24 text-white">
-                <LibeloLogotipo />
+    <div class="flex flex-col bg-libelo-500">
+        <div class="flex items-center justify-center w-full h-24">
+            <div class="w-40 text-white">
+                <LibeloImagotipo />
             </div>
         </div>
-        <div class="flex flex-col px-2 mb-3">
-            <h1 class="font-semibold text-2xl">{{ title }}</h1>
-            <p class="text-neutral-700">{{ description }}</p>
+        <div class="grid grid-cols-[40px_1fr_40px] px-2 py-4 bg-body rounded-t-xl border-b border-neutral-300">
+            <div @click="goTo('/')" class="size-10 flex items-center justify-center rounded-xl border border-neutral-300 hover:bg-neutral-200">
+                <ArrowLeft :size="20" />
+            </div>
+            <h1 class="font-semibold text-3xl text-center">{{ title }}</h1>
         </div>
     </div>
 </template>
