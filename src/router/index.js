@@ -21,6 +21,12 @@ const routes = [
         meta: { requiresAuth: false },
     },
     {
+        path: "/choose-role",
+        name: "choose-role",
+        component: () => import("@/views/ChooseRoleView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/settings",
         name: "settings",
         component: () => import("@/views/SettingsView.vue"),
@@ -120,6 +126,8 @@ router.beforeEach((to, from, next) => {
             next({ name: 'student-home' });
         } else if (role === 'teacher') {
             next({ name: 'teacher-home' });
+        } else {
+            next({ name: 'choose-role' });
         }
     } else {
         next();
