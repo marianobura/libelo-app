@@ -21,6 +21,7 @@ export const useChatStore = defineStore("chatStore", {
 
             this.messages = [];
             this.loading = true;
+            console.log(subjectId.value)
             try {
                 const apiUrl = new URL(`/api/chats/${subjectId}`, process.env.VUE_APP_API_URL);
                 const response = await axios.get(apiUrl.toString());

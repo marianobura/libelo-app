@@ -121,12 +121,11 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-    path: "/teacher/points/:id",
+    path: "/teacher/points/:category/:id",
     name: "teacher-promotion",
     component: () => import("@/views/teacher/PromotionView.vue"),
     meta: { requiresAuth: true },
     },
-    
 ];
 
 const router = createRouter({

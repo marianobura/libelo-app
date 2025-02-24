@@ -3,16 +3,18 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import axios from "axios";
 import { ref, watch, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
-
+const userPoints = ref(0);
+const route = useRoute();
+const userId = ref(route.params.userId);
 const isDropdownOpen = ref(false);
 const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
+  isDropdownOpen.value = !isDropdownOpen.value;  // Acceso correcto con .value
 };
 
-const promotions = ref([]);
+const promotions = ref([]);  // Usar .value al acceder o modificar
 const loading = ref(true);
 
 const fetchPromotions = async () => {
@@ -20,26 +22,37 @@ const fetchPromotions = async () => {
     const apiUrl = new URL(`/api/promotions`, process.env.VUE_APP_API_URL);
     console.log("API URL:", apiUrl.toString());
     const response = await axios.get("/promotions.json");
-    promotions.value = response.data.promotions;
+    promotions.value = response.data.promotions;  // Corregido con .value
   } catch (error) {
     console.error("Error al obtener las promociones:", error);
   } finally {
-    loading.value = false;
+    loading.value = false;  // Corregido con .value
+  }
+};
+
+const fetchUserPoints = async () => {
+  try {
+    const response = await axios.get(`/api/users/points/${userId.value}`);  // Corregido con .value
+    userPoints.value = response.data.points;  // Corregido con .value
+  } catch (error) {
+    console.error("Error al obtener los puntos:", error);
   }
 };
 
 onMounted(fetchPromotions);
+onMounted(fetchUserPoints);
 
-const goToPromotion = (path) => {
-  router.push(`/teacher/points/${path}`);
+const goToPromotion = (id, category) => {
+  console.log("ID de la promoción seleccionada:", id, "Categoría:", category);
+  router.push(`/teacher/points/${category}/${id}`);
 };
 
 const currentSlide = ref(0);
 const slider = ref(null);
 
 const updateCurrentSlide = () => {
-  const slideWidth = slider.value.scrollWidth / promotions.value.length;
-  currentSlide.value = Math.round(slider.value.scrollLeft / slideWidth);
+  const slideWidth = slider.value.scrollWidth / promotions.value.length;  // Corregido con .value
+  currentSlide.value = Math.round(slider.value.scrollLeft / slideWidth);  // Corregido con .value
 };
 
 watch(slider, (sliderElement) => {
@@ -49,13 +62,14 @@ watch(slider, (sliderElement) => {
 });
 </script>
 
+
 <template>
   <BaseBody>
     <BaseNav title="Puntos" />
     <div class="p-4">
       <div class="relative bg-gray-100 p-2 rounded mb-4">
         <div class="flex items-center justify-between">
-          <span class="text-lg font-semibold">Tienes 15 puntos</span>
+          <span class="text-lg font-semibold">Tienes {{ userPoints.value }} puntos</span>
           <button @click="toggleDropdown" class="bg-gray-300 rounded px-2 py-1">▼</button>
         </div>
 
@@ -101,8 +115,9 @@ watch(slider, (sliderElement) => {
                 v-for="(promotion, index) in category.promotions" 
                 :key="index" 
                 class="snap-center min-w-[70%] sm:min-w-[40%] md:min-w-[30%] lg:min-w-[20%] p-2 rounded text-center bg-gray-100 shadow-md cursor-pointer hover:bg-gray-200"
-                @click="goToPromotion(promotion)"
+                @click="goToPromotion(promotion.id, category.category)"
               >
+              <img :src="promotion.image" alt="Imagen de promoción" class="w-full h-32 object-cover rounded">
                 <h3 class="text-lg">{{ promotion.title }}</h3>
                 <p class="text-sm font-bold">{{ promotion.description }}</p>
                 <p class="text-sm">Ubicación: {{ promotion.location }}</p>
