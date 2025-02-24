@@ -13,7 +13,6 @@ const handleGoogleLogin = async () => {
         const firstName = user.displayName.split(' ')[0];
         const lastName = user.displayName.split(' ')[1] || '';
         const email = user.email;
-        console.log(user)
 
         const apiUrl = new URL('/api/users/google-login', process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
