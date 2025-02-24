@@ -24,7 +24,6 @@ const selectedRole = ref(null);
 
 const handleRole = async (selectedRoleValue) => {
     selectedRole.value = selectedRoleValue;
-    console.log(selectedRole.value);
 };
 
 const confirmRole = async () => {
