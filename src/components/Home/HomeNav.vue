@@ -1,11 +1,11 @@
 <script setup>
 import UserAvatar from '@/components/UserAvatar.vue';
-import LibeloIsologo from '@/assets/LibeloIsologo.vue'
+import LibeloIsologo from '@/assets/LibeloIsologo.vue';
 import { computed } from 'vue';
 import { useUserStore } from '@/stores/userStore';
+import { Coins, Bell } from 'lucide-vue-next';
 
 const userStore = useUserStore();
-// import { Bell } from 'lucide-vue-next';
 
 const userLetter = computed(() => {
     return userStore.user?.displayName?.charAt(0) || '';
@@ -18,9 +18,12 @@ const userLetter = computed(() => {
             <LibeloIsologo />
         </div>
         <div class="flex gap-2 items-center">
-            <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
-                <Bell :size="20" />
-            </div> -->
+            <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                <Bell size="20" stroke-width="2" />
+            </div>
+            <router-link v-if="userStore.user?.role === 'teacher'" to="/teacher/points" class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                <Coins size="20" stroke-width="2" />
+            </router-link>
             <UserAvatar :user-letter="userLetter" size="10" />
         </div>
     </div>
