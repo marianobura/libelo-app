@@ -108,6 +108,18 @@ const routes = [
         component: () => import("@/views/teacher/SubjectView.vue"),
         meta: { requiresAuth: true },
     },
+    {
+        path: "/teacher/points",
+        name: "teacher-points",
+        component: () => import("@/views/teacher/PointsView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/teacher/points/:category/:id",
+        name: "teacher-promotion",
+        component: () => import("@/views/teacher/PromotionView.vue"),
+        meta: { requiresAuth: true },
+    },
 ];
 
 const router = createRouter({
