@@ -32,7 +32,8 @@ defineEmits(['update:modelValue']);
 
 const isPasswordVisible = ref(false);
 
-const togglePasswordVisibility = () => {
+const togglePasswordVisibility = (event) => {
+    event.preventDefault();
     isPasswordVisible.value = !isPasswordVisible.value;
 };
 </script>
@@ -42,16 +43,17 @@ const togglePasswordVisibility = () => {
         <div v-if="label" class="flex justify-between">
             <label class="font-semibold" :class="{ 'text-red-500': error }" :for="identifier">{{ label }}</label>
         </div>
-        <div class="w-full" :class="password ? 'flex gap-2' : ''">
-            <input class="w-full text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-2 focus:bg-white focus:outline-libelo-500 pr-10"
+        <div class="w-full" :class="password ? 'relative' : ''">
+            <input class="w-full text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-2 focus:bg-white focus:outline-libelo-500"
                 :class="{
-                    'bg-red-100 outline-red-500 placeholder:text-neutral-500': error
+                    'bg-red-100 outline-red-500 placeholder:text-neutral-500': error,
+                    'pr-12 peer' : password
                 }"
                 :name="identifier" :id="identifier" :type="password ? (isPasswordVisible ? 'text' : 'password') : type" :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
-            <button v-if="password" type="button" class="size-[46px] flex items-center justify-center flex-shrink-0 bg-white border border-gray-300 rounded-xl" @click="togglePasswordVisibility">
+            <span v-if="password" class="absolute top-0 right-0 size-11 flex items-center justify-center flex-shrink-0 peer-focus:text-libelo-500" @mousedown="togglePasswordVisibility">
                 <Eye v-if="!isPasswordVisible"/>
                 <EyeOff v-else />
-            </button>
+            </span>
         </div>
         <span v-if="errorMessage" class="text-red-500 text-sm">
             {{ errorMessage }}

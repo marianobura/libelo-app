@@ -20,7 +20,6 @@ const showDeleteModal = ref(false);
 
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []);
-const objectives = ref([]);
 
 const maxProgress = 100;
 const checkpoints = computed(() => {
@@ -79,13 +78,13 @@ const removeObjective = async (objectiveId) => {
         return;
     }
 
-    if (!subjectStore.subjectData) return;
+    if (!subjectStore.subject) return;
 
     try {
-        const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
+        const apiUrl = new URL(`/api/subjects/${subjectStore.subject._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
 
-        subjectStore.subjectData.objectives = subjectStore.subjectData.objectives.filter(obj => obj._id !== objectiveId);
+        subjectStore.subject.objectives = subjectStore.subject.objectives.filter(obj => obj._id !== objectiveId);
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }

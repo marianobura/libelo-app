@@ -45,9 +45,7 @@ const sendMessage = async () => {
     messages.value.push(loadingMessage);
 
     try {
-        console.log('Enviando mensaje a la IA:', userText);
         const aiResponse = await sendMessageToAI(userText);
-        console.log('Respuesta de la IA recibida:', aiResponse);
 
         loadingMessage.text = aiResponse;
         loadingMessage.loading = false;

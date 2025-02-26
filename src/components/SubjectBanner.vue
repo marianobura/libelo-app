@@ -21,7 +21,7 @@ watchEffect(() => {
 const subjectName = computed(() => {
     if (userStore.user) {
         if (userStore.user?.role === 'student') {
-            return subjectStore.subjectData?.name ?? "Materia";
+            return subjectStore.subject?.name ?? "Materia";
         } else if (userStore.user?.role === 'teacher') {
             return userStore.user?.preferredSubjects[route.params.id] ?? "Materia";
         }

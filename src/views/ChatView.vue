@@ -18,27 +18,15 @@ const route = useRoute();
 const user = computed(() => userStore.user);
 const subjectId = computed(() => route.params.id);
 
-const sendMessage = async (resetTextareaHeight) => {
-    if (!chatStore.userMessage.trim()) return; // Evita mensajes vacíos
-
-    const chatData = {
-        subjectId: subjectId.value,
-        subjectName: subjectStore.subject?.name, // ← Asegúrate de que no sea undefined
-        studentId: user.value._id,
-        teacherId: null,
-        message: chatStore.userMessage,
-        sender: user.value._id
+const sendMessage = (resetTextareaHeight) => {
+    chatStore.sendMessage(
+        chatStore.userMessage,
+        user.value,
+        subjectId.value,
+        subjectStore.subjectData?.name,
+        resetTextareaHeight
+        );
     };
-
-    console.log("Enviando chatData:", chatData); // 🛠️ Verifica en consola
-
-    try {
-        await chatStore.sendMessage(chatData); // Asegúrate de que el store maneje bien este dato
-        resetTextareaHeight(); // Resetear el textarea tras enviar
-    } catch (error) {
-        console.error("Error al enviar el chat:", error.response?.data || error.message);
-    }
-};
 
 onMounted(async () => {
     chatStore.loading = true;

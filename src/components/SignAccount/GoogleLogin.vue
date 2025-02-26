@@ -18,17 +18,25 @@ const handleGoogleLogin = async () => {
         const response = await axios.post(apiUrl.toString(), {
             firstName: firstName,
             lastName: lastName,
-            displayName: `${firstName} ${lastName}`,
+            displayName: user.displayName,
             email,
             password: '',
-            role: 'student',
-            google: true,
+            googleId: user.uid,
+            accessToken: user.stsTokenManager.accessToken,
+            refreshToken: user.stsTokenManager.refreshToken,
         });
 
         if (response.status === 200) {
-            const { token } = response.data;
+            const { token, role } = response.data;
             localStorage.setItem('token', token);
-            router.push('/');
+            localStorage.setItem('role', role);
+            if (role === 'student') {
+                router.push('/student');
+            } else if (role === 'teacher') {
+                router.push('/teacher');
+            } else {
+                router.push('/choose-role');
+            }
         }
     } catch (error) {
         console.error('Error al iniciar sesión con Google:', error);
