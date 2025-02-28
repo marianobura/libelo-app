@@ -88,9 +88,9 @@ const addSubject = async () => {
                 </button>
             </div>
             <div class="py-2">
-                <BaseInput v-model="searchQuery" identifier="search" placeholder="Busca una materia" />
+                <BaseInput search v-model="searchQuery" identifier="search" placeholder="Busca una materia" />
             </div>
-            <div class="pb-4 overflow-scroll">
+            <div v-if="Object.keys(filteredSubjects).length > 0" class="overflow-scroll">
                 <ul class="flex flex-col gap-4">
                     <li v-for="(subjects, category) in filteredSubjects" :key="category">
                         <p class="font-semibold text-neutral-700">{{ category }}</p>
@@ -99,6 +99,9 @@ const addSubject = async () => {
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div v-else class="text-red-500 font-semibold text-center mt-4">
+                No se encontraron resultados para tu búsqueda.
             </div>
             <div class="pt-4 border-t border-t-neutral-200">
                 <BaseButton @click="addSubject" primary>{{ loading ? 'Agregando materia...' : 'Agregar materia' }}</BaseButton>
