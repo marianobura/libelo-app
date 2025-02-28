@@ -2,29 +2,21 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
-import SubjectData from '@/assets/subjects.json'
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import SubjectBanner from '@/components/SubjectBanner.vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import { MailX, User } from 'lucide-vue-next';
-import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 
-const route = useRoute();
 const userStore = useUserStore();
 const allChats = ref([]);
 const loading = ref(false);
 
-const subjectKeys = Object.keys(SubjectData.subjects);
+const teacherFavoriteSubjects = computed(() => {
+    if (!userStore.user?.preferredSubjects) return [];
 
-const currentSubject = computed(() => {
-    const subjectIndex = route.params.id;
-    return subjectKeys[subjectIndex] || null;
-});
-
-const teacherSubjects = computed(() => {
-    return currentSubject.value ? SubjectData.subjects[currentSubject.value] : [];
+    return Object.values(userStore.user.preferredSubjects).flat(); 
 });
 
 const fetchChats = async () => {
@@ -66,8 +58,10 @@ const formatDateTime = (timestamp) => {
 
 const sortedChats = computed(() => {
     return allChats.value
-        .filter(chat => teacherSubjects.value.includes(chat.subjectName) &&
-            (chat.teacherId?._id === userStore.user._id || chat.teacherId === null))
+        .filter(chat => {
+            const isFavoriteSubject = teacherFavoriteSubjects.value.includes(chat.subjectName);
+            return isFavoriteSubject;
+        })
         .map(chat => {
             const lastMessage = chat.messages.length ? chat.messages[chat.messages.length - 1] : null;
             return {
