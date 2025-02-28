@@ -13,7 +13,20 @@ import BaseButton from "@/components/BaseButton.vue";
 const userStore = useUserStore();
 const loading = ref(true);
 
-const subjects = computed(() => userStore.user?.preferredSubjects ?? []);
+const groupedSubjects = computed(() => {
+    const preferredSubjects = userStore.user?.preferredSubjects ?? {};
+    const subjects = [];
+
+    for (const subject in preferredSubjects) {
+        const branches = preferredSubjects[subject];
+        
+        if (branches.length > 0) {
+            subjects.push(subject);
+        }
+    }
+
+    return subjects;
+});
 
 onMounted(async () => {
     await userStore.fetchUser();
@@ -26,7 +39,7 @@ onMounted(async () => {
         <HomeNav />
         <div class="flex flex-col gap-4 p-2">
             <HomeHeader />
-			<BaseTitle title="Materias favoritas" description="Selecciona una materia para acceder a una lista con los chats de los estudiantes y ayudarlos con sus dudas. ">
+            <BaseTitle :link="!loading && groupedSubjects.length > 0" title="Materias favoritas" description="Selecciona una materia para acceder a una lista con los chats de los estudiantes y ayudarlos con sus dudas.">
                 <div v-if="loading" class="mt-12 flex items-center justify-center w-full h-full text-libelo-500">
                     <div class="animate-spin">
                         <LoaderCircle :size="32" />
@@ -35,14 +48,14 @@ onMounted(async () => {
                         <p class="font-semibold">Cargando...</p>
                     </div>
                 </div>
-                <div v-else-if="subjects.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
+                <div v-else-if="groupedSubjects.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
                     <span>Todavía no tienes ninguna materia favorita.</span>
                     <BaseButton @click="goTo('/settings/favorite-subjects')" primary>Agrega tu primera materia</BaseButton>
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <HomeCard v-for="(subject, index) in subjects" :key="index" @click="goTo(`/teacher/subject/${index}`)" :content=subject />
+                    <HomeCard v-for="(subject, index) in groupedSubjects" :key="index" @click="goTo(`/teacher/subject/${index}`)" :content="subject" />
                 </div>
             </BaseTitle>
-		</div>
+        </div>
     </BaseBody>
 </template>
