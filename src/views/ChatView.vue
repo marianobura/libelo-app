@@ -25,13 +25,13 @@ const sendMessage = (resetTextareaHeight) => {
         chatStore.userMessage,
         user.value,
         subjectId.value,
-        subjectStore.subjectData?.name,
+        subjectStore.subject?.name,
         resetTextareaHeight
     );
 
     if (userStore.user.role === "teacher") {
         try {
-            const newPoints = points.value + 5;
+            const newPoints = points.value + 10;
             const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
             axios.put(apiUrl.toString(), { points: newPoints });
 

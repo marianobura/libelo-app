@@ -3,7 +3,7 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
-import { ref, computed, watchEffect, watch } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useSubjectStore } from "@/stores/subjectStore";
 import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
 import { useRoute } from "vue-router";
@@ -19,41 +19,21 @@ const selectedCheckpointIndex = ref(null);
 const showDeleteModal = ref(false);
 
 const subjectId = computed(() => route.params.id);
-const userObjectives = computed(() => subjectStore.subjectData?.objectives ?? []);
-
+const userObjectives = computed(() => subjectStore.subject?.objectives ?? []);
 const maxProgress = 100;
+
 const checkpoints = computed(() => {
-    const objectiveCount = userObjectives.value.length;
-    return objectiveCount > 0
-        ? userObjectives.value.map((_, index) => (index + 1) * (maxProgress / objectiveCount))
+    return userObjectives.value.length > 0
+        ? userObjectives.value.map((_, index) => (index + 1) * (maxProgress / userObjectives.value.length))
         : [];
 });
 
 const progress = computed(() => {
-    const completedCount = userObjectives.value.filter(opt => opt && opt.completed).length;
+    const completedCount = userObjectives.value.filter(opt => opt.completed).length;
     return checkpoints.value[completedCount - 1] || 0;
 });
 
-watch(userObjectives, (newVal) => {
-    objectives.value = newVal.filter(obj => obj && obj._id);
-    if (newVal.length === 0) {
-        selectedCheckpointIndex.value = null;
-    }
-}, { immediate: true });
-
-// const updateObjectivesOrder = async () => {
-//     try {
-//         const apiUrl = new URL(`/api/subjects/${subjectId.value}/objectives-order`, process.env.VUE_APP_API_URL);
-//         await axios.put(apiUrl.toString(), {
-//             objectives: objectives.value.map(obj => obj.id)
-//         });
-
-//         subjectStore.subjectData.objectives = [...objectives.value];
-//     } catch (error) {
-//         console.error("Error al actualizar el orden de los objetivos:", error);
-//     }
-// };
-
+// Add a new objective to the list
 const addObjectiveToList = (newObjective) => {
     if (!newObjective || !newObjective._id) {
         console.error("El nuevo objetivo no tiene un ID válido:", newObjective);
@@ -69,9 +49,10 @@ const addObjectiveToList = (newObjective) => {
         newObjective.completed = false;
     }
 
-    subjectStore.subjectData.objectives.push(newObjective);
+    userObjectives.value.push(newObjective);
 };
 
+// Remove an objective from the list
 const removeObjective = async (objectiveId) => {
     if (!objectiveId) {
         console.error("Intentando eliminar un objetivo sin ID.");
@@ -83,13 +64,13 @@ const removeObjective = async (objectiveId) => {
     try {
         const apiUrl = new URL(`/api/subjects/${subjectStore.subject._id}/objective/${objectiveId}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
-
         subjectStore.subject.objectives = subjectStore.subject.objectives.filter(obj => obj._id !== objectiveId);
     } catch (error) {
         console.error("Error al eliminar el objetivo:", error.response?.data?.msg || error.message);
     }
 };
 
+// Toggle the completion state of an objective
 const toggleCompletion = async (objective) => {
     if (!objective || !objective._id) {
         console.error("Error: El objetivo es undefined o no tiene _id", objective);
@@ -100,38 +81,35 @@ const toggleCompletion = async (objective) => {
 
     try {
         const apiUrl = new URL(`/api/subjects/${subjectId.value}/objective/${objective._id}`, process.env.VUE_APP_API_URL);
-        await axios.put(apiUrl.toString(), { 
-            completed: objective.completed
-        });
+        await axios.put(apiUrl.toString(), { completed: objective.completed });
     } catch (error) {
         console.error("Error al actualizar el estado del objetivo:", error.response?.data?.msg || error.message);
     }
 };
 
+// Watch for changes in the user objectives and fetch the subject data
 watchEffect(() => {
     subjectStore.fetchSubject(subjectId.value);
-    setTimeout(() => {
-        loading.value = false;
-    }, 500);
+    loading.value = false;
 });
 
+// Open the checkpoint modal
 const openCheckpointModal = (index) => {
-  selectedCheckpointIndex.value = index;
-  checkpointModal.value = true;
+    selectedCheckpointIndex.value = index;
+    checkpointModal.value = true;
 };
 
+// Handle the deletion of all objectives
 const confirmDeleteObjectives = async () => {
-    if (!subjectStore.subjectData || userObjectives.value.length === 0) {
+    if (!subjectStore.subject || userObjectives.value.length === 0) {
         console.warn("No hay objetivos para borrar.");
         return;
     }
 
     try {
-        const apiUrl = new URL(`/api/subjects/${subjectStore.subjectData._id}/clear-objectives`, process.env.VUE_APP_API_URL);
+        const apiUrl = new URL(`/api/subjects/${subjectStore.subject._id}/clear-objectives`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
-
-        subjectStore.subjectData.objectives = [];
-        selectedCheckpointIndex.value = null;
+        subjectStore.subject.objectives = [];
     } catch (error) {
         console.error("Error al borrar todos los objetivos:", error.response?.data?.msg || error.message);
     } finally {
@@ -139,11 +117,12 @@ const confirmDeleteObjectives = async () => {
     }
 };
 
+// Shorten the objective text if it's too long
 const cortarObjetivo = (text, maxLength = 16) => {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength - 3) + '...';
-  }
-  return text;
+    if (text.length > maxLength) {
+        return text.slice(0, maxLength - 3) + '...';
+    }
+    return text;
 };
 </script>
 
@@ -195,7 +174,6 @@ const cortarObjetivo = (text, maxLength = 16) => {
                 <div class=" mt-4 grid grid-cols-[1fr_48px] gap-2">
                     <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
                     <BaseButton danger @click="showDeleteModal = true" class="flex items-center justify-center"><Trash2 size="20" /></BaseButton>
-
                 </div>
             </div>
 

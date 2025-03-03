@@ -10,10 +10,6 @@ const userStore = useUserStore();
 const userLetter = computed(() => {
     return userStore.user?.displayName?.charAt(0) || '';
 });
-
-const isTeacher = computed(() => {
-    return userStore.user?.role === 'teacher'; 
-});
 </script>
 
 <template>
@@ -22,9 +18,12 @@ const isTeacher = computed(() => {
             <LibeloIsologo />
         </div>
         <div class="flex gap-2 items-center">
-            <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
-                <Bell :size="20" />
-            </div> -->
+            <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                <Bell size="20" stroke-width="2" />
+            </div>
+            <router-link v-if="userStore.user?.role === 'teacher'" to="/teacher/points" class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                <Coins size="20" stroke-width="2" />
+            </router-link>
             <UserAvatar :user-letter="userLetter" size="10" />
         </div>
     </div>
