@@ -28,7 +28,11 @@ export const useUserStore = defineStore('user', {
                 this.user = response.data.data;
                 this.isAuthenticated = true;
             } catch (error) {
-                console.error('Error al obtener el usuario:', error);
+                if (error.response?.status === 401 || error.response?.status === 403 || !this.user) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    this.isAuthenticated = false;
+                }
             }
         },
     },

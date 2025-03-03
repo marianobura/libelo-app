@@ -22,10 +22,9 @@ const isTeacher = computed(() => {
             <LibeloIsologo />
         </div>
         <div class="flex gap-2 items-center">
-            <Bell color="#083DB2" size="27" class="mr-4"/>
-            <router-link v-if="isTeacher" to="/teacher/points" class="flex items-center gap-2 mr-4">
-                <Coins color="#083DB2" size="28" />
-            </router-link>
+            <!-- <div class="flex items-center justify-center size-10 bg-gray-100 rounded-full">
+                <Bell :size="20" />
+            </div> -->
             <UserAvatar :user-letter="userLetter" size="10" />
         </div>
     </div>

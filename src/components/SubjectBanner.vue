@@ -13,7 +13,7 @@ watchEffect(() => {
         if (userStore.user?.role === 'student') {
             subjectStore.fetchSubject(route.params.id);
         } else if (userStore.user?.role === 'teacher') {
-            userStore.user?.preferredSubjects[route.params.id];
+            Object.keys(userStore.user?.preferredSubjects)[route.params.id];
         }
     }
 });
@@ -23,7 +23,7 @@ const subjectName = computed(() => {
         if (userStore.user?.role === 'student') {
             return subjectStore.subject?.name ?? "Materia";
         } else if (userStore.user?.role === 'teacher') {
-            return userStore.user?.preferredSubjects[route.params.id] ?? "Materia";
+            return Object.keys(userStore.user?.preferredSubjects)[route.params.id] ?? "Materia";
         }
     }
     return "Materia";

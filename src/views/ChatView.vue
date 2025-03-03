@@ -9,11 +9,13 @@ import BaseBody from "@/components/BaseBody.vue";
 import ChatInput from "@/components/Chat/ChatInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import { LoaderCircle, MailX } from "lucide-vue-next";
+import axios from "axios";
 
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
 const chatStore = useChatStore();
 const route = useRoute();
+const points = computed(() => userStore.user?.points);
 
 const user = computed(() => userStore.user);
 const subjectId = computed(() => route.params.id);
@@ -25,8 +27,20 @@ const sendMessage = (resetTextareaHeight) => {
         subjectId.value,
         subjectStore.subjectData?.name,
         resetTextareaHeight
-        );
-    };
+    );
+
+    if (userStore.user.role === "teacher") {
+        try {
+            const newPoints = points.value + 5;
+            const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
+            axios.put(apiUrl.toString(), { points: newPoints });
+
+            userStore.user.points = newPoints;
+        } catch (error) {
+            console.error("Error al actualizar los puntos:", error);
+        }
+    }
+};
 
 onMounted(async () => {
     chatStore.loading = true;

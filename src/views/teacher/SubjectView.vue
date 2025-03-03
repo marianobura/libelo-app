@@ -1,31 +1,21 @@
 <script setup>
+/* eslint-disable */
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
-import SubjectData from '@/assets/subjects.json'
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import SubjectBanner from '@/components/SubjectBanner.vue';
 import BaseTitle from '@/components/BaseTitle.vue';
-import { MailX, User } from 'lucide-vue-next';
-import { useRoute } from 'vue-router';
+import { MailX } from 'lucide-vue-next';
 import { useUserStore } from '@/stores/userStore';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
+const currentSubject = computed(() => Object.keys(userStore.user?.preferredSubjects)[route.params.id]);
 const userStore = useUserStore();
 const allChats = ref([]);
 const loading = ref(false);
-
-const subjectKeys = Object.keys(SubjectData.subjects);
-
-const currentSubject = computed(() => {
-    const subjectIndex = route.params.id;
-    return subjectKeys[subjectIndex] || null;
-});
-
-const teacherSubjects = computed(() => {
-    return currentSubject.value ? SubjectData.subjects[currentSubject.value] : [];
-});
 
 const fetchChats = async () => {
     loading.value = true;
@@ -64,10 +54,14 @@ const formatDateTime = (timestamp) => {
     return { date: formattedDate, hour: formattedHour };
 };
 
+const filteredBranches = computed(() => {
+    return userStore.user?.preferredSubjects?.[currentSubject.value] ?? [];
+});
+
 const sortedChats = computed(() => {
     return allChats.value
-        .filter(chat => teacherSubjects.value.includes(chat.subjectName) &&
-            (chat.teacherId?._id === userStore.user._id || chat.teacherId === null))
+        .filter(chat => filteredBranches.value.includes(chat.subjectName) &&
+        (chat.teacherId === null || chat.teacherId._id === userStore.user._id))
         .map(chat => {
             const lastMessage = chat.messages.length ? chat.messages[chat.messages.length - 1] : null;
             return {
@@ -80,6 +74,19 @@ const sortedChats = computed(() => {
         .sort((a, b) => b.lastMessageTimestamp - a.lastMessageTimestamp);
 });
 
+const groupedChats = computed(() => {
+    const groups = sortedChats.value.reduce((acc, chat) => {
+        const subject = chat.subjectName;
+        if (!acc[subject]) {
+            acc[subject] = [];
+        }
+        acc[subject].push(chat);
+        return acc;
+    }, {});
+
+    return groups;
+});
+
 onMounted(fetchChats);
 </script>
 
@@ -89,21 +96,24 @@ onMounted(fetchChats);
         <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
             <BaseTitle title="Alumnos que te solicitaron" description="Estos son los alumnos que te solicitaron como mentor.">
-                <div class="w-full flex flex-col bg-neutral-300 rounded-xl overflow-hidden">
-                    <div class="flex items-center gap-2 pb-2 border-b border-neutral-400 m-2 mb-0">
-                        <User :size="20" />
-                        <p class="font-semibold">Selecciona un alumno</p>
-                    </div>
-                    <div v-if="sortedChats.length === 0" class="h-48 flex flex-col items-center justify-center gap-2 p-2 text-neutral-700">
+                <div v-if="sortedChats.length === 0" class="w-full flex flex-col bg-neutral-300 rounded-xl overflow-hidden">
+                    <div class="h-48 flex flex-col items-center justify-center gap-2 p-2 text-neutral-700">
                         <MailX size="32" />
                         <span class="text-center font-medium border-b border-neutral-300 pb-2">No hay chats disponibles</span>
                     </div>
-                    <div v-else class="flex flex-col w-full">
-                        <StudentCard v-for="chat in sortedChats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'" :student="{
-                            name: chat.studentId.displayName,
-                            message: chat.lastMessageText,
-                            ...chat.lastMessageTime }"
-                        />
+                </div>
+                <div v-else class="flex flex-col gap-2">
+                    <div v-for="(chats, subject) in groupedChats" :key="subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
+                        <span class="font-semibold p-2">{{ subject }}</span>
+                        <hr class="w-full border-neutral-500">
+                        <div class="flex flex-col divide-y divide-neutral-400">
+                            <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'" :student="{
+                                name: chat.studentId.displayName,
+                                message: chat.lastMessageText,
+                                subjectName: chat.subjectName,
+                                ...chat.lastMessageTime }"
+                            />
+                        </div>
                     </div>
                 </div>
             </BaseTitle>
