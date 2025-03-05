@@ -63,6 +63,10 @@ const validateForm = () => {
     return !Object.values(errors.value).some((error) => error !== '');
 };
 
+const capitalize = (text) => {
+    return text.trim().toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+};
+
 const handleRegister = async () => {
     errorMessage.value = '';
     
@@ -76,11 +80,16 @@ const handleRegister = async () => {
     errorMessage.value = '';
     try {
         const apiUrl = new URL(`/api/users/`, process.env.VUE_APP_API_URL);
+
+        const formattedFirstName = capitalize(firstName.value);
+        const formattedLastName = capitalize(lastName.value);
+        const formattedEmail = email.value.trim().toLowerCase();
+
         const response = await axios.post(apiUrl.toString(), {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            displayName: firstName.value + ' ' + lastName.value,
-            email: email.value,
+            firstName: formattedFirstName,
+            lastName: formattedLastName,
+            displayName: `${formattedFirstName} ${formattedLastName}`,
+            email: formattedEmail,
             password: password.value,
         });
 
@@ -91,7 +100,7 @@ const handleRegister = async () => {
         if (registered.value === true) {
             const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
             const response = await axios.post(apiUrl.toString(), {
-                email: email.value,
+                email: formattedEmail,
                 password: password.value,
             });
 
@@ -119,11 +128,11 @@ const handleRegister = async () => {
         <BaseBody sign>
             <div class="flex flex-col gap-3">
                 <div class="grid grid-cols-2 gap-2">
-                    <BaseInput identifier="first-name" placeholder="Introduzca su nombre..." label="Nombre" type="text" v-model="firstName" :error="!!errors.firstName" :error-message="errors.firstName" />
-                    <BaseInput identifier="last-name" placeholder="Introduzca su apellido..." label="Apellido" type="text" v-model="lastName" :error="!!errors.lastName" :error-message="errors.lastName" />
+                    <BaseInput identifier="first-name" placeholder="Juan" label="Nombre" type="text" v-model="firstName" :error="!!errors.firstName" :error-message="errors.firstName" />
+                    <BaseInput identifier="last-name" placeholder="Pérez" label="Apellido" type="text" v-model="lastName" :error="!!errors.lastName" :error-message="errors.lastName" />
                 </div>
-                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" />
-                <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" />
+                <BaseInput identifier="email" placeholder="usuario@email.com" label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" />
+                <BaseInput password identifier="password" placeholder="Mínimo 8 caracteres" label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>
