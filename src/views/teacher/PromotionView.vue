@@ -17,6 +17,9 @@ const userStore = useUserStore();
 const userId = ref(userStore.user?._id);
 const userPoints = computed(() => userStore.user?.points);
 const codeVisible = ref(false);
+const errors = ref({
+    promo: ''
+});
 
 const categoryName = computed(() => {
   const category = promotions.value.find(
@@ -63,22 +66,35 @@ const fetchUserPoints = async () => {
 
 const redeemPromotion = async () => {
   if (userPoints.value < promotion.value.points) {
-    alert("No tienes suficientes puntos.");
+    errors.value.promo = 'No tienes suficientes puntos para canjear esta promoción.';
+    console.error("No tienes suficientes puntos.");
+    return;
+  }
+
+  if (promotion.value.redeemed) {
+    errors.value.promo = 'Ya has canjeado esta promoción.';
+    console.error("La promoción ya ha sido canjeada.");
     return;
   }
 
   try {
     const newPoints = userPoints.value - promotion.value.points;
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}`;
-    
-    const response = await axios.put(apiUrl, { points: newPoints });
+    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}/redeem`;
+
+    const response = await axios.put(apiUrl, {
+      promotionId: promotion.value.id,
+      promotionCode: promotion.value.code,
+      newPoints
+    });
 
     if (response.status === 200) {
       userStore.user.points = newPoints;
-      alert(`Canje exitoso, te quedan ${newPoints} puntos.`);
       codeVisible.value = true;
+      promotion.value.redeemed = true;
+      console.log("¡Promoción canjeada con éxito!");
     } else {
-      alert("Hubo un problema al canjear la promoción.");
+      errors.value.promo = 'Hubo un problema al canjear la promoción.';
+      console.log("Hubo un problema al canjear la promoción.");
     }
   } catch (error) {
     console.error("Error al canjear la promoción:", error);
@@ -141,6 +157,7 @@ const closeModal = () => {
       <div class="bg-white p-6 rounded shadow-lg w-80">
         <h3 class="font-bold text-lg mb-2">Canjear promoción</h3>
         <p class="text-sm">¿Estás seguro de que deseas canjear esta promoción?</p>
+        <p v-if="errors.promo" class="text-red-500 text-sm">{{ errors.promo }}</p>
         <div>
           <textarea v-if="codeVisible" v-model="promotion.code" class="w-full h-11 p-2 border rounded-md" placeholder="Código"></textarea>
         </div>
