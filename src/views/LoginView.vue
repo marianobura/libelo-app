@@ -59,7 +59,9 @@ const handleLogin = async () => {
 
     errorMessage.value = '';
     try {
-        const emailUrl = new URL(`/api/users/email/${email.value}`, process.env.VUE_APP_API_URL);
+        const formattedEmail = email.value.trim().toLowerCase();
+
+        const emailUrl = new URL(`/api/users/email/${formattedEmail}`, process.env.VUE_APP_API_URL);
         const emailResponse = await axios.get(emailUrl.toString());
 
         if (emailResponse.data.data.google) {
@@ -70,7 +72,7 @@ const handleLogin = async () => {
 
         const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
         const response = await axios.post(apiUrl.toString(), {
-            email: email.value,
+            email: formattedEmail,
             password: password.value,
         });
 
@@ -102,9 +104,9 @@ const handleLogin = async () => {
     <div class="flex flex-col min-h-full">
         <SignNav title="Iniciar sesión" />
         <BaseBody sign>
-            <div class="flex flex-col gap-5">
-                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" @input="validateEmail" />
-                <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
+            <div class="flex flex-col gap-3">
+                <BaseInput identifier="email" placeholder="Introduzca su correo electrónico..." label="Correo electrónico" type="email" v-model="email" :error="!!errors.email" :error-message="errors.email" />
+                <BaseInput password identifier="password" placeholder="Introduzca su contraseña..." label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" class="flex-shrink-0 mb-auto mt-0.5" />
                     <span class="text-sm">{{ errorMessage }}</span>

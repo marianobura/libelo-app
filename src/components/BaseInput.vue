@@ -48,7 +48,7 @@ const togglePasswordVisibility = (event) => {
             <label class="font-semibold" :class="{ 'text-red-500': error }" :for="identifier">{{ label }}</label>
         </div>
         <div class="w-full" :class="password || search ? 'relative' : ''">
-            <input class="w-full text-gray-700 outline outline-1 -outline-offset-1 outline-gray-300 rounded-xl py-3 px-4 leading-tight focus:outline-2 focus:bg-white focus:outline-libelo-500"
+            <input class="w-full text-neutral-700 outline outline-1 -outline-offset-1 outline-neutral-300 rounded-xl py-3 px-4 leading-tight focus:outline-2 focus:bg-white focus:outline-libelo-500"
                 :class="{
                     'bg-red-100 outline-red-500 placeholder:text-neutral-500': error,
                     'pr-12 peer' : password,
