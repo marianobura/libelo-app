@@ -46,9 +46,6 @@ const fetchUserPoints = async () => {
     console.error("User ID no disponible.");
     return;
   }
-  console.log(userStore.user);
-
-  console.log("User ID:", userId.value);
 
   try {
     const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}`;
@@ -117,7 +114,6 @@ onMounted(async () => {
     promotion.value = {};
   }
 
-  console.log("Promoción encontrada:", promotion.value);
 });
  
 const openModal = () => {

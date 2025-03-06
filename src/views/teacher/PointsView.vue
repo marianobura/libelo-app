@@ -15,6 +15,7 @@ const isDropdownOpen = ref(false);
 const loading = ref(true);
 const currentSlide = ref(0);
 const slider = ref(null);
+const userId = ref(userStore.user?._id);
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
@@ -24,8 +25,8 @@ const fetchPromotions = async () => {
   if (!userStore.user?._id) return; 
 
   try {
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/promotions?teacherId=${userStore.user._id}`;
-    const response = await axios.get(apiUrl);
+    const apiUrl = new URL(`/api/promotions`, process.env.VUE_APP_API_URL);
+    const response = await axios.get(apiUrl.toString());
     promotions.value = response.data.data;
   } catch (error) {
     console.error("Error al obtener las promociones:", error);
@@ -35,14 +36,24 @@ const fetchPromotions = async () => {
 };
 
 const fetchUserPoints = async () => {
-  if (!userStore.user?._id) return; 
-
+  if (!userId.value) {
+    console.error("User ID no disponible.");
+    return;
+  }
+  
   try {
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/user/points/${userStore.user._id}`;
-    const response = await axios.get(apiUrl);
-    userStore.updatePoints(response.data.data);
+    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}`;
+    const response = await axios.get(apiUrl.toString());
+    
+    console.log("Respuesta del servidor:", response.data);
+
+    if (response.data && typeof response.data.points === "number") {
+      userPoints.value = response.data.points;
+    } else {
+      console.warn("Advertencia: La respuesta del servidor no contiene puntos válidos.");
+    }
   } catch (error) {
-    console.error("Error al obtener los puntos:", error);
+    console.error("Error al obtener los puntos del usuario:", error);
   }
 };
 
@@ -64,6 +75,22 @@ const updateCurrentSlide = () => {
   const slideWidth = slider.value.scrollWidth / promotions.value.length;
   currentSlide.value = Math.round(slider.value.scrollLeft / slideWidth);
 };
+
+const getRandomPromotions = (promotions) => {
+  return promotions
+    .map((promotion) => ({ ...promotion })) 
+    .sort(() => 0.5 - Math.random()) 
+    .slice(0, 2); 
+};
+
+const promotionsWithRandomSelection = computed(() => {
+  return promotions.value.map((category) => {
+    return {
+      ...category,
+      promotions: getRandomPromotions(category.promotions),
+    };
+  });
+});
 
 onMounted(() => {
   if (slider.value) {
@@ -102,13 +129,42 @@ onMounted(() => {
 
       <div class="mb-6">
         <h2 class="font-bold text-xl">Trabaja y gana puntos</h2>
-        <p class="text-gray-600">Gana puntos trabajando y</p>
+        <p class="text-gray-600">¡Gana puntos trabajando y canjealos en lo que quieras!</p>
       </div>
 
-      <div class="bg-red-500 text-white p-4 rounded mb-6">
-        <h2 class="font-bold text-lg mb-2">Promoción destacada</h2>
-        <p class="text-sm mb-2">TE REGALAMOS 5$ EN TU PRIMER PEDIDO</p>
-        <p class="text-sm font-bold">CÓDIGO: PY-8C51B4E</p>
+      <div>
+        <h2 class="font-bold text-lg mb-2">Promociones destacadas</h2>
+
+        <div v-if="loading" class="text-center">Cargando promociones...</div>
+
+        <div v-else>
+        <div v-if="promotionsWithRandomSelection.length">
+          <div class="overflow-hidden w-full">
+            <div 
+              class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x flex space-x-3 py-2 px-4"
+              ref="slider"
+            >
+              <div 
+                v-for="(promotion, index) in promotionsWithRandomSelection.flatMap(category => category.promotions)" 
+                :key="index"
+                class="snap-center flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 rounded text-center bg-gray-100 shadow-md cursor-pointer hover:bg-gray-200"
+                @click="goToPromotion(promotion.id, promotion.category)"
+              >
+                <img :src="promotion.image" alt="Imagen de promoción" class="w-full h-40 object-cover rounded">
+                <p class="text-sm font-bold">{{ promotion.category }}</p>
+                <h3 class="text-lg mt-2">{{ promotion.title }}</h3>
+                <p class="text-sm font-bold">{{ promotion.description }}</p>
+                <p class="text-sm">Ubicación: {{ promotion.location }}</p>
+                <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
+                <p class="text-sm">{{ promotion.terms }}</p>
+                <p class="text-sm font-bold">Puntos {{ promotion.points }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-else class="text-center">No hay promociones disponibles.</div>
+      </div>
       </div>
 
       <div class="p-4">
@@ -120,20 +176,25 @@ onMounted(() => {
           <div v-if="promotions.length">
             <div v-for="category in promotions" :key="category.category" class="mb-6">
               <h3 class="font-bold text-lg mb-2">{{ category.category }}</h3>
-              <div class="flex space-x-1 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x">
+              <div class="overflow-hidden w-full">
                 <div 
-                  v-for="(promotion, index) in category.promotions" 
-                  :key="index" 
-                  class="snap-center min-w-[70%] sm:min-w-[40%] md:min-w-[30%] lg:min-w-[20%] p-2 rounded text-center bg-gray-100 shadow-md cursor-pointer hover:bg-gray-200"
-                  @click="goToPromotion(promotion.id, category.category)"
+                  class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x flex space-x-3 py-2 px-4"
+                  ref="slider"
                 >
-                  <img :src="promotion.image" alt="Imagen de promoción" class="w-full h-32 object-cover rounded">
-                  <h3 class="text-lg">{{ promotion.title }}</h3>
-                  <p class="text-sm font-bold">{{ promotion.description }}</p>
-                  <p class="text-sm">Ubicación: {{ promotion.location }}</p>
-                  <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
-                  <p class="text-sm">{{ promotion.terms }}</p>
-                  <p class="text-sm font-bold">Puntos {{ promotion.points }}</p>
+                  <div 
+                    v-for="(promotion, index) in category.promotions" 
+                    :key="index"
+                    class="snap-center flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 rounded text-center bg-gray-100 shadow-md cursor-pointer hover:bg-gray-200"
+                    @click="goToPromotion(promotion.id, category.category)"
+                  >
+                    <img :src="promotion.image" alt="Imagen de promoción" class="w-full h-40 object-cover rounded">
+                    <h3 class="text-lg mt-2">{{ promotion.title }}</h3>
+                    <p class="text-sm font-bold">{{ promotion.description }}</p>
+                    <p class="text-sm">Ubicación: {{ promotion.location }}</p>
+                    <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
+                    <p class="text-sm">{{ promotion.terms }}</p>
+                    <p class="text-sm font-bold">Puntos {{ promotion.points }}</p>
+                  </div>
                 </div>
               </div>
             </div>

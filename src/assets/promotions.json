@@ -5,7 +5,7 @@
         "promotions": [
           {
             "id": 1,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "2x1 en cucuruchos",
             "description": "Disfrutá de un 2x1 en cucuruchos en Heladería Patagonia.",
             "location": "Buenos Aires",
@@ -16,7 +16,7 @@
           },
           {
             "id": 2,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "15% de descuento en envíos",
             "description": "15% off en pedidos a domicilio de Helados del Sur.",
             "location": "Santa Fe",
@@ -27,7 +27,7 @@
           },
           {
             "id": 3,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Combo Familiar $4000",
             "description": "Combo de 1kg de helado + 6 cucuruchos en Helado Mágico.",
             "location": "Córdoba",
@@ -38,7 +38,7 @@
           },
           {
             "id": 4,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Sabor del mes al 50% off",
             "description": "Descuento en el sabor del mes en Helados del Centro.",
             "location": "Rosario",
@@ -49,7 +49,7 @@
           },
           {
             "id": 5,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Envases gratis",
             "description": "Envase extra gratuito al comprar 1kg de helado.",
             "location": "Mendoza",
@@ -60,7 +60,7 @@
           },
           {
             "id": 6,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Martes de helado",
             "description": "20% de descuento los martes en Heladería Los Andes.",
             "location": "Tucumán",
@@ -71,7 +71,7 @@
           },
           {
             "id": 7,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "3x2 en helados pequeños",
             "description": "Llevá 3 helados chicos al precio de 2.",
             "location": "Salta",
@@ -82,7 +82,7 @@
           },
           {
             "id": 8,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Helado gratis para niños",
             "description": "Helado chico gratis para menores de 10 años.",
             "location": "Neuquén",
@@ -93,7 +93,7 @@
           },
           {
             "id": 9,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "25% en pedidos online",
             "description": "Descuento en pedidos online en Heladería Nieve.",
             "location": "Bariloche",
@@ -104,7 +104,7 @@
           },
           {
             "id": 10,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Sábado de Promoción",
             "description": "Con la compra de 2kg, llevate 1kg extra.",
             "location": "Mar del Plata",
@@ -120,7 +120,7 @@
         "promotions": [
           {
             "id": 1,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "30% off en jeans",
             "description": "Descuento en jeans seleccionados en Tienda Urbana.",
             "location": "Córdoba",
@@ -131,7 +131,7 @@
           },
           {
             "id": 2,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "50% en ropa de verano",
             "description": "Liquidación de temporada en Boutique del Sol.",
             "location": "Buenos Aires",
@@ -142,7 +142,7 @@
           },
           {
             "id": 3,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "15% off en compras online",
             "description": "Descuento en compras por la web de Ropas Argentinas.",
             "location": "Rosario",
@@ -153,7 +153,7 @@
           },
           {
             "id": 4,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "3x2 en remeras",
             "description": "Pagá 2 remeras y llevate 3 en Fashion Store.",
             "location": "Santa Fe",
@@ -164,7 +164,7 @@
           },
           {
             "id": 5,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "20% off con tarjeta",
             "description": "Descuento con tarjeta de crédito en Moda Premium.",
             "location": "Mendoza",
@@ -175,7 +175,7 @@
           },
           {
             "id": 6,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "2x1 en zapatillas",
             "description": "Comprá un par y llevate otro gratis en Zapatilandia.",
             "location": "Córdoba",
@@ -186,7 +186,7 @@
           },
           {
             "id": 7,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Descuento por cambio de temporada",
             "description": "Hasta 40% off en toda la tienda por cambio de temporada.",
             "location": "Bariloche",
@@ -197,7 +197,7 @@
           },
           {
             "id": 8,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Camisas al 30% menos",
             "description": "Descuento en camisas formales en Elegancia Ropa.",
             "location": "Salta",
@@ -208,7 +208,7 @@
           },
           {
             "id": 9,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Accesorios al 2x1",
             "description": "Promoción en accesorios en Tienda Look.",
             "location": "Tucumán",
@@ -219,7 +219,7 @@
           },
           {
             "id": 10,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "10% de reintegro",
             "description": "Reintegro en efectivo por compras en Ropa Moderna.",
             "location": "Buenos Aires",
@@ -235,7 +235,7 @@
         "promotions": [
           {
             "id": 1,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "2x1 en entradas de cine",
             "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
             "location": "Buenos Aires",
@@ -246,7 +246,7 @@
           },
           {
             "id": 2,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "50% de descuento en obras de teatro",
             "description": "Descuento en todas las funciones del Teatro Luna.",
             "location": "Rosario",
@@ -257,7 +257,7 @@
           },
           {
             "id": 3,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "20% off en tours por la ciudad",
             "description": "Recorridos turísticos con descuento en Viajes City Tour.",
             "location": "Mendoza",
@@ -268,7 +268,7 @@
           },
           {
             "id": 4,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "3x2 en excursiones de trekking",
             "description": "Pagá 2 y llevate 3 excursiones en Caminatas Andinas.",
             "location": "Bariloche",
@@ -279,7 +279,7 @@
           },
           {
             "id": 5,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Descuento en paquetes de viaje",
             "description": "Hasta 30% en paquetes a Cataratas del Iguazú.",
             "location": "Misiones",
@@ -290,7 +290,7 @@
           },
           {
             "id": 6,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Promoción en escape rooms",
             "description": "20% de descuento en Escape Room Argentina.",
             "location": "Córdoba",
@@ -301,7 +301,7 @@
           },
           {
             "id": 7,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Entradas gratis para menores",
             "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
             "location": "Tucumán",
@@ -312,7 +312,7 @@
           },
           {
             "id": 8,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Noche de teatro 2x1",
             "description": "Entradas 2x1 los viernes en Teatro Independiente.",
             "location": "Buenos Aires",
@@ -323,7 +323,7 @@
           },
           {
             "id": 9,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Descuento en entradas a museos",
             "description": "15% de descuento en Museo Histórico Nacional.",
             "location": "Salta",
@@ -334,7 +334,7 @@
           },
           {
             "id": 10,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "25% en excursiones de kayak",
             "description": "Descuento en paseos en kayak en Río Paraná.",
             "location": "Santa Fe",
@@ -350,7 +350,7 @@
         "promotions": [
           {
             "id": 1,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Descuento en menú ejecutivo",
             "description": "20% off en menú ejecutivo en Restaurante Gourmet.",
             "location": "Buenos Aires",
@@ -361,7 +361,7 @@
           },
           {
             "id": 2,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "2x1 en pizzas",
             "description": "Llevate 2 pizzas por el precio de 1 en Pizzería El Rincón.",
             "location": "Córdoba",
@@ -372,7 +372,7 @@
           },
           {
             "id": 3,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Descuento en parrillada",
             "description": "25% de descuento en parrillada para 4 personas.",
             "location": "Rosario",
@@ -383,7 +383,7 @@
           },
           {
             "id": 4,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Bebida gratis con tu almuerzo",
             "description": "Incluí una bebida gratis en Restaurante Buen Sabor.",
             "location": "Mendoza",
@@ -394,7 +394,7 @@
           },
           {
             "id": 5,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "50% en segunda hamburguesa",
             "description": "Descuento en tu segunda hamburguesa en Hamburguesería XXL.",
             "location": "Salta",
@@ -405,7 +405,7 @@
           },
           {
             "id": 6,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Promoción en sushi",
             "description": "Hasta 30% en rolls seleccionados en Sushi Bar.",
             "location": "Bariloche",
@@ -416,7 +416,7 @@
           },
           {
             "id": 7,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Postre gratis",
             "description": "Obtené un postre gratis en Café del Lago.",
             "location": "Tucumán",
@@ -427,7 +427,7 @@
           },
           {
             "id": 8,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "10% de reintegro",
             "description": "Reintegro en efectivo por tu comida en Restaurante Local.",
             "location": "Santa Fe",
@@ -438,7 +438,7 @@
           },
           {
             "id": 9,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "Menú infantil gratis",
             "description": "Menú infantil sin costo en Restaurante Familiar.",
             "location": "Buenos Aires",
@@ -449,7 +449,7 @@
           },
           {
             "id": 10,
-            "image": "https://via.placeholder.com/150",
+            "image": "https://placehold.co/10",
             "title": "50% off en tapas",
             "description": "Descuento en tapas en Bar de Tapas.",
             "location": "Mendoza",
