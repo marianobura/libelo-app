@@ -8,9 +8,8 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useRouter } from "vue-router";
 import { goTo } from "@/router";
 import { ref } from "vue";
-import { signOut } from "firebase/auth";
-import { auth } from "@/services/firebase";
 import { useUserStore } from "@/stores/userStore";
+import { googleLogout } from "vue3-google-login";
 
 const router = useRouter();
 const loading = ref(false);
@@ -37,7 +36,7 @@ const logout = async () => {
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    await signOut(auth);
+    googleLogout();
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     router.push({ path: "/" });
