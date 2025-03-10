@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 import { goTo } from "@/router";
 import { ref } from "vue";
 import { signOut } from "firebase/auth";
-import { auth } from "@/services/firebase";
+import { auth } from "services/firebase";
 import { useUserStore } from "@/stores/userStore";
 import axios from "axios";
 
