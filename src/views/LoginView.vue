@@ -63,8 +63,9 @@ const handleLogin = async () => {
 
         const emailUrl = new URL(`/api/users/email/${formattedEmail}`, process.env.VUE_APP_API_URL);
         const emailResponse = await axios.get(emailUrl.toString());
+        const user = emailResponse.data.data;
 
-        if (emailResponse.data.data.google) {
+        if (Array.isArray(emailResponse.data.data.google) && emailResponse.data.data.google.length > 0) {
             errorMessage.value = 'Este correo está asociado a una cuenta de Google. Por favor, inicie sesión con Google.';
             loading.value = false;
             return;
