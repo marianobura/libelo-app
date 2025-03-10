@@ -69,24 +69,24 @@ const handleLogin = async () => {
             errorMessage.value = 'Este correo está asociado a una cuenta de Google. Por favor, inicie sesión con Google.';
             loading.value = false;
             return;
-        }
+        } else {
+            const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
+            const response = await axios.post(apiUrl.toString(), {
+                email: formattedEmail,
+                password: password.value,
+            });
 
-        const apiUrl = new URL(`/api/users/login`, process.env.VUE_APP_API_URL);
-        const response = await axios.post(apiUrl.toString(), {
-            email: formattedEmail,
-            password: password.value,
-        });
-
-        if (response.status === 200) {
-            const { token, role } = response.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('role', role);
-            if (role === 'student') {
-                router.push('/student');
-            } else if (role === 'teacher') {
-                router.push('/teacher');
-            } else {
-                router.push('/choose-role');
+            if (response.status === 200) {
+                const { token, role } = response.data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+                if (role === 'student') {
+                    router.push('/student');
+                } else if (role === 'teacher') {
+                    router.push('/teacher');
+                } else {
+                    router.push('/choose-role');
+                }
             }
         }
     } catch (error) {
