@@ -100,12 +100,6 @@ const routes = [
         component: () => import("@/views/student/ObjectivesView.vue"),
         meta: { requiresAuth: true },
     },
-    {
-        path: "/student/subject/:id/settings",
-        name: "student-subject-settings",
-        component: () => import("@/views/student/SubjectSettingsView.vue"),
-        meta: { requiresAuth: true },
-    },
 
     // Profesor
     {
