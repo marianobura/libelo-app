@@ -1,4 +1,5 @@
 <script setup>
+/* eslint-disable */
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import LabelTitle from "@/components/Settings/LabelTitle.vue";
@@ -14,23 +15,6 @@ import { googleLogout } from "vue3-google-login";
 const router = useRouter();
 const loading = ref(false);
 const userStore = useUserStore();
-
-const SHORTCUTS = {
-    profile: {
-        label: "Perfil",
-        items: [
-            { title: "Editar perfil", icon: UserRoundPen, route: "/settings/edit-profile" },
-            { title: "Cambiar contraseña", icon: SquareAsterisk, route: "/settings/change-password" },
-            { title: "Google Classroom", icon: LayoutDashboard, route: "/settings/google-classroom" },
-        ],
-    },
-    subjects: {
-        label: "Materias",
-        items: [
-            { title: "Materias favoritas", icon: BookHeart, route: "/settings/favorite-subjects" },
-        ]
-    }
-}
 
 const logout = async () => {
     loading.value = true;
@@ -48,13 +32,14 @@ const logout = async () => {
     <BaseBody>
         <BaseNav title="Configuración" />
         <div class="flex flex-col gap-2 p-2">
-            <template v-for="(category, key) in SHORTCUTS" :key="key">
-                <LabelTitle v-if="key !== 'subjects' || userStore?.user?.role === 'teacher'" :label="category.label">
-                    <template v-for="(item, index) in category.items" :key="index">
-                        <BaseItem :title="item.title" :icon="item.icon" @click="goTo(item.route)"  />
-                    </template>
-                </LabelTitle>
-            </template>
+            <LabelTitle label="Perfil">
+                <BaseItem title="Editar perfil" :icon="UserRoundPen" @click="goTo('/settings/edit-profile')" />
+                <BaseItem v-if="!userStore.user.google.isGoogleLinked" title="Cambiar contraseña" :icon="SquareAsterisk" @click="goTo('/settings/change-password')" />
+                <BaseItem title="Google Classroom" :icon="LayoutDashboard" @click="goTo('/settings/google-classroom')" />
+            </LabelTitle>
+            <LabelTitle v-if="userStore.user.role === 'teacher'" label="Materias">
+                <BaseItem title="Materias favoritas" :icon="BookHeart" @click="goTo('/settings/favorite-subjects')" />
+            </LabelTitle>
             <BaseButton @click="logout" danger>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</BaseButton>
         </div>
     </BaseBody>
