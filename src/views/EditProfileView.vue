@@ -2,12 +2,12 @@
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import { useUserStore } from '@/stores/userStore';
-import { computed, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
-import { ref } from 'vue';
 import axios from 'axios';
 import BaseButton from '@/components/BaseButton.vue';
 import UserAvatar from '@/components/UserAvatar.vue';
+import { watchEffect } from 'vue';
 
 const userStore = useUserStore();
 const firstName = ref('');
@@ -19,29 +19,29 @@ const errors = ref({
     lastName: '',
 })
 
+const validateFirstName = () => {
+    if (firstName.value === '') {
+        errors.value.firstName = 'El nombre es obligatorio.';
+    } else {
+        errors.value.firstName = '';
+    }
+};
+
+const validateLastName = () => {
+    if (lastName.value === '') {
+        errors.value.lastName = 'El apellido es obligatorio.';
+    } else {
+        errors.value.lastName = '';
+    }
+};
+
+const validateForm = () => {
+    validateFirstName();
+    validateLastName();
+    return !Object.values(errors.value).some((error) => error !== '');
+};
+
 const updateUser = async () => {
-    const validateFirstName = () => {
-        if (firstName.value === '') {
-            errors.value.firstName = 'El nombre es obligatorio.';
-        } else {
-            errors.value.firstName = '';
-        }
-    };
-
-    const validateLastName = () => {
-        if (lastName.value === '') {
-            errors.value.lastName = 'El apellido es obligatorio.';
-        } else {
-            errors.value.lastName = '';
-        }
-    };
-
-    const validateForm = () => {
-        validateFirstName();
-        validateLastName();
-        return !Object.values(errors.value).some((error) => error !== '');
-    };
-
     if (!validateForm()) {
         return;
     }
@@ -70,10 +70,9 @@ const userLetter = computed(() => {
     return userStore.user?.displayName?.charAt(0) || '';
 });
 
-onMounted(async () => {
-    await userStore.fetchUser();
-    firstName.value = userStore.user.firstName || '';
-    lastName.value = userStore.user.lastName || '';
+watchEffect(() => {
+    firstName.value = userStore?.user.firstName;
+    lastName.value = userStore?.user.lastName;
 });
 </script>
 
@@ -90,8 +89,8 @@ onMounted(async () => {
             </div>
             <hr class="border-neutral-300">
             <div class="flex flex-col gap-2">
-                <BaseInput identifier="firstName" label="Nombre" type="text" v-model="firstName" :error="!!errors.firstName" :error-message="errors.firstName" @input="validateFirstName" />
-                <BaseInput identifier="lastName" label="Apellido" type="text" v-model="lastName" :error="!!errors.lastName" :error-message="errors.lastName" @input="validateLastName" />
+                <BaseInput identifier="firstName" label="Nombre" type="text" v-model="firstName" :error="!!errors.firstName" :error-message="errors.firstName" />
+                <BaseInput identifier="lastName" label="Apellido" type="text" v-model="lastName" :error="!!errors.lastName" :error-message="errors.lastName" />
                 <BaseButton primary @click="updateUser">{{ loading ? 'Actualizando perfil...' : 'Actualizar perfil' }}</BaseButton>
             </div>
         </div>
