@@ -2,7 +2,6 @@
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -20,33 +19,33 @@ const errors = ref({
     confirmPassword: '',
 });
 
+const validatePassword = () => {
+    if (password.value === '') {
+        errors.value.password = 'La contraseña es obligatoria.';
+    } else if (password.value.length < 8) {
+        errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
+    } else {
+        errors.value.password = '';
+    }
+};
+
+const validateConfirmPassword = () => {
+    if (confirmPassword.value === '') {
+        errors.value.confirmPassword = 'La confirmación de la contraseña es obligatoria.';
+    } else if (confirmPassword.value !== password.value) {
+        errors.value.confirmPassword = 'Las contraseñas no coinciden.';
+    } else {
+        errors.value.confirmPassword = '';
+    }
+};
+
+const validateForm = () => {
+    validatePassword();
+    validateConfirmPassword();
+    return !Object.values(errors.value).some((error) => error !== '');
+};
+
 const updateUser = async () => {
-    const validatePassword = () => {
-        if (password.value === '') {
-            errors.value.password = 'La contraseña es obligatoria.';
-        } else if (password.value.length < 8) {
-            errors.value.password = 'La contraseña debe tener al menos 8 caracteres.';
-        } else {
-            errors.value.password = '';
-        }
-    };
-
-    const validateConfirmPassword = () => {
-        if (confirmPassword.value === '') {
-            errors.value.confirmPassword = 'La confirmación de la contraseña es obligatoria.';
-        } else if (confirmPassword.value !== password.value) {
-            errors.value.confirmPassword = 'Las contraseñas no coinciden.';
-        } else {
-            errors.value.confirmPassword = '';
-        }
-    };
-
-    const validateForm = () => {
-        validatePassword();
-        validateConfirmPassword();
-        return !Object.values(errors.value).some((error) => error !== '');
-    };
-
     if (!validateForm()) {
         return;
     }
@@ -69,10 +68,6 @@ const updateUser = async () => {
 
     loading.value = false;
 };
-
-onMounted(async () => {
-    await userStore.fetchUser();
-});
 </script>
 
 <template>
@@ -80,8 +75,8 @@ onMounted(async () => {
         <BaseNav title="Cambiar contraseña" />
         <div class="flex flex-col gap-2 p-2">
             <div class="flex flex-col gap-4">
-                <BaseInput password identifier="password" placeholder="Ingrese una nueva contraseña" label="Contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
-                <BaseInput password identifier="confirmPassword" placeholder="Confirme su nueva contraseña" label="Confirmar contraseña" type="password" v-model="confirmPassword" :error="!!errors.confirmPassword" :error-message="errors.confirmPassword" @input="validateConfirmPassword" />
+                <BaseInput password identifier="password" placeholder="Mínimo 8 caracteres" label="Nueva contraseña" type="password" v-model="password" :error="!!errors.password" :error-message="errors.password" @input="validatePassword" />
+                <BaseInput password identifier="confirmPassword" placeholder="Vuelve a escribir la contraseña" label="Confirmar nueva contraseña" type="password" v-model="confirmPassword" :error="!!errors.confirmPassword" :error-message="errors.confirmPassword" @input="validateConfirmPassword" />
                 <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
                     <CircleAlert :size="16" />
                     <span class="text-sm">{{ errorMessage }}</span>
