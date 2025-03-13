@@ -48,7 +48,7 @@ const routes = [
         path: "/settings/change-password",
         name: "change-password",
         component: () => import("@/views/ChangePasswordView.vue"),
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: false },
     },
     {
         path: "/settings/favorite-subjects",
@@ -113,12 +113,6 @@ const routes = [
         name: "teacher-subject",
         component: () => import("@/views/teacher/SubjectView.vue"),
         meta: { requiresAuth: true },
-    },
-    {
-        path: "/recover-password",
-        name: "recover-password",
-        component: () => import("../views/PasswordRecover.vue"),
-        meta: { requiresAuth: false },
     },
     {
         path: "/teacher/points",

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full">
-
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.gstatic.com;">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="theme-color" content="#083db2">
+    <meta http-equiv="Content-Security-Policy" 
+    content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://accounts.google.com https://accounts.gstatic.com https://www.gstatic.com;">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script src="https://apis.google.com/js/api.js"></script>
   </head>
   <body class="h-full overscroll-y-contain">
     <noscript>

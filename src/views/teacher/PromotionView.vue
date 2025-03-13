@@ -29,36 +29,17 @@ const categoryName = computed(() => {
 });
 
 const fetchPromotions = async () => {
-  if (!userStore.user?._id) return;
+  if (!userStore.user?._id) return; 
+
   try {
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/promotions?teacherId=${userStore.user._id}`;
-    const response = await axios.get(apiUrl);
-    promotions.value = response.data.data; 
+    const apiUrl = new URL(`/api/promotions`, process.env.VUE_APP_API_URL);
+    const response = await axios.get(apiUrl.toString());
+    promotions.value = response.data.data;
   } catch (error) {
     console.error("Error al obtener las promociones:", error);
   } finally {
     loading.value = false;
   }
-};
-
-const fetchUserPoints = async () => {
-  if (!userId.value) {
-    console.error("User ID no disponible.");
-    return;
-  }
-
-  try {
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}`;
-    const response = await axios.get(apiUrl.toString());
-    
-    if (response.data && response.data.points !== undefined) {
-      userPoints.value = response.data.points;
-    } else {
-      console.error("Error: La respuesta del servidor no contiene puntos.");
-    }
-  } catch (error) {
-    console.error("Error al obtener los puntos del usuario:",error);
-}
 };
 
 const redeemPromotion = async () => {
@@ -76,11 +57,12 @@ const redeemPromotion = async () => {
 
   try {
     const newPoints = userPoints.value - promotion.value.points;
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}/redeem`;
+    const apiUrl = new URL(`/api/users/${userId.value}/reedem`, process.env.VUE_APP_API_URL);
 
     const response = await axios.put(apiUrl, {
       promotionId: promotion.value.id,
       promotionCode: promotion.value.code,
+      redeemedPoints: promotion.value.true,
       newPoints
     });
 
@@ -101,7 +83,6 @@ const redeemPromotion = async () => {
 };
 
 onMounted(async () => {
-  await fetchUserPoints();
   await fetchPromotions();
 
   const category = promotions.value.find(
@@ -139,7 +120,7 @@ const closeModal = () => {
         <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
         <p class="text-sm font-bold">Términos: {{ promotion.terms }}</p>
 
-        <p class="text-sm font-bold">Mis puntos: {{ userPoints }}</p>
+        <p class="text-sm font-bold">Mis puntos: {{ userStore.user.points }}</p>
 
         <BaseButton @click="openModal" class="mt-4">
           Canjear ({{ promotion.points }} Puntos)

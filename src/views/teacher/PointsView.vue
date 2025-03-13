@@ -11,12 +11,10 @@ import { useUserStore } from "@/stores/userStore";
 const userStore = useUserStore();
 const promotions = ref(promotionsData.promotions);
 const router = useRouter();
-const userPoints = computed(() => userStore.user?.points || 0);
 const isDropdownOpen = ref(false);
 const loading = ref(true);
 const currentSlide = ref(0);
 const slider = ref(null);
-const userId = ref(userStore.user?._id);
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
@@ -36,32 +34,10 @@ const fetchPromotions = async () => {
   }
 };
 
-const fetchUserPoints = async () => {
-  if (!userId.value) {
-    console.error("User ID no disponible.");
-    return;
-  }
-  
-  try {
-    const apiUrl = `${process.env.VUE_APP_API_URL}/api/users/${userId.value}`;
-    const response = await axios.get(apiUrl.toString());
-    
-    console.log("Respuesta del servidor:", response.data);
-
-    if (response.data && typeof response.data.points === "number") {
-      userPoints.value = response.data.points;
-    } else {
-      console.warn("Advertencia: La respuesta del servidor no contiene puntos válidos.");
-    }
-  } catch (error) {
-    console.error("Error al obtener los puntos del usuario:", error);
-  }
-};
-
 onMounted(async () => {
   await userStore.fetchUser();
   if (userStore.user?._id) {
-    await Promise.all([fetchUserPoints(), fetchPromotions()]);
+    await Promise.all([fetchPromotions()]);
   } else {
     console.error("No se pudo obtener el usuario antes de cargar promociones.");
   }
@@ -106,7 +82,7 @@ onMounted(() => {
     <div class="p-4">
       <div class="relative bg-gray-100 p-2 rounded mb-4">
         <div class="flex items-center justify-between">
-          <span class="text-lg font-semibold">Tienes {{ userPoints }} puntos</span>
+          <span class="text-lg font-semibold">Tienes {{ userStore.user.points }} puntos</span>
           <button @click="toggleDropdown" class="bg-gray-300 rounded px-2 py-1">▼</button>
         </div>
 

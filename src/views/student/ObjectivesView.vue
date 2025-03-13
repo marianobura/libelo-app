@@ -33,7 +33,6 @@ const progress = computed(() => {
     return checkpoints.value[completedCount - 1] || 0;
 });
 
-// Add a new objective to the list
 const addObjectiveToList = (newObjective) => {
     if (!newObjective || !newObjective._id) {
         console.error("El nuevo objetivo no tiene un ID válido:", newObjective);
@@ -52,7 +51,6 @@ const addObjectiveToList = (newObjective) => {
     userObjectives.value.push(newObjective);
 };
 
-// Remove an objective from the list
 const removeObjective = async (objectiveId) => {
     if (!objectiveId) {
         console.error("Intentando eliminar un objetivo sin ID.");
@@ -70,7 +68,6 @@ const removeObjective = async (objectiveId) => {
     }
 };
 
-// Toggle the completion state of an objective
 const toggleCompletion = async (objective) => {
     if (!objective || !objective._id) {
         console.error("Error: El objetivo es undefined o no tiene _id", objective);
@@ -87,19 +84,16 @@ const toggleCompletion = async (objective) => {
     }
 };
 
-// Watch for changes in the user objectives and fetch the subject data
 watchEffect(() => {
     subjectStore.fetchSubject(subjectId.value);
     loading.value = false;
 });
 
-// Open the checkpoint modal
 const openCheckpointModal = (index) => {
     selectedCheckpointIndex.value = index;
     checkpointModal.value = true;
 };
 
-// Handle the deletion of all objectives
 const confirmDeleteObjectives = async () => {
     if (!subjectStore.subject || userObjectives.value.length === 0) {
         console.warn("No hay objetivos para borrar.");
