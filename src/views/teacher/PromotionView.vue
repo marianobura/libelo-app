@@ -9,12 +9,11 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 
 const promotions = ref(promotionsData.promotions);
-const loading = ref(true);
 const route = useRoute();
 const promotion = ref({});
 const showModal = ref(false);
 const userStore = useUserStore();
-const userId = ref(userStore.user?._id);
+const userId = computed(() => userStore.user?._id);
 const userPoints = computed(() => userStore.user?.points);
 const codeVisible = ref(false);
 const errors = ref({
@@ -22,47 +21,39 @@ const errors = ref({
 });
 
 const categoryName = computed(() => {
+  if (!promotions.value.length) return "Cargando...";
   const category = promotions.value.find(
     (cat) => cat.category === route.params.category
   );
-  return category ? category.category : "Cargando...";
+  return category ? category.category : "No encontrado";
 });
 
-const fetchPromotions = async () => {
-  if (!userStore.user?._id) return; 
-
-  try {
-    const apiUrl = new URL(`/api/promotions`, process.env.VUE_APP_API_URL);
-    const response = await axios.get(apiUrl.toString());
-    promotions.value = response.data.data;
-  } catch (error) {
-    console.error("Error al obtener las promociones:", error);
-  } finally {
-    loading.value = false;
-  }
-};
-
 const redeemPromotion = async () => {
+  // Asegúrate de que userId es obtenido correctamente
+  const id = userId.value; // Aquí se obtiene el userId correctamente
+  if (!id) {
+    errors.value.promo = 'No se ha encontrado el usuario.';
+    return;
+  }
+
   if (userPoints.value < promotion.value.points) {
     errors.value.promo = 'No tienes suficientes puntos para canjear esta promoción.';
-    console.error("No tienes suficientes puntos.");
     return;
   }
 
   if (promotion.value.redeemed) {
     errors.value.promo = 'Ya has canjeado esta promoción.';
-    console.error("La promoción ya ha sido canjeada.");
     return;
   }
 
   try {
     const newPoints = userPoints.value - promotion.value.points;
-    const apiUrl = new URL(`/api/users/${userId.value}/reedem`, process.env.VUE_APP_API_URL);
+    const apiUrl = new URL(`/api/users/${userId.value}/redeem`, process.env.VUE_APP_API_URL);
 
-    const response = await axios.put(apiUrl, {
+    const response = await axios.put(apiUrl.toString(), {
       promotionId: promotion.value.id,
       promotionCode: promotion.value.code,
-      redeemedPoints: promotion.value.true,
+      redeemedPoints: promotion.value.points,
       newPoints
     });
 
@@ -70,10 +61,8 @@ const redeemPromotion = async () => {
       userStore.user.points = newPoints;
       codeVisible.value = true;
       promotion.value.redeemed = true;
-      console.log("¡Promoción canjeada con éxito!");
     } else {
       errors.value.promo = 'Hubo un problema al canjear la promoción.';
-      console.log("Hubo un problema al canjear la promoción.");
     }
   } catch (error) {
     console.error("Error al canjear la promoción:", error);
@@ -82,9 +71,8 @@ const redeemPromotion = async () => {
   openModal();
 };
 
-onMounted(async () => {
-  await fetchPromotions();
 
+onMounted(async () => {
   const category = promotions.value.find(
     (cat) => cat.category === route.params.category
   );
@@ -94,9 +82,8 @@ onMounted(async () => {
   } else {
     promotion.value = {};
   }
-
 });
- 
+
 const openModal = () => {
   showModal.value = true;
 };
@@ -110,24 +97,20 @@ const closeModal = () => {
   <BaseBody>
     <BaseNav :title="`Promoción - ${categoryName}`" />
     <div class="p-4">
-      <div v-if="loading" class="text-center">Cargando promoción...</div>
-
-      <div v-else-if="promotion.title">
+      <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
+      <div v-else>
         <img :src="promotion.image" alt="Promoción" class="w-full h-auto object-cover rounded mb-4">
         <h3 class="font-bold text-lg mb-2">{{ promotion.title }}</h3>
         <p class="text-sm">{{ promotion.description }}</p>
         <p class="text-sm">Ubicación: {{ promotion.location }}</p>
         <p class="text-sm">Válido hasta: {{ promotion.valid_until }}</p>
         <p class="text-sm font-bold">Términos: {{ promotion.terms }}</p>
-
-        <p class="text-sm font-bold">Mis puntos: {{ userStore.user.points }}</p>
+        <p class="text-sm font-bold">Mis puntos: {{ userPoints }}</p>
 
         <BaseButton @click="openModal" class="mt-4">
           Canjear ({{ promotion.points }} Puntos)
         </BaseButton>
       </div>
-
-      <div v-else class="text-center">Promoción no encontrada.</div>
     </div>
 
     <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
