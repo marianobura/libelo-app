@@ -13,85 +13,62 @@ const route = useRoute();
 const promotion = ref({});
 const showModal = ref(false);
 const userStore = useUserStore();
-const userId = computed(() => userStore.user?._id);
 const userPoints = computed(() => userStore.user?.points);
-const codeVisible = ref(false);
-const errors = ref({
-    promo: ''
-});
+const errors = ref({ promo: '' });
 
 const categoryName = computed(() => {
   if (!promotions.value.length) return "Cargando...";
-  const category = promotions.value.find(
-    (cat) => cat.category === route.params.category
-  );
+  const category = promotions.value.find(cat => cat.category === route.params.category);
   return category ? category.category : "No encontrado";
 });
 
 const redeemPromotion = async () => {
-  // Asegúrate de que userId es obtenido correctamente
-  const id = userId.value; // Aquí se obtiene el userId correctamente
-  if (!id) {
-    errors.value.promo = 'No se ha encontrado el usuario.';
-    return;
-  }
-
+  // Verificar si el usuario tiene suficientes puntos para canjear la promoción
   if (userPoints.value < promotion.value.points) {
     errors.value.promo = 'No tienes suficientes puntos para canjear esta promoción.';
     return;
   }
 
-  if (promotion.value.redeemed) {
-    errors.value.promo = 'Ya has canjeado esta promoción.';
-    return;
-  }
-
   try {
-    const newPoints = userPoints.value - promotion.value.points;
-    const apiUrl = new URL(`/api/users/${userId.value}/redeem`, process.env.VUE_APP_API_URL);
+    const apiUrl = new URL(`/api/users/${userStore.user._id}/redeem-promotion`, process.env.VUE_APP_API_URL);
+    console.log(apiUrl.toString());
 
-    const response = await axios.put(apiUrl.toString(), {
+    
+    const response = await axios.put(apiUrl, {
       promotionId: promotion.value.id,
-      promotionCode: promotion.value.code,
-      redeemedPoints: promotion.value.points,
-      newPoints
+      promotionCode: promotion.value.promotion_code
     });
 
     if (response.status === 200) {
-      userStore.user.points = newPoints;
-      codeVisible.value = true;
-      promotion.value.redeemed = true;
-    } else {
-      errors.value.promo = 'Hubo un problema al canjear la promoción.';
+      userStore.user.points -= promotion.value.points;
+
+      const userPromotion = response.data.updatedPromotion;
+      userStore.user.promotions.push(userPromotion);
+
+      errors.value.promo = '';
+      alert('Promoción canjeada con éxito!');
+      closeModal();
     }
   } catch (error) {
-    console.error("Error al canjear la promoción:", error);
+    console.error('Error al canjear la promoción:', error);
+    errors.value.promo = 'Hubo un problema al canjear la promoción. Intenta nuevamente más tarde.';
   }
-
-  openModal();
 };
 
 
-onMounted(async () => {
-  const category = promotions.value.find(
-    (cat) => cat.category === route.params.category
-  );
-
-  if (category) {
-    promotion.value = category.promotions.find((promo) => promo.id == route.params.id) || {};
-  } else {
-    promotion.value = {};
+onMounted(() => {
+  if (promotions.value.length) {
+    const category = promotions.value.find(cat => cat.category === route.params.category);
+    promotion.value = category
+      ? category.promotions.find(promo => promo.id == route.params.id) || {}
+      : {};
   }
 });
 
-const openModal = () => {
-  showModal.value = true;
-};
-
-const closeModal = () => {
-  showModal.value = false;
-};
+const openModal = () => { showModal.value = true; };
+const closeModal = () => { showModal.value = false; };
 </script>
+
 
 <template>
   <BaseBody>
