@@ -3,7 +3,6 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import promotionsData from "@/assets/promotions.json";
-import axios from "axios";
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
@@ -14,59 +13,78 @@ const promotion = ref({});
 const showModal = ref(false);
 const userStore = useUserStore();
 const userPoints = computed(() => userStore.user?.points);
-const errors = ref({ promo: '' });
+const errors = ref({ promo: "" });
+const userId = computed(() => userStore.user?._id);
 
 const categoryName = computed(() => {
   if (!promotions.value.length) return "Cargando...";
-  const category = promotions.value.find(cat => cat.category === route.params.category);
+  const category = promotions.value.find((cat) => cat.category === route.params.category);
   return category ? category.category : "No encontrado";
 });
 
+onMounted(() => {
+  if (promotions.value.length) {
+    const category = promotions.value.find((cat) => cat.category === route.params.category);
+    promotion.value = category ? category.promotions.find((promo) => promo.id == route.params.id) || {} : {};
+  }
+});
+
+const openModal = () => {
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  errors.value.promo = "";
+};
+
 const redeemPromotion = async () => {
-  // Verificar si el usuario tiene suficientes puntos para canjear la promoción
+  if (!promotion.value.id) {
+    errors.value.promo = "Promoción no válida.";
+    return;
+  }
+
   if (userPoints.value < promotion.value.points) {
-    errors.value.promo = 'No tienes suficientes puntos para canjear esta promoción.';
+    errors.value.promo = "No tienes suficientes puntos.";
     return;
   }
 
   try {
-    const apiUrl = new URL(`/api/users/${userStore.user._id}/redeem-promotion`, process.env.VUE_APP_API_URL);
-    console.log(apiUrl.toString());
+    const apiUrl = new URL(`/api/${userId.value}/redeem-promotion`,  process.env.VUE_APP_API_URL);
 
-    
-    const response = await axios.put(apiUrl, {
-      promotionId: promotion.value.id,
-      promotionCode: promotion.value.promotion_code
+    const response = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        promotionId: promotion.value.id,
+        promotionCode: promotion.value.code || "SIN-CÓDIGO",
+        newPoints: userPoints.value - promotion.value.points,
+      }),
     });
 
-    if (response.status === 200) {
-      userStore.user.points -= promotion.value.points;
-
-      const userPromotion = response.data.updatedPromotion;
-      userStore.user.promotions.push(userPromotion);
-
-      errors.value.promo = '';
-      alert('Promoción canjeada con éxito!');
-      closeModal();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.msg || "Error al canjear la promoción.");
     }
+
+    const data = await response.json();
+
+    userStore.user.points = data.user.points;
+    userStore.user.promotions.push({
+      id: promotion.value.id,
+      promotion_code: promotion.value.code || "SIN-CÓDIGO",
+      redeemed: true,
+    });
+
+    closeModal();
+    alert("¡Promoción canjeada con éxito!");
   } catch (error) {
-    console.error('Error al canjear la promoción:', error);
-    errors.value.promo = 'Hubo un problema al canjear la promoción. Intenta nuevamente más tarde.';
+    errors.value.promo = error.message;
   }
 };
 
-
-onMounted(() => {
-  if (promotions.value.length) {
-    const category = promotions.value.find(cat => cat.category === route.params.category);
-    promotion.value = category
-      ? category.promotions.find(promo => promo.id == route.params.id) || {}
-      : {};
-  }
-});
-
-const openModal = () => { showModal.value = true; };
-const closeModal = () => { showModal.value = false; };
 </script>
 
 

@@ -13,7 +13,7 @@ import { useRouter } from 'vue-router'; // Asegúrate de importar el router
 const router = useRouter();
 
 const password = ref('');
-const confirmPassword = ref('');  // Declaramos confirmPassword
+const confirmPassword = ref(''); 
 const errorMessage = ref('');
 const loading = ref(false);
 const userStore = useUserStore();
