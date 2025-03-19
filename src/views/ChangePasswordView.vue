@@ -3,72 +3,56 @@ import { ref } from 'vue';
 import axios from 'axios';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
-import GoogleLogin from '@/components/SignAccount/GoogleLogin.vue';
-import { useUserStore } from '@/stores/userStore';
-import { CircleAlert } from 'lucide-vue-next';
 import BaseBody from '@/components/BaseBody.vue';
-import BaseNav from '@/components/BaseNav.vue';
-import { useRouter } from 'vue-router'; // Asegúrate de importar el router
+import SignNav from '@/components/SignAccount/SignNav.vue';
 
-const router = useRouter();
-
-const password = ref('');
-const confirmPassword = ref(''); 
+const email = ref('');
 const errorMessage = ref('');
 const loading = ref(false);
-const userStore = useUserStore();
-const userId = ref(userStore.user?._id);
+const successMessage = ref('');
+const errors = ref({ email: '' });
 
-const errors = ref({
-  email: '',
-  password: '',
-  confirmPassword: '', // Agregamos validación para confirmPassword
-});
-
-// Validación de contraseña
-const validatePassword = () => {
-  if (password.value === '') {
-    errors.value.password = 'La contraseña es obligatoria.';
+const validateEmail = () => {
+  if (!email.value) {
+    errors.value.email = 'El correo es obligatorio.';
+  } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+    errors.value.email = 'Correo inválido.';
   } else {
-    errors.value.password = '';
+    errors.value.email = '';
   }
 };
 
-// Validación de confirmación de contraseña
-const validateConfirmPassword = () => {
-  if (confirmPassword.value === '') {
-    errors.value.confirmPassword = 'La confirmación de la contraseña es obligatoria.';
-  } else if (confirmPassword.value !== password.value) {
-    errors.value.confirmPassword = 'Las contraseñas no coinciden.';
-  } else {
-    errors.value.confirmPassword = '';
-  }
-};
-
-// Validación del formulario
 const validateForm = () => {
-  validatePassword();
-  validateConfirmPassword();
-  return !Object.values(errors.value).some((error) => error !== '');
+  validateEmail();
+  return !errors.value.email;
 };
 
 const handleRecovery = async () => {
-  if (!validateForm()) {
-    return;
-  }
+  if (!validateForm()) return;
 
   errorMessage.value = '';
+  successMessage.value = '';
   loading.value = true;
 
   try {
-    const apiUrl = `${import.meta.env.VITE_API_URL}/users/${userId.value}`;
-    const response = await axios.put(apiUrl, { password: password.value });
+    // Validamos si el correo no está vacío antes de enviar la solicitud
+    if (email.value.trim()) {
+      const apiUrl = new URL(`/auth/${email.value}/forgot-password`, process.env.VUE_APP_API_URL).toString();
 
-    if (response.status === 200) {
-      router.push('/login');
+      console.log('Enviando solicitud a:', apiUrl);
+
+      // Enviamos la solicitud POST con la URL correcta
+      const response = await axios.post(apiUrl);
+
+      if (response.status === 200) {
+        successMessage.value = 'Correo enviado con instrucciones.';
+      }
+    } else {
+      errorMessage.value = 'Por favor, ingrese un correo electrónico válido.';
     }
   } catch (error) {
-    errorMessage.value = error.response?.data?.msg || 'Ocurrió un error inesperado.';
+    console.error('Error en la solicitud:', error);
+    errorMessage.value = error.response?.data?.msg || 'Error al enviar el correo.';
   } finally {
     loading.value = false;
   }
@@ -76,66 +60,30 @@ const handleRecovery = async () => {
 </script>
 
 <template>
-    <BaseBody>
-      <BaseNav title="Cambiar contraseña" />
-      <div class="flex flex-col gap-2 p-2">
-        <div class="flex flex-col gap-4">
-          <BaseInput 
-            password 
-            identifier="password" 
-            placeholder="Ingrese una nueva contraseña" 
-            label="Contraseña" 
-            type="password" 
-            v-model="password" 
-            :error="!!errors.password" 
-            :error-message="errors.password" 
-            @input="validatePassword" 
-          />
-          <BaseInput 
-            password 
-            identifier="confirmPassword" 
-            placeholder="Confirme su nueva contraseña" 
-            label="Confirmar contraseña" 
-            type="password" 
-            v-model="confirmPassword" 
-            :error="!!errors.confirmPassword" 
-            :error-message="errors.confirmPassword" 
-            @input="validateConfirmPassword" 
-          />
-          <div v-if="errorMessage" class="flex items-center gap-2 bg-red-100 border border-red-500 text-red-600 p-2 rounded-xl">
-            <CircleAlert :size="16" />
-            <span class="text-sm">{{ errorMessage }}</span>
-          </div>
-  
-          <div class="flex flex-col gap-2">
-            <BaseButton @click="handleRecovery" :disabled="loading" primary>
-              {{ loading ? 'Enviando correo...' : 'Recuperar contraseña' }}
-            </BaseButton>
-  
-            <div class="grid grid-cols-[1fr_auto_1fr] items-center justify-center gap-2 h-12 w-full">
-              <hr class="w-full border-neutral-300" />
-              <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
-              <hr class="w-full border-neutral-300" />
-            </div>
-  
-            <GoogleLogin />
-          </div>
-        </div>
-  
-        <div>
-          <div class="flex items-center justify-center h-12 w-full">
-            <p class="text-neutral-700">¿Ya tienes una cuenta? 
-              <router-link to="/login" class="text-libelo-500 font-semibold ml-1">Iniciar sesión</router-link>
-            </p>
-          </div>
-          
-          <div class="flex items-center justify-center w-full">
-            <p class="text-neutral-700">¿No tienes una cuenta? 
-              <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link>
-            </p>
-          </div>
-        </div>
+<div class="flex flex-col min-h-full">
+ <SignNav title="Recuperar contraseña" />
+  <BaseBody>
+    <div class="flex flex-col gap-2 p-2">
+      <div class="flex flex-col gap-4">
+        <BaseInput 
+          identifier="email" 
+          placeholder="Ingrese su correo" 
+          label="Correo electrónico" 
+          type="email" 
+          v-model="email" 
+          :error="!!errors.email" 
+          :error-message="errors.email" 
+          @input="validateEmail" 
+        />
+
+        <div v-if="errorMessage" class="text-red-600 text-sm">{{ errorMessage }}</div>
+        <div v-if="successMessage" class="text-green-600 text-sm">{{ successMessage }}</div>
+
+        <BaseButton @click="handleRecovery" :disabled="loading" primary>
+          {{ loading ? 'Enviando...' : 'Enviar correo de recuperación' }}
+        </BaseButton>
       </div>
-    </BaseBody>
-  </template>
-  
+    </div>
+  </BaseBody>
+</div>
+</template>

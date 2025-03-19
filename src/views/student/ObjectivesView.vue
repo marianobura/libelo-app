@@ -111,7 +111,6 @@ const confirmDeleteObjectives = async () => {
     }
 };
 
-// Shorten the objective text if it's too long
 const cortarObjetivo = (text, maxLength = 16) => {
     if (text.length > maxLength) {
         return text.slice(0, maxLength - 3) + '...';
