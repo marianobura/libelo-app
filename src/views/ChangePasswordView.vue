@@ -8,14 +8,15 @@ import SignNav from '@/components/SignAccount/SignNav.vue';
 
 const email = ref('');
 const errorMessage = ref('');
-const loading = ref(false);
 const successMessage = ref('');
+const loading = ref(false);
 const errors = ref({ email: '' });
 
 const validateEmail = () => {
+  const emailPattern = /^\S+@\S+\.\S+$/;
   if (!email.value) {
     errors.value.email = 'El correo es obligatorio.';
-  } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+  } else if (!emailPattern.test(email.value)) {
     errors.value.email = 'Correo inválido.';
   } else {
     errors.value.email = '';
@@ -34,21 +35,15 @@ const handleRecovery = async () => {
   successMessage.value = '';
   loading.value = true;
 
+  const apiUrl = new URL(`/api/auth/${email.value}/forgot-password`, process.env.VUE_APP_API_URL);
+
   try {
-    // Validamos si el correo no está vacío antes de enviar la solicitud
-    if (email.value.trim()) {
-      const apiUrl = new URL(`/auth/${email.value}/forgot-password`, process.env.VUE_APP_API_URL).toString();
+    const response = await axios.post(apiUrl);
 
-      console.log('Enviando solicitud a:', apiUrl);
-
-      // Enviamos la solicitud POST con la URL correcta
-      const response = await axios.post(apiUrl);
-
-      if (response.status === 200) {
-        successMessage.value = 'Correo enviado con instrucciones.';
-      }
+    if (response.status === 200) {
+      successMessage.value = 'Correo enviado con instrucciones.';
     } else {
-      errorMessage.value = 'Por favor, ingrese un correo electrónico válido.';
+      errorMessage.value = 'Hubo un problema enviando el correo. Inténtalo de nuevo.';
     }
   } catch (error) {
     console.error('Error en la solicitud:', error);
@@ -60,30 +55,30 @@ const handleRecovery = async () => {
 </script>
 
 <template>
-<div class="flex flex-col min-h-full">
- <SignNav title="Recuperar contraseña" />
-  <BaseBody>
-    <div class="flex flex-col gap-2 p-2">
-      <div class="flex flex-col gap-4">
-        <BaseInput 
-          identifier="email" 
-          placeholder="Ingrese su correo" 
-          label="Correo electrónico" 
-          type="email" 
-          v-model="email" 
-          :error="!!errors.email" 
-          :error-message="errors.email" 
-          @input="validateEmail" 
-        />
+  <div class="flex flex-col min-h-full">
+    <SignNav title="Recuperar contraseña" />
+    <BaseBody>
+      <div class="flex flex-col gap-2 p-2">
+        <div class="flex flex-col gap-4">
+          <BaseInput 
+            identifier="email"
+            placeholder="Ingrese su correo"
+            label="Correo electrónico"
+            type="email"
+            v-model="email"
+            :error="!!errors.email"
+            :error-message="errors.email"
+            @input="validateEmail"
+          />
 
-        <div v-if="errorMessage" class="text-red-600 text-sm">{{ errorMessage }}</div>
-        <div v-if="successMessage" class="text-green-600 text-sm">{{ successMessage }}</div>
+          <div v-if="errorMessage" class="text-red-600 text-sm">{{ errorMessage }}</div>
+          <div v-if="successMessage" class="text-green-600 text-sm">{{ successMessage }}</div>
 
-        <BaseButton @click="handleRecovery" :disabled="loading" primary>
-          {{ loading ? 'Enviando...' : 'Enviar correo de recuperación' }}
-        </BaseButton>
+          <BaseButton @click="handleRecovery" :disabled="loading" primary>
+            {{ loading ? 'Enviando...' : 'Enviar correo de recuperación' }}
+          </BaseButton>
+        </div>
       </div>
-    </div>
-  </BaseBody>
-</div>
+    </BaseBody>
+  </div>
 </template>
