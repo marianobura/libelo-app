@@ -117,7 +117,7 @@ const routes = [
     {
         path: "/teacher/points",
         name: "teacher-points",
-        component: () => import("@/views/teacher/PointsView.vue"),
+        component: () => import("@/views/teacher/PromotionsList.vue"),
         meta: { requiresAuth: true },
     },
     {
