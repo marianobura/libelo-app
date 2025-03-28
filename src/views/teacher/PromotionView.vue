@@ -6,6 +6,7 @@ import promotionsData from "@/assets/promotions.json";
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
+import axios from "axios";
 
 const promotions = ref(promotionsData.promotions);
 const route = useRoute();
@@ -14,13 +15,10 @@ const showModal = ref(false);
 const userStore = useUserStore();
 const userPoints = computed(() => userStore.user?.points);
 const errors = ref({ promo: "" });
-const userId = computed(() => userStore.user?._id);
 
 onMounted(() => {
-    if (promotions.value.length) {
-        const category = promotions.value.find((cat) => cat.category === route.params.category);
-        promotion.value = category ? category.promotions.find((promo) => promo.id == route.params.id) || {} : {};
-    }
+    const promotionId = route.params.id;
+    promotion.value = promotions.value.map(category => category.promotions).flat().find(promo => promo.id === promotionId);
 });
 
 const openModal = () => {
@@ -44,26 +42,14 @@ const redeemPromotion = async () => {
     }
 
     try {
-        const apiUrl = new URL(`/api/${userId.value}/redeem-promotion`, process.env.VUE_APP_API_URL);
-
-        const response = await fetch(apiUrl, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                promotionId: promotion.value.id,
-                promotionCode: promotion.value.code || "SIN-CÓDIGO",
-                newPoints: userPoints.value - promotion.value.points,
-            }),
+        const apiUrl = new URL(`/api/users/${userStore.user._id}/redeem-promotion`, process.env.VUE_APP_API_URL);
+        const response = await axios.put(apiUrl, {
+            promotionId: promotion.value.id,
+            promotionCode: promotion.value.code || "SIN-CÓDIGO",
+            newPoints: userPoints.value - promotion.value.points,
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.msg || "Error al canjear la promoción.");
-        }
-
-        const data = await response.json();
+        const data = response.data;
 
         userStore.user.points = data.user.points;
         userStore.user.promotions.push({
@@ -75,12 +61,10 @@ const redeemPromotion = async () => {
         closeModal();
         alert("¡Promoción canjeada con éxito!");
     } catch (error) {
-        errors.value.promo = error.message;
+        errors.value.promo = error.response?.data?.msg || "Error al canjear la promoción.";
     }
 };
-
 </script>
-
 
 <template>
     <BaseBody>
@@ -96,24 +80,20 @@ const redeemPromotion = async () => {
                 <p class="text-sm font-bold">Términos: {{ promotion.terms }}</p>
                 <p class="text-sm font-bold">Mis puntos: {{ userPoints }}</p>
 
-                <BaseButton @click="openModal" class="mt-4">
+                <BaseButton @click="openModal" class="mt-4" primary>
                     Canjear ({{ promotion.points }} Puntos)
                 </BaseButton>
             </div>
         </div>
 
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div class="bg-white p-6 rounded shadow-lg w-80">
+            <div class="bg-white p-4 rounded shadow-lg w-80">
                 <h3 class="font-bold text-lg mb-2">Canjear promoción</h3>
                 <p class="text-sm">¿Estás seguro de que deseas canjear esta promoción?</p>
                 <p v-if="errors.promo" class="text-red-500 text-sm">{{ errors.promo }}</p>
-                <div>
-                    <textarea v-if="codeVisible" v-model="promotion.code" class="w-full h-11 p-2 border rounded-md"
-                        placeholder="Código"></textarea>
-                </div>
-                <div class="flex justify-end mt-4">
-                    <BaseButton @click="closeModal" class="mr-2 text-red-500">Cancelar</BaseButton>
-                    <BaseButton @click="redeemPromotion" class="bg-blue-500 text-white">Canjear</BaseButton>
+                <div class="flex justify-end mt-4 gap-2">
+                    <BaseButton @click="closeModal" danger>Cancelar</BaseButton>
+                    <BaseButton @click="redeemPromotion" primary>Canjear</BaseButton>
                 </div>
             </div>
         </div>
