@@ -49,7 +49,14 @@ const routes = [
         name: "change-password",
         component: () => import("@/views/ChangePasswordView.vue"),
         meta: { requiresAuth: false },
-    },
+    },  
+    {
+        path: "/settings/change-password/:token",
+        name: "change-password-token",
+        component: () => import("@/views/ChangePasswordView.vue"),
+        meta: { requiresAuth: false },
+        props: true,
+    },    
     {
         path: "/settings/favorite-subjects",
         name: "favorite-subjects",
