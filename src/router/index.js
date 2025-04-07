@@ -45,17 +45,16 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
-        path: "/settings/change-password",
-        name: "change-password",
-        component: () => import("@/views/ChangePasswordView.vue"),
+        path: "/settings/reset-password",
+        name: "reset-password",
+        component: () => import("@/views/ResetPasswordView.vue"),
         meta: { requiresAuth: false },
     },  
     {
-        path: "/settings/change-password/:token",
-        name: "change-password-token",
+        path: "/settings/change-password",
+        name: "change-password",
         component: () => import("@/views/ChangePasswordView.vue"),
-        meta: { requiresAuth: false },
-        props: true,
+        meta: { requiresAuth: true },
     },    
     {
         path: "/settings/favorite-subjects",
