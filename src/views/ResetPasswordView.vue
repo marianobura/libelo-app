@@ -88,6 +88,30 @@ const sendResetEmail = async () => {
   }
 };
 
+const verifyToken = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+  successMessage.value = '';
+
+  try {
+    const tokenUrl = new URL('/api/auth/validateToken', process.env.VUE_APP_API_URL);
+    const response = await axios.post(tokenUrl.toString(), {
+      token: tokenInput.value
+    });
+
+    if (response.data?.valid) {
+      successMessage.value = 'Token verificado correctamente.';
+      step.value = 3;
+    } else {
+      // Aseguramos que haya mensaje de error visible para token inválido
+      errorMessage.value = response.data?.message || 'El token no es válido o ha expirado.';
+    }
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Error al verificar el token.';
+  } finally {
+    loading.value = false;
+  }
+};
 
 const resetPasswordWithId = async () => {
   validatePassword();
@@ -170,8 +194,8 @@ const resetPasswordWithId = async () => {
         :error-message="errors.token"
       />
 
-      <BaseButton @click="() => step = 3" primary v-if="step === 2 && tokenInput">
-        Verificar token
+      <BaseButton @click="verifyToken" primary v-if="step === 2 && tokenInput">
+        {{ loading ? 'Verificando...' : 'Verificar Token' }}
       </BaseButton>
 
       <BaseInput 
