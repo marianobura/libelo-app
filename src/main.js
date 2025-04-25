@@ -17,8 +17,9 @@ app.use(pinia);
 app.use(router);
 app.use(vue3GoogleLogin, {
     clientId: CLIENT_ID,
-    scope: "profile email https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.coursework.me.readonly",
-    prompt: "select_account",
+    scope: "openid email profile calendar.readonly classroom.courses.readonly",
+    prompt: "consent",
+    loginHint: "",
 });
 
 app.mount("#app");

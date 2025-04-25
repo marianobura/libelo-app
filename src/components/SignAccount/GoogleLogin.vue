@@ -31,7 +31,7 @@ const callback = async (response) => {
 </script>
 
 <template>
-    <GoogleLogin :callback="callback" prompt auto-login response-type="code">
+    <GoogleLogin :callback="callback" prompt auto-login response-type="code" scope="openid email profile calendar.readonly classroom.courses.readonly">
         <button class="flex items-center justify-center gap-2 h-12 w-full bg-neutral-200 text-neutral-700 font-semibold rounded-xl hover:bg-neutral-300">
             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M23.06 12.25C23.06 11.47 22.99 10.72 22.86 10H12.5V14.255H18.42C18.165 15.63 17.39 16.795 16.225 17.575V20.335H19.78C21.86 18.42 23.06 15.6 23.06 12.25Z" fill="#4285F4"/>
