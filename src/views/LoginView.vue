@@ -123,7 +123,7 @@ const handleLogin = async () => {
                 </div>
             </div>
             <div class="flex items-center justify-center h-12 w-full">
-                <p class="text-neutral-700">¿Olvidate tu contraseña? <router-link to="/settings/reset-password" class="text-libelo-500 font-semibold ml-1">Recuperar Contraseña</router-link></p>
+                <p class="text-neutral-700">¿Perdiste tu contraseña? <router-link to="/settings/reset-password" class="text-libelo-500 font-semibold ml-1">Recuperar ahora</router-link></p>
             </div>
             <div class="flex items-center justify-center h-12 w-full">
                 <p class="text-neutral-700">¿No tienes una cuenta? <router-link to="/register" class="text-libelo-500 font-semibold ml-1">Regístrate ahora</router-link></p>
