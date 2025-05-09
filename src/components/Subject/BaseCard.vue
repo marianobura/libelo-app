@@ -16,7 +16,7 @@ const props = defineProps({
 <template>
     <router-link :to="props.linkTo">
         <div class="flex flex-col p-3 h-fit rounded-xl text-neutral-700" :class="props.color ? 'bg-gradient-to-b from-[#D8D8D8] to-[#CECECE]' : 'border border-neutral-300'">
-            <div class="flex gap-2">
+            <div class="flex gap-2 items-center">
                 <component :is="props.icon" :size="20" />
                 <p class="font-bold">{{ props.title }}</p>
             </div>
