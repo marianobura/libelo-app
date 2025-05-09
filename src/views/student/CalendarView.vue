@@ -7,42 +7,47 @@ import SubjectBanner from '@/components/SubjectBanner.vue';
 import { useUserStore } from "@/stores/userStore";
 
 const userStore = useUserStore();
-const calendarUrl = ref("");
+const calendarEvents = ref([])
 
-async function verifyToken() {
+const getCalendarEvents = async () => {
     try {
-        const response = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${userStore.user.google.accessToken}`);
-        const data = await response.json();
-        console.log("Token Info:", data);
-    } catch (error) {
-        console.error("Error verificando token:", error);
+        const now = new Date()
+        const isoDate = now.toISOString()
+
+        const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=10&orderBy=startTime&singleEvents=true&timeMin=${encodeURIComponent(isoDate)}`
+
+        const res = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${userStore?.user.google.accessToken}`
+            }
+        })
+
+        const data = await res.json()
+        calendarEvents.value = data.items || []
+        console.log('📅 Eventos desde ahora:', data)
+    } catch (err) {
+        console.error('Error al obtener eventos:', err)
     }
 }
-verifyToken();
 
-async function fetchUserCalendar() {
+const courses = ref([])
+const getClassroomCourses = async () => {
     try {
-        const response = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
+        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
             headers: {
-                Authorization: `Bearer ${userStore.user.google.accessToken}`
+                Authorization: `Bearer ${userStore?.user.google.accessToken}`
             }
-        });
-
-        const data = await response.json();
-        console.log("Calendario:", data);
-
-        if (data.items && data.items.length > 0) {
-            const userCalendarId = data.items[0].id;  
-            calendarUrl.value = `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(userCalendarId)}`;
-        }
-    } catch (error) {
-        console.error("Error obteniendo el calendario:", error);
+        })
+        const data = await res.json()
+        courses.value = data.courses || []
+        console.log('🏫 Cursos de Classroom:', data)
+    } catch (err) {
+        console.error('Error al obtener cursos:', err)
     }
 }
 
 onMounted(() => {
     userStore.fetchUser();
-    fetchUserCalendar();
 });
 </script>
 
@@ -52,14 +57,22 @@ onMounted(() => {
         <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
             <BaseTitle title="Revisa tus próximas fechas" description="Consulta, organiza y planifica tus próximas fechas de forma simple y eficiente en un solo lugar.">
-                <iframe 
-                    :src="calendarUrl"
-                    style="border: 0" 
-                    width="auto" 
-                    height="400" 
-                    frameborder="0" 
-                    scrolling="no">
-                </iframe>
+                <button @click="getCalendarEvents">Ver eventos de Calendar</button>
+                <button @click="getClassroomCourses">Ver cursos de Classroom</button>
+
+                <div v-if="calendarEvents.length">
+                    <h4>📅 Eventos:</h4>
+                    <ul>
+                        <li v-for="event in calendarEvents" :key="event.id">{{ event.summary }} - {{ event.start.dateTime || event.start.date }}</li>
+                    </ul>
+                </div>
+
+                <div v-if="courses.length">
+                    <h4>🏫 Cursos:</h4>
+                    <ul>
+                        <li v-for="course in courses" :key="course.id">{{ course.name }}</li>
+                    </ul>
+                </div>
             </BaseTitle>
         </div> 
     </BaseBody>
