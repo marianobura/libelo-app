@@ -30,22 +30,6 @@ const getCalendarEvents = async () => {
     }
 }
 
-const courses = ref([])
-const getClassroomCourses = async () => {
-    try {
-        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
-            headers: {
-                Authorization: `Bearer ${userStore?.user.google.accessToken}`
-            }
-        })
-        const data = await res.json()
-        courses.value = data.courses || []
-        console.log('🏫 Cursos de Classroom:', data)
-    } catch (err) {
-        console.error('Error al obtener cursos:', err)
-    }
-}
-
 onMounted(() => {
     userStore.fetchUser();
 });
@@ -64,13 +48,6 @@ onMounted(() => {
                     <h4>📅 Eventos:</h4>
                     <ul>
                         <li v-for="event in calendarEvents" :key="event.id">{{ event.summary }} - {{ event.start.dateTime || event.start.date }}</li>
-                    </ul>
-                </div>
-
-                <div v-if="courses.length">
-                    <h4>🏫 Cursos:</h4>
-                    <ul>
-                        <li v-for="course in courses" :key="course.id">{{ course.name }}</li>
                     </ul>
                 </div>
             </BaseTitle>
