@@ -9,9 +9,11 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import { ref } from "vue";
 import DeleteModal from "@/components/Subject/DeleteModal.vue";
+import CoursesModal from "@/components/Subject/CoursesModal.vue";
 
 const route = useRoute();
-const showModal = ref(false);
+const showModalCourses = ref(false);
+const showModalDelete = ref(false);
 
 const path = route.params.id;
 </script>
@@ -38,11 +40,12 @@ const path = route.params.id;
             </BaseTitle>
 
             <div class="grid grid-cols-[1fr_48px] gap-2">
-                <BaseButton secondary>Vincular materia con Classroom</BaseButton>
-                <BaseButton danger class="flex items-center justify-center" @click="showModal = true"><Trash2 size="20" /></BaseButton>
+                <BaseButton secondary @click="showModalCourses = true">Vincular materia con Classroom</BaseButton>
+                <BaseButton danger class="flex items-center justify-center" @click="showModalDelete = true"><Trash2 size="20" /></BaseButton>
             </div>
 
         </div>
-        <DeleteModal :show-modal="showModal" @close="showModal = false" />
+        <CoursesModal :show-modal="showModalCourses" @close="showModalCourses = false" />
+        <DeleteModal :show-modal="showModalDelete" @close="showModalDelete = false" />
     </BaseBody>
 </template>
