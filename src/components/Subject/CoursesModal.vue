@@ -1,10 +1,11 @@
 <script setup>
+/* eslint-disable */
 import { defineProps, defineEmits, ref, onMounted } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import { useUserStore } from "@/stores/userStore";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
-// import axios from "axios";
+import axios from "axios";
 import { X } from "lucide-vue-next";
 
 const route = useRoute();
@@ -12,6 +13,7 @@ const path = route.params.id;
 const loading = ref(false);
 const courses = ref([])
 const userStore = useUserStore();
+const courseSelected = ref("");
 
 const props = defineProps({
     showModal: Boolean
@@ -38,17 +40,18 @@ const getClassroomCourses = async () => {
         })
         const data = await res.json()
         courses.value = data.courses || []
-        console.log('🏫 Cursos de Classroom:', data)
-    } catch (err) {
-        console.error('Error al obtener cursos:', err)
+    } catch (error) {
+        console.error('Error al obtener cursos:', error)
     }
 }
 
 const addCourse = async () => {
     loading.value = true;
     try {
-        // const apiUrl = new URL(`/api/subjects/${path}`, process.env.VUE_APP_API_URL);
-        // await axios.delete(apiUrl.toString());
+        const apiUrl = new URL(`/api/subjects/${path}`, process.env.VUE_APP_API_URL);
+        await axios.put(apiUrl.toString(), {
+            classroomId: courseSelected.value,
+        });
     } catch (error) {
         console.error("Error al vincular la materia:", error);
     } finally {
@@ -72,16 +75,12 @@ onMounted(async () => {
                     <X :size="16" :stroke-width="3" />
                 </button>
             </div>
-            <div class="flex gap-4 bg-white py-4 overflow-scroll">
-                <div v-if="userStore.user.google.isGoogleLinked">
-                    <div v-if="courses.length">
-                        <ul>
-                            <li v-for="course in courses" :key="course.id">{{ course.name }}</li>
-                        </ul>
-                    </div>
-                </div>
-                <div v-else>cuenta no asociada con google</div>
+            <div v-if="userStore.user.google.isGoogleLinked" class="bg-white py-4 overflow-scroll">
+                <ul v-if="courses.length" class="flex flex-col gap-2">
+                    <li v-for="course in courses" :key="course.id" @click="courseSelected = course.id" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
+                </ul>
             </div>
+            <div v-else>cuenta no asociada con google</div>
             <div class="pt-4 border-t border-t-neutral-200">
                 <BaseButton @click="addCourse" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
             </div>
