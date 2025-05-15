@@ -31,9 +31,10 @@ const subjectName = computed(() => {
 </script>
 
 <template>
-    <div class="flex items-end p-3 h-28 w-full bg-red-800 rounded-xl">
-        <div class="text-white font-semibold text-xl uppercase break-all line-clamp-1">
+    <div class="flex flex-col justify-end p-3 h-28 w-full bg-red-800 rounded-xl">
+        <span class="text-white font-semibold text-xl uppercase break-all line-clamp-1">
             {{ subjectStore.loading ? "Cargando..." : subjectName }}
-        </div>
+        </span>
+        <span v-if="subjectStore.subject?.classroomName" class="italic text-sm text-neutral-200 break-all line-clamp-1">Materia sincronizada con {{ subjectStore.subject?.classroomName }}</span>
     </div>
 </template>

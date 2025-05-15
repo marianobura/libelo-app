@@ -2,7 +2,7 @@
 import { defineProps } from 'vue'
 
 defineProps({
-    count: String,
+    count: Number,
     description: String
 })
 </script>
