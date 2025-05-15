@@ -13,7 +13,7 @@ const path = route.params.id;
 const loading = ref(false);
 const courses = ref([])
 const userStore = useUserStore();
-const courseSelected = ref("");
+const courseSelected = ref(null);
 
 const props = defineProps({
     showModal: Boolean
@@ -31,26 +31,18 @@ const handleOverlayClick = (event) => {
     }
 };
 
-const getClassroomCourses = async () => {
-    try {
-        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
-            headers: {
-                Authorization: `Bearer ${userStore?.user.google.accessToken}`
-            }
-        })
-        const data = await res.json()
-        courses.value = data.courses || []
-    } catch (error) {
-        console.error('Error al obtener cursos:', error)
-    }
-}
+const selectCourse = (course) => {
+    courseSelected.value = { id: course.id, name: course.name };
+};
 
 const addCourse = async () => {
+    if (!courseSelected.value) return;
     loading.value = true;
     try {
         const apiUrl = new URL(`/api/subjects/${path}`, process.env.VUE_APP_API_URL);
         await axios.put(apiUrl.toString(), {
-            classroomId: courseSelected.value,
+            classroomId: courseSelected.value.id,
+            classroomName: courseSelected.value.name
         });
     } catch (error) {
         console.error("Error al vincular la materia:", error);
@@ -62,13 +54,23 @@ const addCourse = async () => {
 
 onMounted(async () => {
     await userStore.fetchUser();
-    await getClassroomCourses();
+    try {
+        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
+            headers: {
+                Authorization: `Bearer ${userStore?.user.google.accessToken}`
+            }
+        })
+        const data = await res.json()
+        courses.value = data.courses = data.courses.filter(course => course.courseState === 'ACTIVE') || []
+    } catch (error) {
+        console.error('Error al obtener cursos:', error)
+    }
 });
 </script>
 
 <template>
     <BaseModal v-if="props.showModal" class="items-end justify-center" @click="handleOverlayClick">
-        <div class="grid grid-rows-[auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-[80%]">
+        <div class="grid grid-rows-[auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-auto max-h-[80%]">
             <div class="flex justify-between items-center pb-4 border-b border-b-neutral-200">
                 <p class="text-lg font-semibold">Vincular materia</p>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
@@ -77,7 +79,7 @@ onMounted(async () => {
             </div>
             <div v-if="userStore.user.google.isGoogleLinked" class="bg-white py-4 overflow-scroll">
                 <ul v-if="courses.length" class="flex flex-col gap-2">
-                    <li v-for="course in courses" :key="course.id" @click="courseSelected = course.id" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
+                    <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
                 </ul>
             </div>
             <div v-else>cuenta no asociada con google</div>
