@@ -6,11 +6,12 @@ import { useUserStore } from "@/stores/userStore";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import axios from "axios";
-import { X } from "lucide-vue-next";
+import { LoaderCircle, X } from "lucide-vue-next";
+import EmptyState from "../EmptyState.vue";
 
 const route = useRoute();
 const path = route.params.id;
-const loading = ref(false);
+const loading = ref(true);
 const courses = ref([])
 const userStore = useUserStore();
 const courseSelected = ref(null);
@@ -54,6 +55,7 @@ const addCourse = async () => {
 
 onMounted(async () => {
     await userStore.fetchUser();
+    loading.value = true;
     try {
         const res = await fetch('https://classroom.googleapis.com/v1/courses', {
             headers: {
@@ -64,6 +66,8 @@ onMounted(async () => {
         courses.value = data.courses = data.courses.filter(course => course.courseState === 'ACTIVE') || []
     } catch (error) {
         console.error('Error al obtener cursos:', error)
+    } finally {
+        loading.value = false;
     }
 });
 </script>
@@ -78,13 +82,19 @@ onMounted(async () => {
                 </button>
             </div>
             <div v-if="userStore.user.google.isGoogleLinked" class="bg-white py-4 overflow-scroll">
-                <ul v-if="courses.length" class="flex flex-col gap-2">
+                <div v-if="loading" class="w-full my-8 flex items-center justify-center">
+                    <div class="flex items-center justify-center size-8">
+                        <LoaderCircle class="animate-spin" :size="32" />
+                    </div>
+                </div>
+                <ul v-else-if="courses.length" class="flex flex-col gap-2">
                     <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
                 </ul>
+                <EmptyState v-else title="No tienes cursos" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
             </div>
             <div v-else>cuenta no asociada con google</div>
             <div class="pt-4 border-t border-t-neutral-200">
-                <BaseButton @click="addCourse" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
+                <BaseButton @click="addCourse" :disabled="courses.length === 0" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
             </div>
         </div>
     </BaseModal>
