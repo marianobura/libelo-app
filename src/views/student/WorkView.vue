@@ -106,7 +106,7 @@ onMounted(async () => {
                     <h3 class="text-lg font-semibold">¡Estás al día!</h3>
                     <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
                 </div>
-                <PendingCard v-for="(course, index) in worksPending" :key="course.id" :num="index + 1" :title="course.title" :date="course.dueDate && course.dueTime ? `${course.dueDate?.day}/${course.dueDate?.month}/${course.dueDate?.year} | ${course.dueTime?.hours}:${course.dueTime?.minutes}` : 'Sin fecha'" />
+                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :date="course.dueDate && course.dueTime ? `${course.dueDate?.day}/${course.dueDate?.month}/${course.dueDate?.year} | ${course.dueTime?.hours}:${course.dueTime?.minutes}` : 'Sin fecha'" />
             </BaseTitle>
         </div>
     </BaseBody>
