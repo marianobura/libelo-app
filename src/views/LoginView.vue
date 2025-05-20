@@ -65,8 +65,8 @@ const handleLogin = async () => {
         const emailResponse = await axios.get(emailUrl.toString());
         const user = emailResponse.data.data;
 
-        if (user.google.isGoogleLinked) {
-            errorMessage.value = 'Este correo está asociado a una cuenta de Google. Por favor, inicie sesión con Google.';
+        if (user.google.isGoogleLinked && !user.password) {
+            errorMessage.value = 'Este correo está asociado a una cuenta de Google. Por favor, inicia sesión con Google.';
             loading.value = false;
             return;
         } else {
@@ -99,6 +99,29 @@ const handleLogin = async () => {
 
     loading.value = false;
 };
+
+const handleTokenFromGoogle = async (accessToken) => {
+    try {
+        const apiUrl = new URL('/api/users/google-login', process.env.VUE_APP_API_URL);
+        const result = await axios.post(apiUrl.toString(), { accessToken });
+
+        if (result.status === 200) {
+            const { token, role } = result.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('role', role);
+
+            if (role === 'student') {
+                router.push('/student');
+            } else if (role === 'teacher') {
+                router.push('/teacher');
+            } else {
+                router.push('/choose-role');
+            }
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión con Google:', error);
+    }
+};
 </script>
 
 <template>
@@ -119,7 +142,7 @@ const handleLogin = async () => {
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
                         <hr class="w-full border-neutral-300" />
                     </div>
-                    <GoogleLogin />
+                    <GoogleLogin :onTokenReceived="handleTokenFromGoogle" />
                 </div>
             </div>
             <div class="flex items-center justify-center h-12 w-full">

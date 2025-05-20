@@ -1,10 +1,14 @@
 <script setup>
 /* eslint-disable */
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { onMounted } from 'vue';
+import { onMounted, defineProps } from 'vue';
 
-const router = useRouter();
+const props = defineProps({
+    onTokenReceived: {
+        type: Function,
+        required: true
+    }
+});
+
 let tokenClient = null;
 
 const loginWithGoogle = () => {
@@ -17,27 +21,7 @@ onMounted(() => {
         scope: 'email profile openid https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.coursework.me.readonly',
         callback: async (response) => {
             const accessToken = response.access_token;
-
-            try {
-                const apiUrl = new URL('/api/users/google-login', process.env.VUE_APP_API_URL);
-                const result = await axios.post(apiUrl.toString(), { accessToken });
-
-                if (result.status === 200) {
-                    const { token, role } = result.data;
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('role', role);
-
-                    if (role === 'student') {
-                        router.push('/student');
-                    } else if (role === 'teacher') {
-                        router.push('/teacher');
-                    } else {
-                        router.push('/choose-role');
-                    }
-                }
-            } catch (error) {
-                console.error('Error al iniciar sesión con Google:', error);
-            }
+            props.onTokenReceived(accessToken);
         }
     });
 });
