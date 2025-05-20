@@ -35,6 +35,6 @@ const subjectName = computed(() => {
         <span class="text-white font-semibold text-xl uppercase break-all line-clamp-1">
             {{ subjectStore.loading ? "Cargando..." : subjectName }}
         </span>
-        <span v-if="subjectStore.subject?.classroomName" class="italic text-sm text-neutral-200 break-all line-clamp-1">Materia sincronizada con {{ subjectStore.subject?.classroomName }}</span>
+        <span v-if="subjectStore.subject?.classroomName" class="italic text-sm text-neutral-200 break-all line-clamp-1">Materia sincronizada: {{ subjectStore.subject?.classroomName }}</span>
     </div>
 </template>
