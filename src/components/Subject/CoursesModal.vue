@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router';
 import axios from "axios";
 import { LoaderCircle, X } from "lucide-vue-next";
 import EmptyState from "../EmptyState.vue";
+import GoogleLogin from "../SignAccount/GoogleLogin.vue";
 
 const route = useRoute();
 const path = route.params.id;
@@ -36,6 +37,28 @@ const selectCourse = (course) => {
     courseSelected.value = { id: course.id, name: course.name };
 };
 
+const fetchCourses = async () => {
+    await userStore.fetchUser();
+    if (userStore.user.google.isGoogleLinked) {
+        loading.value = true;
+        try {
+            const res = await fetch('https://classroom.googleapis.com/v1/courses', {
+                headers: {
+                    Authorization: `Bearer ${userStore?.user.google.accessToken}`
+                }
+            });
+            const data = await res.json();
+            courses.value = data.courses?.filter(course => course.courseState === 'ACTIVE') || [];
+        } catch (error) {
+            console.error('Error al obtener cursos:', error);
+        } finally {
+            loading.value = false;
+        }
+    } else {
+        loading.value = false;
+    }
+};
+
 const addCourse = async () => {
     if (!courseSelected.value) return;
     loading.value = true;
@@ -53,22 +76,21 @@ const addCourse = async () => {
     }
 };
 
-onMounted(async () => {
-    await userStore.fetchUser();
-    loading.value = true;
+const handleTokenFromGoogle = async (accessToken) => {
     try {
-        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
-            headers: {
-                Authorization: `Bearer ${userStore?.user.google.accessToken}`
-            }
-        })
-        const data = await res.json()
-        courses.value = data.courses = data.courses.filter(course => course.courseState === 'ACTIVE') || []
+        const apiUrl = new URL('/api/users/google-link', process.env.VUE_APP_API_URL);
+        const result = await axios.post(apiUrl.toString(), { accessToken, email: userStore.user.email });
+
+        if (result.status === 200) {
+            await fetchCourses();
+        }
     } catch (error) {
-        console.error('Error al obtener cursos:', error)
-    } finally {
-        loading.value = false;
+        console.error('Error al iniciar sesión con Google:', error);
     }
+};
+
+onMounted(async () => {
+    await fetchCourses();
 });
 </script>
 
@@ -92,9 +114,13 @@ onMounted(async () => {
                 </ul>
                 <EmptyState v-else title="No tienes cursos" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
             </div>
-            <div v-else>cuenta no asociada con google</div>
+            <div v-else class="text-center px-4 py-6">
+                <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
+                <p class="text-sm">Para ver tus cursos de Google Classroom, primero necesitas vincular tu cuenta de Google. Haz clic en el botón "Continuar con Google" para comenzar.</p>
+            </div>
             <div class="pt-4 border-t border-t-neutral-200">
-                <BaseButton @click="addCourse" :disabled="courses.length === 0" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
+                <BaseButton v-if="userStore.user.google.isGoogleLinked" @click="addCourse" :disabled="userStore.user.google.isGoogleLinked && courses.length === 0" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
+                <GoogleLogin v-else :onTokenReceived="handleTokenFromGoogle" />
             </div>
         </div>
     </BaseModal>
