@@ -5,25 +5,25 @@ const routes = [
     {
         path: "/",
         name: "welcome",
-        component: () => import("@/views/WelcomeView.vue"),
+        component: () => import("@/views/auth/WelcomeView.vue"),
         meta: { requiresAuth: false },
     },
     {
         path: "/login",
         name: "login",
-        component: () => import("@/views/LoginView.vue"),
+        component: () => import("@/views/auth/LoginView.vue"),
         meta: { requiresAuth: false },
     },
     {
         path: "/register",
         name: "register",
-        component: () => import("@/views/RegisterView.vue"),
+        component: () => import("@/views/auth/RegisterView.vue"),
         meta: { requiresAuth: false },
     },
     {
         path: "/choose-role",
         name: "choose-role",
-        component: () => import("@/views/ChooseRoleView.vue"),
+        component: () => import("@/views/auth/ChooseRoleView.vue"),
         meta: { requiresAuth: true },
     },
     {
@@ -35,25 +35,25 @@ const routes = [
     {
         path: "/settings",
         name: "settings",
-        component: () => import("@/views/SettingsView.vue"),
+        component: () => import("@/views/settings/SettingsView.vue"),
         meta: { requiresAuth: true },
     },
     {
         path: "/settings/edit-profile",
         name: "edit-profile",
-        component: () => import("@/views/EditProfileView.vue"),
+        component: () => import("@/views/settings/EditProfileView.vue"),
         meta: { requiresAuth: true },
     },
     {
         path: "/settings/change-password",
         name: "change-password",
-        component: () => import("@/views/ChangePasswordView.vue"),
+        component: () => import("@/views/settings/ChangePasswordView.vue"),
         meta: { requiresAuth: true },
     },
     {
         path: "/settings/favorite-subjects",
         name: "favorite-subjects",
-        component: () => import("@/views/FavoriteSubjectsView.vue"),
+        component: () => import("@/views/settings/FavoriteSubjectsView.vue"),
         meta: { requiresAuth: true },
     },
     {
