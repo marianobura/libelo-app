@@ -24,7 +24,6 @@ const logout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     router.push({ path: "/" });
-    loading.value = false;
 }
 </script>
 
@@ -35,7 +34,7 @@ const logout = async () => {
             <LabelTitle label="Perfil">
                 <BaseItem title="Editar perfil" :icon="UserRoundPen" @click="goTo('/settings/edit-profile')" />
                 <BaseItem v-if="!userStore.user.google.isGoogleLinked" title="Cambiar contraseña" :icon="SquareAsterisk" @click="goTo('/settings/change-password')" />
-                <BaseItem title="Google Classroom" :icon="LayoutDashboard" @click="goTo('/settings/google-classroom')" />
+                <BaseItem v-if="userStore.user.role === 'student'" title="Google" :icon="LayoutDashboard" @click="goTo('/settings/google')" />
             </LabelTitle>
             <LabelTitle v-if="userStore.user.role === 'teacher'" label="Materias">
                 <BaseItem title="Materias favoritas" :icon="BookHeart" @click="goTo('/settings/favorite-subjects')" />
