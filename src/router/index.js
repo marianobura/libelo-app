@@ -57,6 +57,12 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/settings/google",
+        name: "google-settings",
+        component: () => import("@/views/settings/GoogleSettingsView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/subject/:id/chat",
         name: "chat",
         component: () => import("@/views/ChatView.vue"),
