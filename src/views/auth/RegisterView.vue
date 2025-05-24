@@ -167,7 +167,7 @@ const handleTokenFromGoogle = async (accessToken) => {
                         <span class="text-neutral-700 text-sm text-center">o inicia sesión con</span>
                         <hr class="w-full border-neutral-300" />
                     </div>
-                    <GoogleLogin :onTokenReceived="handleTokenFromGoogle" />
+                    <GoogleLogin :onTokenReceived="handleTokenFromGoogle">Continuar con Google</GoogleLogin>
                 </div>
             </div>
             <div class="flex items-center justify-center h-12 w-full">
