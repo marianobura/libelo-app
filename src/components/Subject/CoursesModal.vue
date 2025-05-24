@@ -12,7 +12,8 @@ import GoogleLogin from "../SignAccount/GoogleLogin.vue";
 
 const route = useRoute();
 const path = route.params.id;
-const loading = ref(true);
+const loading = ref(false);
+const loadingCourses = ref(false);
 const courses = ref([])
 const userStore = useUserStore();
 const courseSelected = ref(null);
@@ -39,23 +40,19 @@ const selectCourse = (course) => {
 
 const fetchCourses = async () => {
     await userStore.fetchUser();
-    if (userStore.user.google.isGoogleLinked) {
-        loading.value = true;
-        try {
-            const res = await fetch('https://classroom.googleapis.com/v1/courses', {
-                headers: {
-                    Authorization: `Bearer ${userStore?.user.google.accessToken}`
-                }
-            });
-            const data = await res.json();
-            courses.value = data.courses?.filter(course => course.courseState === 'ACTIVE') || [];
-        } catch (error) {
-            console.error('Error al obtener cursos:', error);
-        } finally {
-            loading.value = false;
-        }
-    } else {
-        loading.value = false;
+    loadingCourses.value = true;
+    try {
+        const res = await fetch('https://classroom.googleapis.com/v1/courses', {
+            headers: {
+                Authorization: `Bearer ${userStore?.user.google.accessToken}`
+            }
+        });
+        const data = await res.json();
+        courses.value = data.courses?.filter(course => course.courseState === 'ACTIVE') || [];
+    } catch (error) {
+        console.error('Error al obtener cursos:', error);
+    } finally {
+        loadingCourses.value = false;
     }
 };
 
@@ -104,7 +101,7 @@ onMounted(async () => {
                 </button>
             </div>
             <div v-if="userStore.user.google.isGoogleLinked" class="bg-white py-4 overflow-scroll">
-                <div v-if="loading" class="w-full my-8 flex items-center justify-center">
+                <div v-if="loadingCourses" class="w-full my-8 flex items-center justify-center">
                     <div class="flex items-center justify-center size-8">
                         <LoaderCircle class="animate-spin" :size="32" />
                     </div>
@@ -116,11 +113,11 @@ onMounted(async () => {
             </div>
             <div v-else class="text-center px-4 py-6">
                 <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
-                <p class="text-sm">Para ver tus cursos de Google Classroom, primero necesitas vincular tu cuenta de Google. Haz clic en el botón "Continuar con Google" para comenzar.</p>
+                <p class="text-sm">Para ver tus cursos de Google Classroom, primero necesitas vincular tu cuenta de Google. Haz clic en el botón "Vincular con Google" para comenzar.</p>
             </div>
             <div class="pt-4 border-t border-t-neutral-200">
                 <BaseButton v-if="userStore.user.google.isGoogleLinked" @click="addCourse" :disabled="userStore.user.google.isGoogleLinked && courses.length === 0" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
-                <GoogleLogin v-else :onTokenReceived="handleTokenFromGoogle" />
+                <GoogleLogin v-else :onTokenReceived="handleTokenFromGoogle" secondary>Vincular con Google</GoogleLogin>
             </div>
         </div>
     </BaseModal>
