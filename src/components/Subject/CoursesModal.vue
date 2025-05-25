@@ -68,6 +68,7 @@ const addCourse = async () => {
     } catch (error) {
         console.error("Error al vincular la materia:", error);
     } finally {
+        location.reload();
         closeModal();
         loading.value = false;
     }
@@ -109,7 +110,7 @@ onMounted(async () => {
                 <ul v-else-if="courses.length" class="flex flex-col gap-2">
                     <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
                 </ul>
-                <EmptyState v-else title="No tienes cursos" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
+                <EmptyState v-else title="No tienes clases" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
             </div>
             <div v-else class="text-center px-4 py-6">
                 <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
