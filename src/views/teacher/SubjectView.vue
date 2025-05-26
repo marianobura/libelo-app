@@ -68,13 +68,11 @@ const sortedChats = computed(() => {
                 ...chat,
                 lastMessageText: lastMessage?.message || 'Sin mensajes',
                 lastMessageTime: formatDateTime(lastMessage?.timestamp),
-                lastMessageTimestamp: lastMessage?.timestamp ? new Date(lastMessage.timestamp).getTime() : 0,
-                studentName: chat.studentId ? chat.studentId.displayName : 'Estudiante desconocido'
+                lastMessageTimestamp: lastMessage?.timestamp ? new Date(lastMessage.timestamp).getTime() : 0
             };
         })
         .sort((a, b) => b.lastMessageTimestamp - a.lastMessageTimestamp);
 });
-
 
 const groupedChats = computed(() => {
     const groups = sortedChats.value.reduce((acc, chat) => {
@@ -109,15 +107,12 @@ onMounted(fetchChats);
                         <span class="font-semibold p-2">{{ subject }}</span>
                         <hr class="w-full border-neutral-500">
                         <div class="flex flex-col divide-y divide-neutral-400">
-                            <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'"
-                            :student="{
-                                    name: chat.studentName,
-                                    message: chat.lastMessageText,
-                                    subjectName: chat.subjectName,
-                                    ...chat.lastMessageTime
-                                }"
+                            <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'" :student="{
+                                name: chat.studentId.displayName,
+                                message: chat.lastMessageText,
+                                subjectName: chat.subjectName,
+                                ...chat.lastMessageTime }"
                             />
-
                         </div>
                     </div>
                 </div>

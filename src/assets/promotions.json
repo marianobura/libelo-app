@@ -1,465 +1,504 @@
 {
     "promotions": [
-      {
-        "category": "Helados",
-        "promotions": [
-          {
-            "id": 1,
-            "image": "https://placehold.co/10",
-            "title": "2x1 en cucuruchos",
-            "description": "Disfrutá de un 2x1 en cucuruchos en Heladería Patagonia.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Válido hasta las 20:00 hs.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 2,
-            "image": "https://placehold.co/10",
-            "title": "15% de descuento en envíos",
-            "description": "15% off en pedidos a domicilio de Helados del Sur.",
-            "location": "Santa Fe",
-            "valid_until": "12-04-2025",
-            "terms": "Válido para envíos en la ciudad.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 3,
-            "image": "https://placehold.co/10",
-            "title": "Combo Familiar $4000",
-            "description": "Combo de 1kg de helado + 6 cucuruchos en Helado Mágico.",
-            "location": "Córdoba",
-            "valid_until": "12-04-2025",
-            "terms": "No acumulable con otras ofertas.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 4,
-            "image": "https://placehold.co/10",
-            "title": "Sabor del mes al 50% off",
-            "description": "Descuento en el sabor del mes en Helados del Centro.",
-            "location": "Rosario",
-            "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad.",
-            "points": 20,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 5,
-            "image": "https://placehold.co/10",
-            "title": "Envases gratis",
-            "description": "Envase extra gratuito al comprar 1kg de helado.",
-            "location": "Mendoza",
-            "valid_until": "12-04-2025",
-            "terms": "Solo para compras en el local.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 6,
-            "image": "https://placehold.co/10",
-            "title": "Martes de helado",
-            "description": "20% de descuento los martes en Heladería Los Andes.",
-            "location": "Tucumán",
-            "valid_until": "12-04-2025",
-            "terms": "Solo efectivo.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 7,
-            "image": "https://placehold.co/10",
-            "title": "3x2 en helados pequeños",
-            "description": "Llevá 3 helados chicos al precio de 2.",
-            "location": "Salta",
-            "valid_until": "12-04-2025",
-            "terms": "Stock limitado.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 8,
-            "image": "https://placehold.co/10",
-            "title": "Helado gratis para niños",
-            "description": "Helado chico gratis para menores de 10 años.",
-            "location": "Neuquén",
-            "valid_until": "12-04-2025",
-            "terms": "Con consumo de adulto.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 9,
-            "image": "https://placehold.co/10",
-            "title": "25% en pedidos online",
-            "description": "Descuento en pedidos online en Heladería Nieve.",
-            "location": "Bariloche",
-            "valid_until": "12-04-2025",
-            "terms": "Solo para envíos.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 10,
-            "image": "https://placehold.co/10",
-            "title": "Sábado de Promoción",
-            "description": "Con la compra de 2kg, llevate 1kg extra.",
-            "location": "Mar del Plata",
-            "valid_until": "12-04-2025",
-            "terms": "Válido solo los sábados.",
-            "points": 20,
-            "code": "HELADO2X1"
-          }
-        ]
-      },
-      {
-        "category": "Ropa",
-        "promotions": [
-          {
-            "id": 1,
-            "image": "https://placehold.co/10",
-            "title": "30% off en jeans",
-            "description": "Descuento en jeans seleccionados en Tienda Urbana.",
-            "location": "Córdoba",
-            "valid_until": "12-04-2025",
-            "terms": "No acumulable.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 2,
-            "image": "https://placehold.co/10",
-            "title": "50% en ropa de verano",
-            "description": "Liquidación de temporada en Boutique del Sol.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Aplica a prendas seleccionadas.",
-            "points": 20,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 3,
-            "image": "https://placehold.co/10",
-            "title": "15% off en compras online",
-            "description": "Descuento en compras por la web de Ropas Argentinas.",
-            "location": "Rosario",
-            "valid_until": "12-04-2025",
-            "terms": "Solo en compras mayores a $10,000.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 4,
-            "image": "https://placehold.co/10",
-            "title": "3x2 en remeras",
-            "description": "Pagá 2 remeras y llevate 3 en Fashion Store.",
-            "location": "Santa Fe",
-            "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 5,
-            "image": "https://placehold.co/10",
-            "title": "20% off con tarjeta",
-            "description": "Descuento con tarjeta de crédito en Moda Premium.",
-            "location": "Mendoza",
-            "valid_until": "12-04-2025",
-            "terms": "Solo pagos en una cuota.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 6,
-            "image": "https://placehold.co/10",
-            "title": "2x1 en zapatillas",
-            "description": "Comprá un par y llevate otro gratis en Zapatilandia.",
-            "location": "Córdoba",
-            "valid_until": "12-04-2025",
-            "terms": "Aplica a modelos seleccionados.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 7,
-            "image": "https://placehold.co/10",
-            "title": "Descuento por cambio de temporada",
-            "description": "Hasta 40% off en toda la tienda por cambio de temporada.",
-            "location": "Bariloche",
-            "valid_until": "12-04-2025",
-            "terms": "Sin excepciones.",
-            "points": 20,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 8,
-            "image": "https://placehold.co/10",
-            "title": "Camisas al 30% menos",
-            "description": "Descuento en camisas formales en Elegancia Ropa.",
-            "location": "Salta",
-            "valid_until": "12-04-2025",
-            "terms": "Válido hasta agotar stock.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 9,
-            "image": "https://placehold.co/10",
-            "title": "Accesorios al 2x1",
-            "description": "Promoción en accesorios en Tienda Look.",
-            "location": "Tucumán",
-            "valid_until": "12-04-2025",
-            "terms": "Promoción válida solo en tienda física.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 10,
-            "image": "https://placehold.co/10",
-            "title": "10% de reintegro",
-            "description": "Reintegro en efectivo por compras en Ropa Moderna.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Solo efectivo.",
-            "points": 10,
-            "code": "HELADO2X1"
-          }
-        ]
-      },
-      {
-        "category": "Entretenimiento",
-        "promotions": [
-          {
-            "id": 1,
-            "image": "https://placehold.co/10",
-            "title": "2x1 en entradas de cine",
-            "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Válido solo de lunes a jueves.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 2,
-            "image": "https://placehold.co/10",
-            "title": "50% de descuento en obras de teatro",
-            "description": "Descuento en todas las funciones del Teatro Luna.",
-            "location": "Rosario",
-            "valid_until": "12-04-2025",
-            "terms": "No acumulable con otras promociones.",
-            "points": 20,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 3,
-            "image": "https://placehold.co/10",
-            "title": "20% off en tours por la ciudad",
-            "description": "Recorridos turísticos con descuento en Viajes City Tour.",
-            "location": "Mendoza",
-            "valid_until": "12-04-2025",
-            "terms": "Solo en compras online.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 4,
-            "image": "https://placehold.co/10",
-            "title": "3x2 en excursiones de trekking",
-            "description": "Pagá 2 y llevate 3 excursiones en Caminatas Andinas.",
-            "location": "Bariloche",
-            "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad.",
-            "points": 25,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 5,
-            "image": "https://placehold.co/10",
-            "title": "Descuento en paquetes de viaje",
-            "description": "Hasta 30% en paquetes a Cataratas del Iguazú.",
-            "location": "Misiones",
-            "valid_until": "12-04-2025",
-            "terms": "Reservas con 30 días de anticipación.",
-            "points": 25,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 6,
-            "image": "https://placehold.co/10",
-            "title": "Promoción en escape rooms",
-            "description": "20% de descuento en Escape Room Argentina.",
-            "location": "Córdoba",
-            "valid_until": "12-04-2025",
-            "terms": "No aplica en eventos privados.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 7,
-            "image": "https://placehold.co/10",
-            "title": "Entradas gratis para menores",
-            "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
-            "location": "Tucumán",
-            "valid_until": "12-04-2025",
-            "terms": "Con acompañante adulto.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 8,
-            "image": "https://placehold.co/10",
-            "title": "Noche de teatro 2x1",
-            "description": "Entradas 2x1 los viernes en Teatro Independiente.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Sujeto a disponibilidad.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 9,
-            "image": "https://placehold.co/10",
-            "title": "Descuento en entradas a museos",
-            "description": "15% de descuento en Museo Histórico Nacional.",
-            "location": "Salta",
-            "valid_until": "12-04-2025",
-            "terms": "Aplica solo para residentes locales.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 10,
-            "image": "https://placehold.co/10",
-            "title": "25% en excursiones de kayak",
-            "description": "Descuento en paseos en kayak en Río Paraná.",
-            "location": "Santa Fe",
-            "valid_until": "12-04-2025",
-            "terms": "Sujeto a condiciones climáticas.",
-            "points": 25,
-            "code": "HELADO2X1"
-          }
-        ]
-      },
-      {
-        "category": "Restaurantes",
-        "promotions": [
-          {
-            "id": 1,
-            "image": "https://placehold.co/10",
-            "title": "Descuento en menú ejecutivo",
-            "description": "20% off en menú ejecutivo en Restaurante Gourmet.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "No válido los domingos.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 2,
-            "image": "https://placehold.co/10",
-            "title": "2x1 en pizzas",
-            "description": "Llevate 2 pizzas por el precio de 1 en Pizzería El Rincón.",
-            "location": "Córdoba",
-            "valid_until": "12-04-2025",
-            "terms": "Válido solo de lunes a jueves.",
-            "points": 5,
-            "code": "HELADO2X1"          
-          },
-          {
-            "id": 3,
-            "image": "https://placehold.co/10",
-            "title": "Descuento en parrillada",
-            "description": "25% de descuento en parrillada para 4 personas.",
-            "location": "Rosario",
-            "valid_until": "12-04-2025",
-            "terms": "Solo efectivo.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 4,
-            "image": "https://placehold.co/10",
-            "title": "Bebida gratis con tu almuerzo",
-            "description": "Incluí una bebida gratis en Restaurante Buen Sabor.",
-            "location": "Mendoza",
-            "valid_until": "12-04-2025",
-            "terms": "Una bebida por persona.",
-            "points": 5,
-            "code": "HELADO2X1"          
-          },
-          {
-            "id": 5,
-            "image": "https://placehold.co/10",
-            "title": "50% en segunda hamburguesa",
-            "description": "Descuento en tu segunda hamburguesa en Hamburguesería XXL.",
-            "location": "Salta",
-            "valid_until": "12-04-2025",
-            "terms": "No acumulable.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 6,
-            "image": "https://placehold.co/10",
-            "title": "Promoción en sushi",
-            "description": "Hasta 30% en rolls seleccionados en Sushi Bar.",
-            "location": "Bariloche",
-            "valid_until": "12-04-2025",
-            "terms": "Aplica solo a take-away.",
-            "points": 15,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 7,
-            "image": "https://placehold.co/10",
-            "title": "Postre gratis",
-            "description": "Obtené un postre gratis en Café del Lago.",
-            "location": "Tucumán",
-            "valid_until": "12-04-2025",
-            "terms": "Solo para cenas.",
-            "points": 5,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 8,
-            "image": "https://placehold.co/10",
-            "title": "10% de reintegro",
-            "description": "Reintegro en efectivo por tu comida en Restaurante Local.",
-            "location": "Santa Fe",
-            "valid_until": "12-04-2025",
-            "terms": "Solo pagos en efectivo.",
-            "points": 10,
-            "code": "HELADO2X1"
-          },
-          {
-            "id": 9,
-            "image": "https://placehold.co/10",
-            "title": "Menú infantil gratis",
-            "description": "Menú infantil sin costo en Restaurante Familiar.",
-            "location": "Buenos Aires",
-            "valid_until": "12-04-2025",
-            "terms": "Con consumo mínimo de $5,000.",
-            "points": 5,
-            "code": "HELADO2X1"          
-          },
-          {
-            "id": 10,
-            "image": "https://placehold.co/10",
-            "title": "50% off en tapas",
-            "description": "Descuento en tapas en Bar de Tapas.",
-            "location": "Mendoza",
-            "valid_until": "12-04-2025",
-            "terms": "Solo de 18:00 a 20:00 hs.",
-            "points": 10,
-            "code": "HELADO2X1"
-          }
-        ]
-      }
+        {
+            "category": "Helados",
+            "promotions": [
+                {
+                    "id": "P51711",
+                    "image": "https://placehold.co/10",
+                    "title": "2x1 en cucuruchos",
+                    "description": "Disfrutá de un 2x1 en cucuruchos en Heladería Patagonia.",
+                    "location": "Buenos Aires",
+                    "valid_until": "16/09/2026",
+                    "terms": "Válido hasta las 20:00 hs.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Heladería Patagonia"
+                },
+                {
+                    "id": "P78548",
+                    "image": "https://placehold.co/10",
+                    "title": "15% de descuento en envíos",
+                    "description": "15% off en pedidos a domicilio de Helados del Sur.",
+                    "location": "Santa Fe",
+                    "valid_until": "23/04/2025",
+                    "terms": "Válido para envíos en la ciudad.",
+                    "points": 15,
+                    "code": "HELADO2X1",
+                    "name": "Helados del Sur"
+                },
+                {
+                    "id": "P58052",
+                    "image": "https://placehold.co/10",
+                    "title": "Combo Familiar $4000",
+                    "description": "Combo de 1kg de helado + 6 cucuruchos en Helado Mágico.",
+                    "location": "Córdoba",
+                    "valid_until": "06/09/2025",
+                    "terms": "No acumulable con otras ofertas.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Helado Mágico"
+                },
+                {
+                    "id": "P54181",
+                    "image": "https://placehold.co/10",
+                    "title": "Sabor del mes al 50% off",
+                    "description": "Descuento en el sabor del mes en Helados del Centro.",
+                    "location": "Rosario",
+                    "valid_until": "12/10/2026",
+                    "terms": "Sujeto a disponibilidad.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Helados del Centro"
+                },
+                {
+                    "id": "P64282",
+                    "image": "https://placehold.co/10",
+                    "title": "Envases gratis",
+                    "description": "Envase extra gratuito al comprar 1kg de helado.",
+                    "location": "Mendoza",
+                    "valid_until": "13/08/2025",
+                    "terms": "Solo para compras en el local.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Genérica"
+                },
+                {
+                    "id": "P90174",
+                    "image": "https://placehold.co/10",
+                    "title": "Martes de helado",
+                    "description": "20% de descuento los martes en Heladería Los Andes.",
+                    "location": "Tucumán",
+                    "valid_until": "21/12/2026",
+                    "terms": "Solo efectivo.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Heladería Los Andes"
+                },
+                {
+                    "id": "P63316",
+                    "image": "https://placehold.co/10",
+                    "title": "3x2 en helados pequeños",
+                    "description": "Llevá 3 helados chicos al precio de 2.",
+                    "location": "Salta",
+                    "valid_until": "08/01/2026",
+                    "terms": "Stock limitado.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Genérica"
+                },
+                {
+                    "id": "P72304",
+                    "image": "https://placehold.co/10",
+                    "title": "Helado gratis para niños",
+                    "description": "Helado chico gratis para menores de 10 años.",
+                    "location": "Neuquén",
+                    "valid_until": "14/08/2026",
+                    "terms": "Con consumo de adulto.",
+                    "points": 15,
+                    "code": "HELADO2X1",
+                    "name": "Genérica"
+                },
+                {
+                    "id": "P75006",
+                    "image": "https://placehold.co/10",
+                    "title": "25% en pedidos online",
+                    "description": "Descuento en pedidos online en Heladería Nieve.",
+                    "location": "Bariloche",
+                    "valid_until": "15/04/2025",
+                    "terms": "Solo para envíos.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Heladería Nieve"
+                },
+                {
+                    "id": "P94517",
+                    "image": "https://placehold.co/10",
+                    "title": "Sábado de Promoción",
+                    "description": "Con la compra de 2kg, llevate 1kg extra.",
+                    "location": "Mar del Plata",
+                    "valid_until": "17/12/2025",
+                    "terms": "Válido solo los sábados.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Genérica"
+                }
+            ]
+        },
+        {
+            "category": "Ropa",
+            "promotions": [
+                {
+                    "id": "P50166",
+                    "image": "https://placehold.co/10",
+                    "title": "30% off en jeans",
+                    "description": "Descuento en jeans seleccionados en Tienda Urbana.",
+                    "location": "Córdoba",
+                    "valid_until": "08/12/2026",
+                    "terms": "No acumulable.",
+                    "points": 15,
+                    "code": "HELADO2X1",
+                    "name": "Tienda Urbana"
+                },
+                {
+                    "id": "P92909",
+                    "image": "https://placehold.co/10",
+                    "title": "50% en ropa de verano",
+                    "description": "Liquidación de temporada en Boutique del Sol.",
+                    "location": "Buenos Aires",
+                    "valid_until": "11/10/2026",
+                    "terms": "Aplica a prendas seleccionadas.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Boutique del Sol"
+                },
+                {
+                    "id": "P55604",
+                    "image": "https://placehold.co/10",
+                    "title": "15% off en compras online",
+                    "description": "Descuento en compras por la web de 47 street.",
+                    "location": "Rosario",
+                    "valid_until": "16/03/2025",
+                    "terms": "Solo en compras mayores a $10,000.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "47 street"
+                },
+                {
+                    "id": "P18985",
+                    "image": "https://placehold.co/10",
+                    "title": "3x2 en remeras",
+                    "description": "Pagá 2 remeras y llevate 3 en Fashion Store.",
+                    "location": "Santa Fe",
+                    "valid_until": "09/01/2026",
+                    "terms": "Sujeto a disponibilidad.",
+                    "points": 15,
+                    "code": "HELADO2X1",
+                    "name": "Fashion Store"
+                },
+                {
+                    "id": "P63838",
+                    "image": "https://placehold.co/10",
+                    "title": "20% off con tarjeta",
+                    "description": "Descuento con tarjeta de crédito en Moda Premium.",
+                    "location": "Mendoza",
+                    "valid_until": "21/11/2026",
+                    "terms": "Solo pagos en una cuota.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Moda Premium"
+                },
+                {
+                    "id": "P72590",
+                    "image": "https://placehold.co/10",
+                    "title": "2x1 en zapatillas",
+                    "description": "Comprá un par y llevate otro gratis en Zapatilandia.",
+                    "location": "Córdoba",
+                    "valid_until": "14/02/2026",
+                    "terms": "Aplica a modelos seleccionados.",
+                    "points": 15,
+                    "code": "HELADO2X1",
+                    "name": "Zapatilandia"
+                },
+                {
+                    "id": "P24287",
+                    "image": "https://placehold.co/10",
+                    "title": "Descuento por cambio de temporada",
+                    "description": "Hasta 40% off en toda la tienda por cambio de temporada.",
+                    "location": "Bariloche",
+                    "valid_until": "24/11/2026",
+                    "terms": "Sin excepciones.",
+                    "points": 5,
+                    "code": "HELADO2X1",
+                    "name": "Levi's"
+                },
+                {
+                    "id": "P55539",
+                    "image": "https://placehold.co/10",
+                    "title": "Camisas al 30% menos",
+                    "description": "Descuento en camisas formales en Brooksfield.",
+                    "location": "Salta",
+                    "valid_until": "19/07/2026",
+                    "terms": "Válido hasta agotar stock.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Brooksfield"
+                },
+                {
+                    "id": "P56391",
+                    "image": "https://placehold.co/10",
+                    "title": "Accesorios al 2x1",
+                    "description": "Promoción en accesorios en Tienda Look.",
+                    "location": "Tucumán",
+                    "valid_until": "25/02/2026",
+                    "terms": "Promoción válida solo en tienda física.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Tienda Look"
+                },
+                {
+                    "id": "P86189",
+                    "image": "https://placehold.co/10",
+                    "title": "10% de reintegro",
+                    "description": "Reintegro en efectivo por compras en Mimo & Co.",
+                    "location": "Buenos Aires",
+                    "valid_until": "06/03/2026",
+                    "terms": "Solo efectivo.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Mimo & Co"
+                }
+            ]
+        },
+        {
+            "category": "Entretenimiento",
+            "promotions": [
+                {
+                    "id": "P19512",
+                    "image": "https://placehold.co/10",
+                    "title": "2x1 en entradas de cine",
+                    "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
+                    "location": "Buenos Aires",
+                    "valid_until": "28/07/2025",
+                    "terms": "Válido solo de lunes a jueves.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Cines ABC"
+                },
+                {
+                    "id": "P61552",
+                    "image": "https://placehold.co/10",
+                    "title": "50% de descuento en obras de teatro",
+                    "description": "Descuento en todas las funciones del Teatro Luna.",
+                    "location": "Rosario",
+                    "valid_until": "15/11/2026",
+                    "terms": "No acumulable con otras promociones.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Sony"
+                },
+                {
+                    "id": "P78906",
+                    "image": "https://placehold.co/10",
+                    "title": "20% off en tours por la ciudad",
+                    "description": "Recorridos turísticos con descuento en Viajes City Tour.",
+                    "location": "Mendoza",
+                    "valid_until": "10/08/2026",
+                    "terms": "Solo en compras online.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Showcase"
+                },
+                {
+                    "id": "P29921",
+                    "image": "https://placehold.co/10",
+                    "title": "3x2 en excursiones de trekking",
+                    "description": "Pagá 2 y llevate 3 excursiones en Caminatas Andinas.",
+                    "location": "Bariloche",
+                    "valid_until": "09/03/2026",
+                    "terms": "Sujeto a disponibilidad.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Musimundo"
+                },
+                {
+                    "id": "P77324",
+                    "image": "https://placehold.co/10",
+                    "title": "Descuento en paquetes de viaje",
+                    "description": "Hasta 30% en paquetes a Cataratas del Iguazú.",
+                    "location": "Misiones",
+                    "valid_until": "04/01/2026",
+                    "terms": "Reservas con 30 días de anticipación.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Musimundo"
+                },
+                {
+                    "id": "P94026",
+                    "image": "https://placehold.co/10",
+                    "title": "Promoción en escape rooms",
+                    "description": "20% de descuento en Escape Room Argentina.",
+                    "location": "Córdoba",
+                    "valid_until": "24/06/2026",
+                    "terms": "No aplica en eventos privados.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Cinemark"
+                },
+                {
+                    "id": "P89082",
+                    "image": "https://placehold.co/10",
+                    "title": "Entradas gratis para menores",
+                    "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
+                    "location": "Tucumán",
+                    "valid_until": "06/05/2025",
+                    "terms": "Con acompañante adulto.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Village Cines"
+                },
+                {
+                    "id": "P68464",
+                    "image": "https://placehold.co/10",
+                    "title": "Noche de teatro 2x1",
+                    "description": "Entradas 2x1 los viernes en Teatro Independiente.",
+                    "location": "Buenos Aires",
+                    "valid_until": "28/01/2026",
+                    "terms": "Sujeto a disponibilidad.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Cinemark"
+                },
+                {
+                    "id": "P51499",
+                    "image": "https://placehold.co/10",
+                    "title": "Descuento en entradas a museos",
+                    "description": "15% de descuento en Museo Histórico Nacional.",
+                    "location": "Salta",
+                    "valid_until": "18/11/2026",
+                    "terms": "Aplica solo para residentes locales.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Village Cines"
+                },
+                {
+                    "id": "P31576",
+                    "image": "https://placehold.co/10",
+                    "title": "25% en excursiones de kayak",
+                    "description": "Descuento en paseos en kayak en Río Paraná.",
+                    "location": "Santa Fe",
+                    "valid_until": "23/12/2026",
+                    "terms": "Sujeto a condiciones climáticas.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Cinemark"
+                }
+            ]
+        },
+        {
+            "category": "Restaurantes",
+            "promotions": [
+                {
+                    "id": "P93196",
+                    "image": "https://placehold.co/10",
+                    "title": "Descuento en menú ejecutivo",
+                    "description": "20% off en menú ejecutivo en Don Julio.",
+                    "location": "Buenos Aires",
+                    "valid_until": "16/09/2026",
+                    "terms": "No válido los domingos.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Don Julio"
+                },
+                {
+                    "id": "P92089",
+                    "image": "https://placehold.co/10",
+                    "title": "2x1 en pizzas",
+                    "description": "Llevate 2 pizzas por el precio de 1 en Pizzería El Rincón.",
+                    "location": "Córdoba",
+                    "valid_until": "06/04/2026",
+                    "terms": "Válido solo de lunes a jueves.",
+                    "points": 20,
+                    "code": "HELADO2X1",
+                    "name": "Pizzería El Rincón"
+                },
+                {
+                    "id": "P79095",
+                    "image": "https://placehold.co/10",
+                    "title": "Descuento en parrillada",
+                    "description": "25% de descuento en parrillada para 4 personas en La Dorita.",
+                    "location": "Rosario",
+                    "valid_until": "08/09/2025",
+                    "terms": "Solo efectivo.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "La Dorita"
+                },
+                {
+                    "id": "P21029",
+                    "image": "https://placehold.co/10",
+                    "title": "Bebida gratis con tu almuerzo",
+                    "description": "Incluí una bebida gratis en el restaurante Buen Sabor.",
+                    "location": "Mendoza",
+                    "valid_until": "13/11/2025",
+                    "terms": "Una bebida por persona.",
+                    "points": 10,
+                    "code": "HELADO2X1",
+                    "name": "Buen Sabor"
+                },
+                {
+                    "id": "P76096",
+                    "image": "https://placehold.co/10",
+                    "title": "50% en segunda hamburguesa",
+                    "description": "Descuento en tu segunda hamburguesa en Hamburguesería XXL.",
+                    "location": "Salta",
+                    "valid_until": "20/09/2025",
+                    "terms": "No acumulable.",
+                    "points": 5,
+                    "code": "HELADO2X1",
+                    "name": "Hamburguesería XXL"
+                },
+                {
+                    "id": "P52173",
+                    "image": "https://placehold.co/10",
+                    "title": "Promoción en sushi",
+                    "description": "Hasta 30% en rolls seleccionados en Sushi Bar.",
+                    "location": "Bariloche",
+                    "valid_until": "08/05/2026",
+                    "terms": "Aplica solo a take/away.",
+                    "points": 30,
+                    "code": "HELADO2X1",
+                    "name": "Sushi Bar"
+                },
+                {
+                    "id": "P24609",
+                    "image": "https://placehold.co/10",
+                    "title": "Postre gratis",
+                    "description": "Obtené un postre gratis en Café del Lago.",
+                    "location": "Tucumán",
+                    "valid_until": "03/09/2026",
+                    "terms": "Solo para cenas.",
+                    "points": 5,
+                    "code": "HELADO2X1",
+                    "name": "Café del Lago"
+                },
+                {
+                    "id": "P35746",
+                    "image": "https://placehold.co/10",
+                    "title": "10% de reintegro",
+                    "description": "Reintegro en efectivo por tu comida en Arredondo.",
+                    "location": "Santa Fe",
+                    "valid_until": "10/12/2026",
+                    "terms": "Solo pagos en efectivo.",
+                    "points": 25,
+                    "code": "HELADO2X1",
+                    "name": "Arredondo"
+                },
+                {
+                    "id": "P29240",
+                    "image": "https://placehold.co/10",
+                    "title": "Menú infantil gratis",
+                    "description": "Menú infantil sin costo en Crizia.",
+                    "location": "Buenos Aires",
+                    "valid_until": "27/12/2026",
+                    "terms": "Con consumo mínimo de $5,000.",
+                    "points": 5,
+                    "code": "HELADO2X1",
+                    "name": "Crizia"
+                },
+                {
+                    "id": "P36732",
+                    "image": "https://placehold.co/10",
+                    "title": "50% off en tapas",
+                    "description": "Descuento en tapas en Bar de Tapas.",
+                    "location": "Mendoza",
+                    "valid_until": "03/01/2026",
+                    "terms": "Solo de 18:00 a 20:00 hs.",
+                    "points": 5,
+                    "code": "HELADO2X1",
+                    "name": "Bar de Tapas"
+                }
+            ]
+        }
     ]
-  }
-  
+}
