@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { defineProps, defineEmits, ref, onMounted, watch } from 'vue';
 import { SendHorizontalIcon } from 'lucide-vue-next';
 
 const props = defineProps({
@@ -25,15 +25,19 @@ const autoResize = () => {
 
 const sendMessage = () => {
     if (!props.isSending) {
-        emit('sendMessage', resetTextareaHeight);
+        emit('sendMessage');
     }
 };
 
-const resetTextareaHeight = () => {
-    if (textarea.value) {
-        textarea.value.style.height = "24px";
+watch(() => props.modelValue, (newValue) => {
+    if (newValue === '') {
+        if (textarea.value) {
+            textarea.value.style.height = "24px";
+        }
+    } else {
+        autoResize();
     }
-};
+}, { immediate: true });
 
 onMounted(() => {
     autoResize();
