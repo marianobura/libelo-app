@@ -87,15 +87,14 @@ onMounted(async () => {
 <template>
     <BaseBody>
         <BaseNav title="Trabajos" />
-        <div class="flex flex-col gap-4 p-2">
+        <div class="flex flex-col gap-4 p">
             <SubjectBanner />
-            <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados.">
-                <div class="grid grid-cols-2 gap-2 w-full">
-                    <StatusCard :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
-                    <StatusCard :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
-                </div>
-            </BaseTitle>
-            <BaseTitle title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
+                <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados." class="p-2" />
+                    <div class="grid grid-cols-2 gap-1 w-full text-truncate line-clamp-1">
+                        <StatusCard :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
+                        <StatusCard :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
+                    </div>
+                <BaseTitle title="Trabajos pendientes" description="Los trabajos están conectados con Classroom." class="p-2">
                 <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
                     <div class="flex items-center justify-center size-8">
                         <LoaderCircle class="animate-spin" :size="32" />
