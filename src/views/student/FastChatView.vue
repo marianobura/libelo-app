@@ -10,6 +10,7 @@ import UserAvatar from '@/components/UserAvatar.vue';
 import { useRoute } from 'vue-router';
 import { reactive } from 'vue';
 import ChatInput from '@/components/Chat/ChatInput.vue';
+import { marked } from 'marked';
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -55,6 +56,10 @@ const sendMessage = async () => {
         loadingMessage.loading = false;
     }
 };
+
+const parseMarkdown = (text) => {
+    return marked.parse(text || '');
+};
 </script>
 
 <template>
@@ -70,13 +75,11 @@ const sendMessage = async () => {
                         </div>
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>
-                            <div :class="message.sender === 'ai' ? 'bg-orange-600/40' : 'bg-libelo-500'" class="p-2 rounded-xl w-fit">
+                            <div :class="message.sender === 'ai' ? '' : 'bg-libelo-500 p-2'" class="rounded-xl w-fit">
                                 <p v-if="message.sender === 'ai' && message.loading" class="animate-spin">
                                     <LoaderCircle />
                                 </p>
-                                <p v-else :class="message.sender === 'user' ? 'text-white' : ''" class="text-sm">
-                                    {{ message.text }}
-                                </p>
+                                <div v-else v-html="parseMarkdown(message.text)" :class="message.sender === 'user' ? 'text-white' : ''"  class="text-sm prose prose-sm max-w-full"></div>
                             </div>
                         </div>
                     </div>
