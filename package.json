@@ -12,6 +12,7 @@
     "@vuepic/vue-datepicker": "^11.0.2",
     "axios": "^1.7.7",
     "core-js": "^3.8.3",
+    "flowbite": "^3.1.2",
     "jwt-decode": "^4.0.0",
     "lucide-vue-next": "^0.452.0",
     "marked": "^15.0.12",

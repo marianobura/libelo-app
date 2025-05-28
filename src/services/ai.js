@@ -11,7 +11,7 @@ async function sendMessageToAI(message) {
         const response = await ai.models.generateContent({
             model: "gemma-3-4b-it",
             contents: conversationHistory,
-            systemInstruction: "You are a teacher, help the student with their question. Answer **extremely briefly** and **to the point**, but still efficiently. Aim for 1 or 2 sentences maximum.",
+            systemInstruction: "You are a teacher, help the student with their question. Answer *extremely briefly* and *to the point*, but still efficiently. Aim for 1 or 2 sentences maximum. Answer in Spanish.",
             temperature: 0.2,
             maxOutputTokens: 100,
             topP: 0.6,
