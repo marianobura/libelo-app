@@ -116,7 +116,7 @@ onMounted(async () => {
                 <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
                 <p class="text-sm">Para ver tus cursos de Google Classroom, primero necesitas vincular tu cuenta de Google. Haz clic en el botón "Vincular con Google" para comenzar.</p>
             </div>
-            <div v-if="courses.length > 0" class="pt-4 border-t border-t-neutral-200">
+            <div v-if="!userStore.user.google.isGoogleLinked || courses.length > 0" class="pt-4 border-t border-t-neutral-200">
                 <BaseButton v-if="userStore.user.google.isGoogleLinked" @click="addCourse" primary>{{ loading ? 'Vinculando materia...' : 'Vincular materia' }}</BaseButton>
                 <GoogleLogin v-else :onTokenReceived="handleTokenFromGoogle" secondary>Vincular con Google</GoogleLogin>
             </div>
