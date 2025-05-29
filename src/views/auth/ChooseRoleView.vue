@@ -79,7 +79,7 @@ onMounted(async () => {
                     </div>
                 </div>
             </div>
-            <BaseButton primary @click="confirmRole">Confirmar y continuar</BaseButton>
+            <BaseButton primary @click="confirmRole" :disabled="!selectedRole">Confirmar y continuar</BaseButton>
         </div>
     </div>
 </template>
