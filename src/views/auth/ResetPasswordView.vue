@@ -71,15 +71,12 @@ const sendResetEmail = async () => {
             },
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
             throw new Error('Error al enviar el correo');
         }
 
         successMessage.value = 'Correo enviado con instrucciones.';
         step.value = 2;
-
     } catch (error) {
         errorMessage.value = error.message || 'Error al enviar el correo.';
     } finally {

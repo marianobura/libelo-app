@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { defineProps, defineEmits, ref, onMounted } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import { useUserStore } from "@/stores/userStore";
