@@ -21,6 +21,47 @@ const workStore = useWorkStore();
 const loading = ref(true);
 const worksPending = ref([]);
 const worksCompleted = ref([]);
+const showPending = ref(true);
+const showCompleted = ref(false);
+
+const formatDueDate = (dueDate, dueTime) => {
+    if (!dueDate || !dueTime) return 'Sin fecha';
+
+    const date = new Date(Date.UTC(
+        dueDate.year,
+        dueDate.month - 1,
+        dueDate.day,
+        dueTime.hours || 0,
+        dueTime.minutes || 0
+    ));
+
+    return date.toLocaleString(undefined, {
+        dateStyle: 'short',
+        timeStyle: 'short',
+        hour12: false
+    }).replace(',', ' |');
+}
+
+const getCompletedDescription = (course) => {
+    let state = '';
+
+    switch (course.submissionState) {
+        case 'TURNED_IN':
+            state = 'Entregado';
+            break;
+        case 'RETURNED':
+            state = 'Devuelto';
+            break;
+        default:
+            state = 'Estado desconocido';
+    }
+
+    if (course.assignedGrade !== undefined) {
+        state += ` | Nota: ${course.assignedGrade}`;
+    }
+
+    return `${state}`;
+};
 
 onMounted(async () => {
     await subjectStore.fetchSubject(path);
@@ -60,7 +101,9 @@ onMounted(async () => {
                 for (const submission of submissionData.studentSubmissions) {
                     const combined = {
                         ...courseWork,
-                        submissionState: submission.state
+                        submissionState: submission.state,
+                        assignedGrade: submission.assignedGrade,
+                        submission: submission
                     };
 
                     if (submission.state === "TURNED_IN" || submission.state === "RETURNED") {
@@ -90,11 +133,11 @@ onMounted(async () => {
             <SubjectBanner />
             <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados.">
                 <div class="grid grid-cols-2 gap-2 w-full">
-                    <StatusCard :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
-                    <StatusCard :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
+                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
+                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
                 </div>
             </BaseTitle>
-            <BaseTitle title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
+            <BaseTitle v-if="showPending" title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
                 <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
                     <div class="flex items-center justify-center size-8">
                         <LoaderCircle class="animate-spin" :size="32" />
@@ -105,7 +148,20 @@ onMounted(async () => {
                     <h3 class="text-lg font-semibold">¡Estás al día!</h3>
                     <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
                 </div>
-                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :date="course.dueDate && course.dueTime ? `${course.dueDate?.day}/${course.dueDate?.month}/${course.dueDate?.year} | ${course.dueTime?.hours}:${course.dueTime?.minutes}` : 'Sin fecha'" />
+                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" />
+            </BaseTitle>
+            <BaseTitle v-if="showCompleted" title="Trabajos completados" description="Los trabajos están conectados con Classroom.">
+                <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
+                    <div class="flex items-center justify-center size-8">
+                        <LoaderCircle class="animate-spin" :size="32" />
+                    </div>
+                </div>
+                <div v-if="!loading && worksCompleted.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
+                    <CheckCircle class="mx-auto mb-2" :size="32" />
+                    <h3 class="text-lg font-semibold">¡Estás al día!</h3>
+                    <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
+                </div>
+                <PendingCard v-for="(course, index) in worksCompleted" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="getCompletedDescription(course)" />
             </BaseTitle>
         </div>
     </BaseBody>
