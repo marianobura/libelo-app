@@ -5,7 +5,7 @@
             "promotions": [
                 {
                     "id": "P51711",
-                    "image": "https://placehold.co/10",
+                    "image": "https://instagram.ffdo4-1.fna.fbcdn.net/v/t39.30808-6/425696619_122097111350210618_3526590256834930037_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQuaW1hZ2VfdXJsZ2VuLjEwODB4MTA4MC5zZHIuZjMwODA4LmRlZmF1bHRfaW1hZ2UifQ&_nc_ht=instagram.ffdo4-1.fna.fbcdn.net&_nc_cat=102&_nc_oc=Q6cZ2QEcWFOgvm_z2wN4xX6MmnM-vkuUgbfBHRw4-y1AfH4jvycvLkGBRqI-gied1i5Z14Q&_nc_ohc=LeAvwXg_ZwAQ7kNvwHzPMNp&_nc_gid=mV2616tkFOOsHiv2GJUAew&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzI5OTAyNDczODEzMzMwMDQzNQ%3D%3D.3-ccb7-5&oh=00_AfKAVAjipbMsBtMfcVOYcfuCVnBwD2XdbwR9ELSoLcsRqg&oe=684301E3&_nc_sid=10d13b",
                     "title": "2x1 en cucuruchos",
                     "description": "Disfrutá de un 2x1 en cucuruchos en Freddo.",
                     "location": "Buenos Aires",
@@ -17,7 +17,7 @@
                 },
                 {
                     "id": "P78548",
-                    "image": "https://placehold.co/10",
+                    "image": "https://adnchocolate.com.ar/wp-content/uploads/quien-es-el-dueno-de-persico-1.webp",
                     "title": "15% de descuento en envíos",
                     "description": "15% off en pedidos a domicilio de Persicco.",
                     "location": "Santa Fe",
@@ -29,7 +29,7 @@
                 },
                 {
                     "id": "P58052",
-                    "image": "https://placehold.co/10",
+                    "image": "https://i0.wp.com/www.sitemarca.com/wp-content/uploads/2015/02/image002.jpg?resize=558%2C330&ssl=1",
                     "title": "Combo Familiar $4000",
                     "description": "Combo de 1kg de helado + 6 cucuruchos en Chungo.",
                     "location": "Córdoba",
@@ -41,7 +41,7 @@
                 },
                 {
                     "id": "P54181",
-                    "image": "https://placehold.co/10",
+                    "image": "https://bucket1.glanacion.com/Club.LN/anexos/fotos/43/B775043.jpg?ver=541149950",
                     "title": "Sabor del mes al 50% off",
                     "description": "Descuento en el sabor del mes en Saverio.",
                     "location": "Rosario",
@@ -52,20 +52,8 @@
                     "name": "Saverio"
                 },
                 {
-                    "id": "P64282",
-                    "image": "https://placehold.co/10",
-                    "title": "Envases gratis",
-                    "description": "Envase extra gratuito al comprar 1kg de helado.",
-                    "location": "Mendoza",
-                    "valid_until": "13/08/2025",
-                    "terms": "Solo para compras en el local.",
-                    "points": 10,
-                    "code": "HELADO2X1",
-                    "name": "Alfreddo"
-                },
-                {
                     "id": "P90174",
-                    "image": "https://placehold.co/10",
+                    "image": "https://scontent.ffdo4-1.fna.fbcdn.net/v/t1.6435-9/139139663_3629762493779605_8245914670340775614_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=107&ccb=1-7&_nc_sid=3a1ebe&_nc_ohc=_vOCYoPoFygQ7kNvwHSZ3yN&_nc_oc=Adnk7jW6hyRQci-5hO8QucSuMR3nN0sosxcGW7b5qyUi6gdwDH4k1a-NivM6ef2lw7s&_nc_zt=23&_nc_ht=scontent.ffdo4-1.fna&_nc_gid=9pA-kKCfkyROix9-0Rzf4g&oh=00_AfK6c5v0NevHLiClLbIvBNov0OwRT9eI2K6sz3KZPkaOAA&oe=6864926C",
                     "title": "Martes de helado",
                     "description": "20% de descuento los martes en Cremolatti.",
                     "location": "Tucumán",
@@ -77,7 +65,7 @@
                 },
                 {
                     "id": "P63316",
-                    "image": "https://placehold.co/10",
+                    "image": "https://assets.iprofesional.com/assets/jpg/2021/03/513714.jpg?7.0.0.4",
                     "title": "3x2 en helados pequeños",
                     "description": "Llevá 3 helados chicos al precio de 2.",
                     "location": "Salta",
@@ -89,7 +77,7 @@
                 },
                 {
                     "id": "P72304",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.clapps.com.ar/wp-content/uploads/2018/03/variedades.jpg",
                     "title": "Helado gratis para niños",
                     "description": "Helado chico gratis para menores de 10 años.",
                     "location": "Neuquén",
@@ -101,7 +89,7 @@
                 },
                 {
                     "id": "P75006",
-                    "image": "https://placehold.co/10",
+                    "image": "https://dcdn-us.mitiendanube.com/stores/001/150/885/products/cp2cpmbwwaevbit1-c0ef3925e27403342015867317243093-640-0.jpg",
                     "title": "25% en pedidos online",
                     "description": "Descuento en pedidos online en Rapa Nui.",
                     "location": "Bariloche",
@@ -113,7 +101,7 @@
                 },
                 {
                     "id": "P94517",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.clarin.com/img/2021/07/13/KWd5u0eP-_720x0__1.jpg",
                     "title": "Sábado de Promoción",
                     "description": "Con la compra de 2kg, llevate 1kg extra.",
                     "location": "Mar del Plata",
@@ -130,7 +118,7 @@
             "promotions": [
                 {
                     "id": "P50166",
-                    "image": "https://placehold.co/10",
+                    "image": "https://st.depositphotos.com/3805597/53334/i/450/depositphotos_533340026-stock-photo-minsk-belarus-nov-25-2021.jpg",
                     "title": "30% off en jeans",
                     "description": "Descuento en jeans seleccionados en Tienda Urbana.",
                     "location": "Córdoba",
@@ -202,7 +190,7 @@
                 },
                 {
                     "id": "P24287",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.thefactshop.com/wp-content/uploads/2024/07/levis-facts.jpg",
                     "title": "Descuento por cambio de temporada",
                     "description": "Hasta 40% off en toda la tienda por cambio de temporada.",
                     "location": "Bariloche",
@@ -214,7 +202,7 @@
                 },
                 {
                     "id": "P55539",
-                    "image": "https://placehold.co/10",
+                    "image": "https://assets.multiplan.com.br/Multiplan/filer_public/29/6b/296b0ba7-245c-45da-af7f-dcfc9cfbb2bb/brooksfield_0004.jpg?ims=x800",
                     "title": "Camisas al 30% menos",
                     "description": "Descuento en camisas formales en Brooksfield.",
                     "location": "Salta",
@@ -238,7 +226,7 @@
                 },
                 {
                     "id": "P86189",
-                    "image": "https://placehold.co/10",
+                    "image": "https://mimoar.vtexassets.com/assets/vtex.file-manager-graphql/images/a384970f-1b14-4d69-a355-377b077479e5___308a1efbbb0d4a74c981d62a30525d85.jpg",
                     "title": "10% de reintegro",
                     "description": "Reintegro en efectivo por compras en Mimo & Co.",
                     "location": "Buenos Aires",
@@ -255,7 +243,7 @@
             "promotions": [
                 {
                     "id": "P19512",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.cinesabc.com/img/butacas.jpg",
                     "title": "2x1 en entradas de cine",
                     "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
                     "location": "Buenos Aires",
