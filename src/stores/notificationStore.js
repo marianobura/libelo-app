@@ -35,7 +35,6 @@ export const useNotificationStore = defineStore('notification', {
         },
 
         async createNotification(notificationData) {
-            console.log('Creando notificación:', notificationData);
             try {
                 const apiUrl = new URL(`/api/notifications`, process.env.VUE_APP_API_URL);
                 const res = await axios.post(apiUrl.toString(), notificationData);
