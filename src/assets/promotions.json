@@ -7,49 +7,49 @@
                     "id": "P51711",
                     "image": "https://placehold.co/10",
                     "title": "2x1 en cucuruchos",
-                    "description": "Disfrutá de un 2x1 en cucuruchos en Heladería Patagonia.",
+                    "description": "Disfrutá de un 2x1 en cucuruchos en Freddo.",
                     "location": "Buenos Aires",
                     "valid_until": "16/09/2026",
                     "terms": "Válido hasta las 20:00 hs.",
                     "points": 25,
                     "code": "HELADO2X1",
-                    "name": "Heladería Patagonia"
+                    "name": "Freddo"
                 },
                 {
                     "id": "P78548",
                     "image": "https://placehold.co/10",
                     "title": "15% de descuento en envíos",
-                    "description": "15% off en pedidos a domicilio de Helados del Sur.",
+                    "description": "15% off en pedidos a domicilio de Persicco.",
                     "location": "Santa Fe",
                     "valid_until": "23/04/2025",
                     "terms": "Válido para envíos en la ciudad.",
                     "points": 15,
                     "code": "HELADO2X1",
-                    "name": "Helados del Sur"
+                    "name": "Persicco"
                 },
                 {
                     "id": "P58052",
                     "image": "https://placehold.co/10",
                     "title": "Combo Familiar $4000",
-                    "description": "Combo de 1kg de helado + 6 cucuruchos en Helado Mágico.",
+                    "description": "Combo de 1kg de helado + 6 cucuruchos en Chungo.",
                     "location": "Córdoba",
                     "valid_until": "06/09/2025",
                     "terms": "No acumulable con otras ofertas.",
                     "points": 30,
                     "code": "HELADO2X1",
-                    "name": "Helado Mágico"
+                    "name": "Chungo"
                 },
                 {
                     "id": "P54181",
                     "image": "https://placehold.co/10",
                     "title": "Sabor del mes al 50% off",
-                    "description": "Descuento en el sabor del mes en Helados del Centro.",
+                    "description": "Descuento en el sabor del mes en Saverio.",
                     "location": "Rosario",
                     "valid_until": "12/10/2026",
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Helados del Centro"
+                    "name": "Saverio"
                 },
                 {
                     "id": "P64282",
@@ -61,19 +61,19 @@
                     "terms": "Solo para compras en el local.",
                     "points": 10,
                     "code": "HELADO2X1",
-                    "name": "Genérica"
+                    "name": "Alfreddo"
                 },
                 {
                     "id": "P90174",
                     "image": "https://placehold.co/10",
                     "title": "Martes de helado",
-                    "description": "20% de descuento los martes en Heladería Los Andes.",
+                    "description": "20% de descuento los martes en Cremolatti.",
                     "location": "Tucumán",
                     "valid_until": "21/12/2026",
                     "terms": "Solo efectivo.",
                     "points": 30,
                     "code": "HELADO2X1",
-                    "name": "Heladería Los Andes"
+                    "name": "Cremolatti"
                 },
                 {
                     "id": "P63316",
@@ -85,7 +85,7 @@
                     "terms": "Stock limitado.",
                     "points": 25,
                     "code": "HELADO2X1",
-                    "name": "Genérica"
+                    "name": "Sei Tu"
                 },
                 {
                     "id": "P72304",
@@ -97,19 +97,19 @@
                     "terms": "Con consumo de adulto.",
                     "points": 15,
                     "code": "HELADO2X1",
-                    "name": "Genérica"
+                    "name": "Lucciano's"
                 },
                 {
                     "id": "P75006",
                     "image": "https://placehold.co/10",
                     "title": "25% en pedidos online",
-                    "description": "Descuento en pedidos online en Heladería Nieve.",
+                    "description": "Descuento en pedidos online en Rapa Nui.",
                     "location": "Bariloche",
                     "valid_until": "15/04/2025",
                     "terms": "Solo para envíos.",
                     "points": 25,
                     "code": "HELADO2X1",
-                    "name": "Heladería Nieve"
+                    "name": "Rapa Nui"
                 },
                 {
                     "id": "P94517",
@@ -121,7 +121,7 @@
                     "terms": "Válido solo los sábados.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Genérica"
+                    "name": "Grido"
                 }
             ]
         },

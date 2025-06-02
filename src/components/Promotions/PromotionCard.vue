@@ -1,5 +1,5 @@
 <script setup>
-import { MapPin, TicketCheck, Info, Coins } from "lucide-vue-next";
+import { MapPin, TicketCheck, Info, Coins, ArrowUpRight } from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { defineProps } from "vue";
 
@@ -7,6 +7,14 @@ const props = defineProps({
     promotion: {
         type: Object,
         required: true,
+    },
+    detailed: {
+        type: Boolean,
+        default: false,
+    },
+    compact: {
+        type: Boolean,
+        default: false,
     }
 });
 
@@ -18,11 +26,10 @@ const goToPromotion = () => {
 </script>
 
 <template>
-    <div :class="props.promotion.category ? 'relative' : ''" class="snap-center flex-none w-11/12 p-2 rounded border border-neutral-300 cursor-pointer hover:bg-gray-200"
-        @click="goToPromotion">
-        <img :src="props.promotion.image" alt="Imagen de promoción" class="w-full h-40 object-cover rounded">
-        <p v-if="props.promotion.category" class="absolute top-0 mt-2 bg-body px-2 pb-0.5 rounded-br-md text-sm font-bold text-libelo-500">{{ props.promotion.category }}</p>
-        <div class="flex flex-col">
+    <div v-if="detailed" :class="props.promotion.category ? 'relative' : ''" class="bg-white snap-center flex-none w-11/12 rounded-xl border border-neutral-300 cursor-pointer overflow-hidden hover:bg-neutral-100" @click="goToPromotion">
+        <img :src="props.promotion.image" alt="Imagen de promoción" class="w-full h-40 object-cover">
+        <p v-if="props.promotion.category" class="absolute top-0 bg-white px-2 py-1 pb-0.5 rounded-br-md text-sm font-semibold text-libelo-500">{{ props.promotion.category }}</p>
+        <div class="flex flex-col p-2">
             <div class="flex flex-col py-2 border-b border-neutral-300">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold overflow-hidden text-ellipsis line-clamp-1">{{ props.promotion.title }}</h3>
@@ -31,7 +38,7 @@ const goToPromotion = () => {
                         <span class="font-semibold">{{ props.promotion.points }}</span>
                     </div>
                 </div>
-                <p v-if="props.promotion.name !== 'Genérica'" class="text-sm">Promoción por <span class="font-semibold">{{ props.promotion.name }}</span></p>
+                <p v-if="props.promotion.name" class="text-sm">Promoción por <span class="font-semibold">{{ props.promotion.name }}</span></p>
             </div>
             <div class="mt-2 flex flex-col gap-2">
                 <p class="font-semibold">{{ props.promotion.description }}</p>
@@ -54,6 +61,17 @@ const goToPromotion = () => {
                     <p>{{ props.promotion.terms }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div v-if="compact" class="grid grid-cols-[auto_1fr] items-center bg-white w-full rounded-xl border border-neutral-300 cursor-pointer overflow-hidden hover:bg-neutral-100" @click="goToPromotion">
+        <img :src="props.promotion.image" alt="Imagen de promoción" class="size-24 h-full object-cover">
+        <div class="flex flex-col p-2">
+            <div class="flex justify-between items-center border-b border-neutral-300 mb-1 pb-1">
+                <h3 class="font-semibold overflow-hidden text-ellipsis line-clamp-1">{{ props.promotion.name }}</h3>
+                <ArrowUpRight :size="20" class="text-libelo-500" />
+            </div>
+            <p class="text-sm line-clamp-2 break-normal">{{ props.promotion.description }}</p>
         </div>
     </div>
 </template>
