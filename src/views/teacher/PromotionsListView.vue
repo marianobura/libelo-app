@@ -1,4 +1,5 @@
 <script setup>
+/* eslint-disable */
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import ProductCard from "@/components/Promotions/PromotionCard.vue";
@@ -10,6 +11,8 @@ import { Coins } from "lucide-vue-next";
 const userStore = useUserStore();
 const loading = ref(false);
 const promotions = ref(promotionsData.promotions);
+const selectedCategory = ref(null);
+// loading.value = true;
 
 const getRandomPromotions = (promotions, category) => {
     return promotions
@@ -23,6 +26,16 @@ const allHighlightedPromotions = computed(() => {
         getRandomPromotions(category.promotions, category.category)
     );
 });
+
+const filteredPromotions = computed(() => {
+    if (!selectedCategory.value) return [];
+    const category = promotions.value.find(p => p.category === selectedCategory.value);
+    return category ? category.promotions : [];
+});
+
+const selectCategory = (categoryName) => {
+    selectedCategory.value = categoryName;
+};
 </script>
 
 <template>
@@ -43,27 +56,29 @@ const allHighlightedPromotions = computed(() => {
 
         <div class="overflow-hidden">
             <div class="mt-2">
-                <div class="border-b-2 border-black mb-2 mx-4">
+                <div class="border-b-2 border-black mb-4 mx-4">
                     <h2 class="font-bold text-lg w-full">Promociones destacadas</h2>
                 </div>
                 <div v-if="loading" class="text-center">Cargando promociones...</div>
                 <div v-else-if="allHighlightedPromotions.length && !loading" class="overflow-hidden w-full">
-                    <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x flex gap-2 px-4" ref="slider">
-                        <ProductCard v-for="(promotion, index) in allHighlightedPromotions" :key="index" :promotion="promotion" />
+                    <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth flex gap-2 px-4" ref="slider">
+                        <ProductCard detailed v-for="(promotion, index) in allHighlightedPromotions" :key="index" :promotion="promotion" />
                     </div>
                 </div>
-                <div v-else class="text-center">No hay promociones destacadas disponibles.</div>
             </div>
-            <div class="mt-8">
-                <div class="border-b-2 border-black mb-2 mx-4">
-                    <h2 class="font-bold text-lg w-full">Lista de promociones</h2>
+            <div v-if="promotions.length > 0" :class="allHighlightedPromotions.length === 0 ? 'mt-2' : 'mt-8'">
+                <div class="border-b-2 border-black mb-4 mx-4">
+                    <h2 class="font-bold text-lg w-full">Todas las promociones</h2>
                 </div>
                 <div v-if="loading" class="text-center">Cargando promociones...</div>
-                <div v-else-if="promotions.length && !loading" class="overflow-hidden w-full">
-                    <div v-for="category in promotions" :key="category.category" class="mb-6">
-                        <h3 class="font-semibold mb-2 px-4 uppercase">{{ category.category }}</h3>
-                        <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x flex gap-2 px-4" ref="slider">
-                            <ProductCard v-for="(promotion, index) in category.promotions" :key="index" :promotion="promotion" />
+                <div v-else-if="promotions.length && !loading" class="overflow-hidden mb-4">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar px-4" ref="slider">
+                        <button v-for="category in promotions" @click="selectCategory(category.category)" :key="category.category"
+                        :class="[ 'px-6 py-4 border rounded-xl font-semibold', selectedCategory === category.category ? 'bg-libelo-500 text-white border-libelo-500' : 'bg-white text-black border-neutral-300 hover:bg-neutral-300']">{{ category.category }}</button>
+                    </div>
+                    <div v-if="selectedCategory" class="mt-4">
+                        <div class="flex flex-col gap-2 px-4" ref="slider">
+                            <ProductCard compact v-for="(promotion, index) in filteredPromotions" :key="index" :promotion="promotion" />
                         </div>
                     </div>
                 </div>
