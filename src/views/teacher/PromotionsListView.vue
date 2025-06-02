@@ -33,6 +33,10 @@ const filteredPromotions = computed(() => {
     return category ? category.promotions : [];
 });
 
+if (promotions.value.length > 0 && !selectedCategory.value) {
+    selectedCategory.value = promotions.value[0].category;
+}
+
 const selectCategory = (categoryName) => {
     selectedCategory.value = categoryName;
 };
@@ -74,7 +78,7 @@ const selectCategory = (categoryName) => {
                 <div v-else-if="promotions.length && !loading" class="overflow-hidden mb-4">
                     <div class="flex gap-2 overflow-x-auto no-scrollbar px-4" ref="slider">
                         <button v-for="category in promotions" @click="selectCategory(category.category)" :key="category.category"
-                        :class="[ 'px-6 py-4 border rounded-xl font-semibold', selectedCategory === category.category ? 'bg-libelo-500 text-white border-libelo-500' : 'bg-white text-black border-neutral-300 hover:bg-neutral-300']">{{ category.category }}</button>
+                        :class="[ 'px-6 py-4 border rounded-xl font-semibold', selectedCategory === category.category ? 'bg-libelo-100 text-libelo-500 border-libelo-100' : 'bg-white text-black hover:bg-neutral-300']">{{ category.category }}</button>
                     </div>
                     <div v-if="selectedCategory" class="mt-4">
                         <div class="flex flex-col gap-2 px-4" ref="slider">
