@@ -65,7 +65,9 @@ const goToPromotion = () => {
     </div>
 
     <div v-if="compact" class="grid grid-cols-[auto_1fr] items-center bg-white w-full rounded-xl border border-neutral-300 cursor-pointer overflow-hidden hover:bg-neutral-100" @click="goToPromotion">
-        <img :src="props.promotion.image" alt="Imagen de promoción" class="size-24 h-full object-cover">
+        <div class="size-24 overflow-hidden">
+            <img :src="props.promotion.image" alt="Imagen de promoción" class="size-24 h-full object-cover">
+        </div>
         <div class="flex flex-col p-2">
             <div class="flex justify-between items-center border-b border-neutral-300 mb-1 pb-1">
                 <h3 class="font-semibold overflow-hidden text-ellipsis line-clamp-1">{{ props.promotion.name }}</h3>

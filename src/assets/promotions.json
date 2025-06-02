@@ -130,7 +130,7 @@
                 },
                 {
                     "id": "P92909",
-                    "image": "https://placehold.co/10",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBg_sBwiDf4fAX3zK6gcZRRLa19AIU-__foQ&s",
                     "title": "50% en ropa de verano",
                     "description": "Liquidación de temporada en Boutique del Sol.",
                     "location": "Buenos Aires",
@@ -142,7 +142,7 @@
                 },
                 {
                     "id": "P55604",
-                    "image": "https://placehold.co/10",
+                    "image": "https://lh3.googleusercontent.com/proxy/iNOwBEjDT8VIumV_BFJ8P5WbKNDFU4U5B_qDiLBKn6MVG2JUzZIEAVt5_xvJXtDCjBJR3PnLcEvkYr7j3Ph7_168r4ZV72wonHA4Q1PsRQ",
                     "title": "15% off en compras online",
                     "description": "Descuento en compras por la web de 47 street.",
                     "location": "Rosario",
@@ -154,7 +154,7 @@
                 },
                 {
                     "id": "P18985",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.menteargentina.com/blog/wp-content/uploads/2015/12/feriaserrano2.jpg",
                     "title": "3x2 en remeras",
                     "description": "Pagá 2 remeras y llevate 3 en Fashion Store.",
                     "location": "Santa Fe",
@@ -166,19 +166,19 @@
                 },
                 {
                     "id": "P63838",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.montagne.com.ar/franquicias/img/slider/franquicias-montagne-7.jpg?6e7f5fd",
                     "title": "20% off con tarjeta",
-                    "description": "Descuento con tarjeta de crédito en Moda Premium.",
+                    "description": "Descuento con tarjeta de crédito en Montagne.",
                     "location": "Mendoza",
                     "valid_until": "21/11/2026",
                     "terms": "Solo pagos en una cuota.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Moda Premium"
+                    "name": "Montagne"
                 },
                 {
                     "id": "P72590",
-                    "image": "https://placehold.co/10",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLk4IwAULeFyfcgSv6L8kZtc8BcAG2WnOTjg&s",
                     "title": "2x1 en zapatillas",
                     "description": "Comprá un par y llevate otro gratis en Zapatilandia.",
                     "location": "Córdoba",
@@ -214,7 +214,7 @@
                 },
                 {
                     "id": "P56391",
-                    "image": "https://placehold.co/10",
+                    "image": "https://static.eldiario.es/clip/234b409e-233f-46e4-b1a3-11b09114b358_16-9-discover-aspect-ratio_default_0.jpg",
                     "title": "Accesorios al 2x1",
                     "description": "Promoción en accesorios en Tienda Look.",
                     "location": "Tucumán",
@@ -255,7 +255,7 @@
                 },
                 {
                     "id": "P61552",
-                    "image": "https://placehold.co/10",
+                    "image": "https://fotos.perfil.com/2024/06/27/trim/1140/641/luna-park-1826197.jpg",
                     "title": "50% de descuento en obras de teatro",
                     "description": "Descuento en todas las funciones del Teatro Luna.",
                     "location": "Rosario",
@@ -267,7 +267,7 @@
                 },
                 {
                     "id": "P78906",
-                    "image": "https://placehold.co/10",
+                    "image": "https://prensa.ciudaddemendoza.gob.ar/wp-content/uploads/2024/01/1-3-1.jpg",
                     "title": "20% off en tours por la ciudad",
                     "description": "Recorridos turísticos con descuento en Viajes City Tour.",
                     "location": "Mendoza",
@@ -279,7 +279,7 @@
                 },
                 {
                     "id": "P29921",
-                    "image": "https://placehold.co/10",
+                    "image": "https://trekking-travel.com.ar/wp-content/uploads/2023/06/trekking_cruce-12-scaled.jpg",
                     "title": "3x2 en excursiones de trekking",
                     "description": "Pagá 2 y llevate 3 excursiones en Caminatas Andinas.",
                     "location": "Bariloche",
@@ -291,7 +291,7 @@
                 },
                 {
                     "id": "P77324",
-                    "image": "https://placehold.co/10",
+                    "image": "https://lavidasondosviajes.com/wp-content/uploads/2022/09/como-ir-cataratas-de-iguazu-excursion.jpg",
                     "title": "Descuento en paquetes de viaje",
                     "description": "Hasta 30% en paquetes a Cataratas del Iguazú.",
                     "location": "Misiones",
@@ -303,7 +303,7 @@
                 },
                 {
                     "id": "P94026",
-                    "image": "https://placehold.co/10",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-Ov59W1pFgqUBsHpwWS_EUKx606rUlfOQnQ&s",
                     "title": "Promoción en escape rooms",
                     "description": "20% de descuento en Escape Room Argentina.",
                     "location": "Córdoba",
@@ -315,7 +315,7 @@
                 },
                 {
                     "id": "P89082",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.clarin.com/2013/10/31/SJX7jbI3Xe_1200x0.jpg",
                     "title": "Entradas gratis para menores",
                     "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
                     "location": "Tucumán",
@@ -327,9 +327,9 @@
                 },
                 {
                     "id": "P68464",
-                    "image": "https://placehold.co/10",
+                    "image": "https://www.mendoza.gov.ar/wp-content/uploads/sites/17/2022/08/IMG_0197-Pano-700x434.jpg",
                     "title": "Noche de teatro 2x1",
-                    "description": "Entradas 2x1 los viernes en Teatro Independiente.",
+                    "description": "Entradas 2x1 los viernes en Teatro Independencia.",
                     "location": "Buenos Aires",
                     "valid_until": "28/01/2026",
                     "terms": "Sujeto a disponibilidad.",
@@ -339,7 +339,7 @@
                 },
                 {
                     "id": "P51499",
-                    "image": "https://placehold.co/10",
+                    "image": "https://turismo.buenosaires.gob.ar/sites/turismo/files/museo_historico_nacional_1200_a_5.jpg",
                     "title": "Descuento en entradas a museos",
                     "description": "15% de descuento en Museo Histórico Nacional.",
                     "location": "Salta",
@@ -351,7 +351,7 @@
                 },
                 {
                     "id": "P31576",
-                    "image": "https://placehold.co/10",
+                    "image": "https://hotelpuertovalle.com/wp-content/uploads/2021/11/Kayak-travesia-Parana_1.jpg",
                     "title": "25% en excursiones de kayak",
                     "description": "Descuento en paseos en kayak en Río Paraná.",
                     "location": "Santa Fe",
@@ -368,7 +368,7 @@
             "promotions": [
                 {
                     "id": "P93196",
-                    "image": "https://placehold.co/10",
+                    "image": "https://media.ambito.com/p/9f06408212bd0a03ce28f54652f5bf69/adjuntos/239/imagenes/039/388/0039388034/1200x675/smart/don-julio-restaurantejpg.jpg",
                     "title": "Descuento en menú ejecutivo",
                     "description": "20% off en menú ejecutivo en Don Julio.",
                     "location": "Buenos Aires",
@@ -380,7 +380,7 @@
                 },
                 {
                     "id": "P92089",
-                    "image": "https://placehold.co/10",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKyBcbwkBlPzCdeIdifqF31a4YfmWMGWJWhg&s",
                     "title": "2x1 en pizzas",
                     "description": "Llevate 2 pizzas por el precio de 1 en Pizzería El Rincón.",
                     "location": "Córdoba",
@@ -392,7 +392,7 @@
                 },
                 {
                     "id": "P79095",
-                    "image": "https://placehold.co/10",
+                    "image": "https://media.timeout.com/images/106258570/image.webp",
                     "title": "Descuento en parrillada",
                     "description": "25% de descuento en parrillada para 4 personas en La Dorita.",
                     "location": "Rosario",
@@ -404,7 +404,7 @@
                 },
                 {
                     "id": "P21029",
-                    "image": "https://placehold.co/10",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0woIaQBSFzyP0C8wOHVoWIHPfEFls8y1U_w&s",
                     "title": "Bebida gratis con tu almuerzo",
                     "description": "Incluí una bebida gratis en el restaurante Buen Sabor.",
                     "location": "Mendoza",
@@ -416,19 +416,19 @@
                 },
                 {
                     "id": "P76096",
-                    "image": "https://placehold.co/10",
+                    "image": "https://deananddennys.com/timthumb.php?src=./contenidos/1729171681.jpg&h=800&w=800&zc=2",
                     "title": "50% en segunda hamburguesa",
-                    "description": "Descuento en tu segunda hamburguesa en Hamburguesería XXL.",
+                    "description": "Descuento en tu segunda hamburguesa en Dean and Dennys.",
                     "location": "Salta",
                     "valid_until": "20/09/2025",
                     "terms": "No acumulable.",
                     "points": 5,
                     "code": "HELADO2X1",
-                    "name": "Hamburguesería XXL"
+                    "name": "Dean and Dennys"
                 },
                 {
                     "id": "P52173",
-                    "image": "https://placehold.co/10",
+                    "image": "https://sakurasushi-bar.com/wp-content/uploads/2023/05/JAW06627.jpg",
                     "title": "Promoción en sushi",
                     "description": "Hasta 30% en rolls seleccionados en Sushi Bar.",
                     "location": "Bariloche",
@@ -440,31 +440,31 @@
                 },
                 {
                     "id": "P24609",
-                    "image": "https://placehold.co/10",
-                    "title": "Postre gratis",
-                    "description": "Obtené un postre gratis en Café del Lago.",
+                    "image": "https://centrofranchising.com/wp-content/uploads/2024/03/Gnota_40586-1.jpg",
+                    "title": "Café gratis",
+                    "description": "Obtené un café gratis en Café Martinez.",
                     "location": "Tucumán",
                     "valid_until": "03/09/2026",
                     "terms": "Solo para cenas.",
                     "points": 5,
                     "code": "HELADO2X1",
-                    "name": "Café del Lago"
+                    "name": "Café Martinez"
                 },
                 {
                     "id": "P35746",
-                    "image": "https://placehold.co/10",
+                    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/71/b9/5a/fachada-sucursal-av-callao.jpg?w=900&h=500&s=1",
                     "title": "10% de reintegro",
-                    "description": "Reintegro en efectivo por tu comida en Arredondo.",
-                    "location": "Santa Fe",
+                    "description": "Reintegro en efectivo por tu comida en La Continental.",
+                    "location": "Buenos Aires",
                     "valid_until": "10/12/2026",
                     "terms": "Solo pagos en efectivo.",
                     "points": 25,
                     "code": "HELADO2X1",
-                    "name": "Arredondo"
+                    "name": "La Continental"
                 },
                 {
                     "id": "P29240",
-                    "image": "https://placehold.co/10",
+                    "image": "https://comabeba.com/argentina/wp-content/uploads/sites/11/2017/09/CRIZBA2018-2.jpg",
                     "title": "Menú infantil gratis",
                     "description": "Menú infantil sin costo en Crizia.",
                     "location": "Buenos Aires",
@@ -476,7 +476,7 @@
                 },
                 {
                     "id": "P36732",
-                    "image": "https://placehold.co/10",
+                    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/76/d2/62/tancat.jpg?w=600&h=-1&s=1",
                     "title": "50% off en tapas",
                     "description": "Descuento en tapas en Bar de Tapas.",
                     "location": "Mendoza",
