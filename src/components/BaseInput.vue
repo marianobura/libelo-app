@@ -14,6 +14,10 @@ defineProps({
         type: Boolean,
         default: false
     },
+    reset: {
+        type: Boolean,
+        default: false
+    },
     search: {
         type: Boolean,
         default: false
@@ -44,8 +48,9 @@ const togglePasswordVisibility = (event) => {
 
 <template>
     <div class="flex flex-col gap-1 w-full">
-        <div v-if="label" class="flex justify-between">
+        <div v-if="label" class="block" :class="reset ? 'flex justify-between gap-4 items-center' : ''">
             <label class="font-semibold" :class="{ 'text-red-500': error }" :for="identifier">{{ label }}</label>
+            <router-link v-if="reset" to="/reset-password" class="text-libelo-500 font-semibold text-sm hover:underline">¿Olvidaste tu contraseña?</router-link>
         </div>
         <div class="w-full" :class="password || search ? 'relative' : ''">
             <input class="w-full text-neutral-700 outline outline-1 -outline-offset-1 outline-neutral-300 rounded-xl py-3 px-4 leading-tight focus:outline-2 focus:bg-white focus:outline-libelo-500"

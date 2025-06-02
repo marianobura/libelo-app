@@ -4,6 +4,7 @@ import axios from "axios";
 export const useChatStore = defineStore("chatStore", {
     state: () => ({
         messages: [],
+        chatInfo: null,
         userMessage: "",
         loading: false,
         isSending: false,
@@ -21,13 +22,22 @@ export const useChatStore = defineStore("chatStore", {
 
             this.messages = [];
             this.loading = true;
-            console.log(subjectId.value)
             try {
                 const apiUrl = new URL(`/api/chats/${subjectId}`, process.env.VUE_APP_API_URL);
                 const response = await axios.get(apiUrl.toString());
 
-                if (response.data?.data?.messages) {
-                    this.messages = response.data.data.messages.map((message) => ({
+                if (response.data?.data) {
+                    const chat = response.data.data;
+        
+                    this.chatInfo = {
+                        _id: chat._id,
+                        subjectName: chat.subjectName,
+                        subjectId: chat.subjectId,
+                        studentId: chat.studentId,
+                        teacherId: chat.teacherId
+                    };
+        
+                    this.messages = chat.messages.map((message) => ({
                         sender: message.sender,
                         text: message.message,
                     }));
@@ -39,7 +49,7 @@ export const useChatStore = defineStore("chatStore", {
             }
         },
 
-        async sendMessage(userMessage, user, subjectId, subjectName, resetTextareaHeight) {
+        async sendMessage(userMessage, user, subjectId, subjectName) {
             if (this.isSending || !userMessage.trim() || !subjectId) return;
 
             this.isSending = true;
@@ -67,7 +77,6 @@ export const useChatStore = defineStore("chatStore", {
                 });
 
                 this.userMessage = "";
-                resetTextareaHeight();
             } catch (error) {
                 console.error("Error al enviar mensaje:", error);
             } finally {

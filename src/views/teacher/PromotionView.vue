@@ -19,7 +19,7 @@ const errors = ref({ promo: "" });
 
 onMounted(() => {
     const promotionId = route.params.id;
-    promotion.value = promotions.value.map(category => category.promotions).flat().find(promo => promo.id.toString() === promotionId.toString());
+    promotion.value = promotions.value.map(category => category.promotions).flat().find(promo => promo.id === promotionId);
 });
 
 const openModal = () => {
@@ -74,7 +74,7 @@ const redeemPromotion = async () => {
             <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
             <div v-else class="flex flex-col justify-between h-full gap-4">
                 <div>
-                    <img :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded">
+                    <img :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl">
                     <div class="flex flex-col py-2 border-b border-neutral-300">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold overflow-hidden text-ellipsis line-clamp-1">{{ promotion.title }}</h3>

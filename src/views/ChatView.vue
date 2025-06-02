@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useSubjectStore } from "@/stores/subjectStore";
 import { useChatStore } from "@/stores/chatStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseBody from "@/components/BaseBody.vue";
 import ChatInput from "@/components/Chat/ChatInput.vue";
@@ -15,24 +16,48 @@ import EmptyState from "@/components/EmptyState.vue";
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
 const chatStore = useChatStore();
+const notificationStore = useNotificationStore();
 const route = useRoute();
 const points = computed(() => userStore.user?.points);
 
 const user = computed(() => userStore.user);
 const subjectId = computed(() => route.params.id);
 
-const sendMessage = (resetTextareaHeight) => {
+const sendMessage = () => {
     chatStore.sendMessage(
         chatStore.userMessage,
         user.value,
         subjectId.value,
-        subjectStore.subject?.name,
-        resetTextareaHeight
+        subjectStore.subject?.name
     );
+
+    if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo.teacherId._id) {
+        notificationStore.createNotification({
+            userId: chatStore.chatInfo.teacherId,
+            type: "chat",
+            content: {
+                chatId: chatStore.chatInfo._id,
+                senderId: userStore.user._id,
+                message: chatStore.userMessage,
+            },
+            read: false,
+        })
+    } else if (userStore.user._id === chatStore.chatInfo.teacherId._id) {
+        notificationStore.createNotification({
+            userId: chatStore.chatInfo.studentId,
+            type: "chat",
+            content: {
+                chatId: chatStore.chatInfo._id,
+                senderId: userStore.user._id,
+                message: chatStore.userMessage,
+            },
+            read: false,
+        })
+    }
 
     if (userStore.user.role === "teacher") {
         try {
-            const newPoints = points.value + 10;
+            const newPoints = points.value + 5;
             const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
             axios.put(apiUrl.toString(), { points: newPoints });
 

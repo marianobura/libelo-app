@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { onMounted, defineProps } from 'vue';
 
 const props = defineProps({

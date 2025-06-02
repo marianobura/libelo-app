@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
