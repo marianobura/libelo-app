@@ -18,12 +18,36 @@ const currentMonth = computed(() => currentDate.value.getMonth());
 const currentYear = computed(() => currentDate.value.getFullYear());
 
 const daysInMonth = computed(() => {
-    return new Date(currentYear.value, currentMonth.value + 1, 0).getDate();
+    return Number(new Date(currentYear.value, currentMonth.value + 1, 0).getDate()) || 0;
 });
 
 const firstDayOfMonth = computed(() => {
-    return new Date(currentYear.value, currentMonth.value, 1).getDay();
+    return Number(new Date(currentYear.value, currentMonth.value, 1).getDay()) || 0;
 });
+
+const formattedDate = ref('');
+
+function formatDateInput(event) {
+  let value = event.target.value.replace(/\D/g, '');
+  if (value.length > 8) value = value.slice(0, 8);
+
+  if (value.length >= 5) {
+    value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+  } else if (value.length >= 3) {
+    value = `${value.slice(0, 2)}/${value.slice(2)}`;
+  }
+
+  formattedDate.value = value;
+
+  if (value.length === 10) {
+    const [dd, mm, yyyy] = value.split('/');
+    const date = new Date(+yyyy, +mm - 1, +dd);
+    if (!isNaN(date)) {
+      currentDate.value = new Date(date.getFullYear(), date.getMonth(), 1);
+      selectedDays.value = [date.getDate()];
+    }
+  }
+}
 
 function changeMonth(offset) {
     const newDate = new Date(currentYear.value, currentMonth.value + offset, 1);
@@ -119,15 +143,13 @@ watch(currentDate, getCalendarEvents);
 
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        <svg class="w-4 h-4 text-gray-500 dark:text-libelo-600" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                         </svg>
                     </div>
-                    <input datepicker id="default-datepicker" type="text"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-libelo-500 focus:border-libelo-500 block w-full ps-10 p-2.5"
-                        placeholder="Select date">
+                    <input id="custom-datepicker" type="text" v-model="formattedDate" @input="formatDateInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-libelo-500 focus:border-libelo-500 block w-full ps-10 p-2.5" placeholder="dd/mm/aaaa"/>
                 </div>
 
                 <div class="flex justify-between items-center mb-4">
@@ -164,7 +186,7 @@ watch(currentDate, getCalendarEvents);
                     </div>
                 </div>
 
-                <div v-if="calendarEvents.length" class="mt-6 bg-gray-800 rounded-md">
+                <div v-if="calendarEvents.length" class="mt-6 bg-libelo-700 rounded-md">
                     <ul class="list-disc list-inside text-sm text-gray-700">
                         <li v-for="event in getEventsforSelectedDays()" :key="event.id"
                             class="border border-white text-white px-3 pt-4 pb-4 list-none">

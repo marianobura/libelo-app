@@ -9,6 +9,7 @@ import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { Check, LoaderCircle, X, Trash2 } from "lucide-vue-next";
+import BaseModal from "@/components/BaseModal.vue";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
@@ -96,7 +97,6 @@ const openCheckpointModal = (index) => {
 
 const confirmDeleteObjectives = async () => {
     if (!subjectStore.subject || userObjectives.value.length === 0) {
-        console.warn("No hay objetivos para borrar.");
         return;
     }
 
@@ -111,7 +111,7 @@ const confirmDeleteObjectives = async () => {
     }
 };
 
-const cortarObjetivo = (text, maxLength = 16) => {
+const cutObjectives = (text, maxLength = 16) => {
     if (text.length > maxLength) {
         return text.slice(0, maxLength - 3) + '...';
     }
@@ -172,30 +172,25 @@ const cortarObjetivo = (text, maxLength = 16) => {
 
             <ObjectivesModal :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
 
-            <div v-if="checkpointModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div class="bg-white p-5 rounded-lg shadow-lg w-80">
-                    <h2 class="text-lg font-semibold">
-                    Objetivo {{ selectedCheckpointIndex + 1 }}: 
-                    {{ cortarObjetivo(userObjectives[selectedCheckpointIndex]?.text) }}
-                    </h2>
-                    
+            <BaseModal v-if="checkpointModal" class="items-center justify-center">
+                <div class="bg-white p-4 rounded-xl w-full mx-2">
+                    <h2 class="text-lg font-semibold">Objetivo {{ selectedCheckpointIndex + 1 }}: {{ cutObjectives(userObjectives[selectedCheckpointIndex]?.text) }}</h2>
                     <div class="flex items-center gap-2 mt-3 mb-3">
                         <span v-if="userObjectives[selectedCheckpointIndex]?.completed" class="text-libelo-500 font-bold flex items-center">
-                            <Check class="mr-5" /> Completado
+                            <Check class="mr-1" /> Completado
                         </span>
                         <span v-else class="text-red-500 font-bold flex items-center">
-                            <X class="mr-5" /> No completado
+                            <X class="mr-1" /> No completado
                         </span>
                     </div>
-
                     <div class="flex justify-end mt-3">
                         <BaseButton @click="checkpointModal = false" secondary>Cerrar</BaseButton>
                     </div>
                 </div>
-            </div>
+            </BaseModal>
 
-            <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div class="bg-white p-5 rounded-lg shadow-lg w-80 m-2">
+            <BaseModal v-if="showDeleteModal" class="items-center justify-center">
+                <div class="bg-white p-4 rounded-xl mx-2">
                     <div class="flex flex-col gap-1 w-full p-2">
                     <p class="font-semibold">Eliminar objetivos</p>
                     <p class="text-sm text-neutral-700">¿Está seguro de eliminar todos los objetivos actuales?</p>
@@ -205,7 +200,7 @@ const cortarObjetivo = (text, maxLength = 16) => {
                         <BaseButton @click="confirmDeleteObjectives" danger>Eliminar</BaseButton>
                     </div>
                 </div>
-            </div>
+            </BaseModal>
         </div>
     </BaseBody>
 </template>
