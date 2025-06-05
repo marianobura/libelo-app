@@ -2,7 +2,7 @@
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import { useUserStore } from '@/stores/userStore';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import axios from 'axios';
 import BaseButton from '@/components/BaseButton.vue';
