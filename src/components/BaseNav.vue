@@ -1,7 +1,7 @@
 <script setup>
 import { ArrowLeft } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
-import { defineProps, onMounted } from 'vue';
+import { defineProps } from 'vue';
 import UserAvatar from './UserAvatar.vue';
 import { useUserStore } from '@/stores/userStore';
 import LibeloIsologo from '@/assets/LibeloIsologo.vue';
