@@ -95,7 +95,7 @@ onMounted(async () => {
                     <EmptyState v-if="!chatStore.loading && chatStore.messages.length === 0" title="Todavía no hay mensajes" description="Escribe tu duda y un profesor te responderá pronto." icon="MailX" />
                     <div v-else v-for="(message, index) in chatStore.messages" :key="index" class="flex gap-2">
                         <div :class="message.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
-                            <UserAvatar :userLetter="message.sender.displayName.charAt(0)" :size="'10'" :orange="message.sender.role === 'teacher'" />
+                            <UserAvatar size="10" :orange="message.sender.role === 'teacher'" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">{{ message.sender.displayName }}</span>

@@ -81,7 +81,7 @@ watchEffect(() => {
         <BaseNav title="Editar perfil" />
         <div class="flex flex-col gap-4 p-2">
             <div class="flex gap-4 items-center">
-                <UserAvatar :user-letter="userLetter" size="12" />
+                <UserAvatar size="12" />
                 <div class="flex flex-col">
                     <p class="font-semibold">{{ userStore?.user.displayName }}</p>
                     <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>

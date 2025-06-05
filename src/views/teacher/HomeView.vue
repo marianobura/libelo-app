@@ -1,5 +1,5 @@
 <script setup>
-import HomeNav from "@/components/Home/HomeNav.vue";
+import BaseNav from "@/components/BaseNav.vue";
 import BaseBody from "@/components/BaseBody.vue";
 import HomeHeader from "@/components/Home/HomeHeader.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
@@ -36,7 +36,7 @@ onMounted(async () => {
 
 <template>
     <BaseBody>
-        <HomeNav />
+        <BaseNav home />
         <div class="flex flex-col gap-4 p-2">
             <HomeHeader />
             <BaseTitle :link="!loading && groupedSubjects.length > 0" title="Materias favoritas" description="Selecciona una materia para acceder a una lista con los chats de los estudiantes y ayudarlos con sus dudas.">
