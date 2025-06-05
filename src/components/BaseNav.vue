@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { ArrowLeft } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
 import { defineProps, onMounted } from 'vue';
@@ -20,10 +19,6 @@ defineProps({
 
 const router = useRouter();
 const goBack = () => router.back();
-
-onMounted(() => {
-    console.log("Componente montado");
-});
 </script>
 
 <template>
