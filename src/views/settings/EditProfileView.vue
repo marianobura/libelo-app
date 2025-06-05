@@ -66,10 +66,6 @@ const updateUser = async () => {
     loading.value = false;
 };
 
-const userLetter = computed(() => {
-    return userStore.user?.displayName?.charAt(0) || '';
-});
-
 watchEffect(() => {
     firstName.value = userStore?.user.firstName;
     lastName.value = userStore?.user.lastName;
