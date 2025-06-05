@@ -1,5 +1,5 @@
 <script setup>
-import HomeNav from "@/components/Home/HomeNav.vue";
+import BaseNav from "@/components/BaseNav.vue";
 import BaseBody from "@/components/BaseBody.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import HomeModal from "@/components/Home/HomeModal.vue";
@@ -42,7 +42,7 @@ onMounted(async () => {
 
 <template>
     <BaseBody>
-        <HomeNav />
+        <BaseNav home />
         <div class="flex flex-col gap-4 p-2">
             <HomeHeader />
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">

@@ -1,20 +1,23 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, computed } from 'vue';
 import { goTo } from '@/router';
+import { useUserStore } from '@/stores/userStore';
 
 defineProps({
     size: {
         type: String,
         default: "12"
     },
-    userLetter: {
-        type: String,
-        default: "?"
-    },
     orange: {
         type: Boolean,
         default: false
-    },
+    }
+});
+
+const userStore = useUserStore();
+
+const userLetter = computed(() => {
+    return userStore.user?.displayName?.charAt(0).toUpperCase() || '';
 });
 </script>
 
