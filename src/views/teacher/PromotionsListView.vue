@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import ProductCard from "@/components/Promotions/PromotionCard.vue";
