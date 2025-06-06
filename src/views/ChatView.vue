@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, nextTick } from "vue";
+import { computed, onMounted, nextTick, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useSubjectStore } from "@/stores/subjectStore";
@@ -9,9 +9,11 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseBody from "@/components/BaseBody.vue";
 import ChatInput from "@/components/Chat/ChatInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
-import { LoaderCircle } from "lucide-vue-next";
+import { LoaderCircle, RefreshCw, Star } from "lucide-vue-next";
 import axios from "axios";
 import EmptyState from "@/components/EmptyState.vue";
+import ChangeModal from "@/components/Chat/ChangeModal.vue";
+import RateModal from "@/components/Chat/RateModal.vue";
 
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
@@ -19,6 +21,10 @@ const chatStore = useChatStore();
 const notificationStore = useNotificationStore();
 const route = useRoute();
 const points = computed(() => userStore.user?.points);
+const showChangeModal = ref(false);
+const showRateModal = ref(false);
+const showChangeButton = ref(false);
+const showRateButton = ref(false);
 
 const user = computed(() => userStore.user);
 const subjectId = computed(() => route.params.id);
@@ -85,7 +91,25 @@ onMounted(async () => {
 <template>
     <BaseBody class="max-h-screen">
         <BaseNav title="Chat profesional" />
-        <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]">
+        <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]" :class="userStore.user?.role === 'student' ? 'relative' : ''">
+            <div v-if="userStore.user?.role === 'student'" class="absolute right-0 mr-2 mt-2 flex flex-col items-end gap-2">
+                <div class="w-fit bg-white rounded-full flex items-center">
+                    <button v-if="showChangeButton" class="h-9 px-3 flex items-center border-r border-neutral-200" @click="showChangeModal = true, showChangeButton = !showChangeButton">
+                        <span class="text-sm">Cambiar profesor</span>
+                    </button>
+                    <button class="p-2" @click="showChangeButton = !showChangeButton">
+                        <RefreshCw class="text-black" :size="20" />
+                    </button>
+                </div>
+                <div class="w-fit bg-white rounded-full flex items-center">
+                    <button v-if="showRateButton" class="h-9 px-3 flex items-center border-r border-neutral-200" @click="showRateModal = true, showRateButton = !showRateButton">
+                        <span class="text-sm">Calificar profesor</span>
+                    </button>
+                    <button class="p-2" @click="showRateButton = !showRateButton">
+                        <Star class="text-black" :size="20" />
+                    </button>
+                </div>
+            </div>
             <div :class="chatStore.loading || chatStore.messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col">
                 <div id="container" :class="chatStore.loading || chatStore.messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
                     <div v-if="chatStore.loading" class="flex flex-col gap-2 items-center justify-center w-full text-neutral-700">
@@ -110,5 +134,8 @@ onMounted(async () => {
                 <ChatInput v-model="chatStore.userMessage" @sendMessage="sendMessage" :isSending="chatStore.isSending" />
             </div>
         </div>
+
+        <ChangeModal :show-modal="showChangeModal" @close="showChangeModal = false" />
+        <RateModal :show-modal="showRateModal" @close="showRateModal = false" />
     </BaseBody>
 </template>
