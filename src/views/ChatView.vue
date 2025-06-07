@@ -92,7 +92,7 @@ onMounted(async () => {
     <BaseBody class="max-h-screen">
         <BaseNav title="Chat profesional" />
         <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]" :class="userStore.user?.role === 'student' ? 'relative' : ''">
-            <div v-if="userStore.user?.role === 'student'" class="absolute right-0 mr-2 mt-2 flex flex-col items-end gap-2">
+            <div v-if="userStore.user?.role === 'student' && chatStore.chatInfo?.teacherId" class="absolute right-0 mr-2 mt-2 flex flex-col items-end gap-2">
                 <div class="w-fit bg-white rounded-full flex items-center">
                     <button v-if="showChangeButton" class="h-9 px-3 flex items-center border-r border-neutral-200" @click="showChangeModal = true, showChangeButton = !showChangeButton">
                         <span class="text-sm">Cambiar profesor</span>
@@ -119,7 +119,7 @@ onMounted(async () => {
                     <EmptyState v-if="!chatStore.loading && chatStore.messages.length === 0" title="Todavía no hay mensajes" description="Escribe tu duda y un profesor te responderá pronto." icon="MailX" />
                     <div v-else v-for="(message, index) in chatStore.messages" :key="index" class="flex gap-2">
                         <div :class="message.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
-                            <UserAvatar size="10" :orange="message.sender.role === 'teacher'" />
+                            <UserAvatar size="10" :orange="message.sender.role === 'teacher'" :user-letter="message.sender.displayName?.charAt(0) || '?'" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">{{ message.sender.displayName }}</span>
