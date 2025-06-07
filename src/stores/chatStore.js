@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import socket from "@/services/socket";
 
 export const useChatStore = defineStore("chatStore", {
     state: () => ({
@@ -12,7 +13,6 @@ export const useChatStore = defineStore("chatStore", {
 
     getters: {
         isChatEmpty: (state) => state.messages.length === 0,
-
         getMessages: (state) => state.messages,
     },
 
@@ -41,6 +41,8 @@ export const useChatStore = defineStore("chatStore", {
                         sender: message.sender,
                         text: message.message,
                     }));
+
+                    socket.emit("joinRoom", this.chatInfo.subjectId);
                 }
             } catch (error) {
                 console.error("Error al obtener los mensajes:", error);
@@ -67,21 +69,25 @@ export const useChatStore = defineStore("chatStore", {
                 const apiUrl = new URL(`/api/chats/${subjectId}`, process.env.VUE_APP_API_URL);
                 await axios.post(apiUrl.toString(), newMessage);
 
-                this.messages.push({
-                    sender: {
-                        _id: user._id,
-                        role: user.role,
-                        displayName: user.displayName,
-                    },
-                    text: userMessage,
-                });
-
-                this.userMessage = "";
+                this.userMessage = ""
             } catch (error) {
                 console.error("Error al enviar mensaje:", error);
             } finally {
                 this.isSending = false;
             }
+        },
+
+        listenForIncomingMessages() {
+            socket.on("newMessage", (message) => {
+                const alreadyExists = this.messages.some((m) =>
+                    m.sender._id === message.sender._id &&
+                    m.text === message.text
+                );
+
+                if (!alreadyExists) {
+                    this.messages.push(message);
+                }
+            });
         },
     },
 });

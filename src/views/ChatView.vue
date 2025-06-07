@@ -80,6 +80,8 @@ onMounted(async () => {
     await subjectStore.fetchSubject(subjectId.value);
     await chatStore.fetchChatMessages(subjectId.value);
 
+    chatStore.listenForIncomingMessages();
+
     nextTick(() => {
         const chatContainer = document.querySelector("#container");
         const lastMessage = chatContainer.lastElementChild;
