@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.1.0",
+    "@google/genai": "^1.1.0",
     "axios": "^1.7.7",
     "core-js": "^3.8.3",
     "flowbite": "^3.1.2",
@@ -20,6 +21,7 @@
     "npm": "^11.4.1",
     "pinia": "^2.2.6",
     "register-service-worker": "^1.7.2",
+    "socket.io-client": "^4.8.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vue3-google-login": "^2.0.33",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/typography": "^0.5.16",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",

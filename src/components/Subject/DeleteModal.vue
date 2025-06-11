@@ -56,7 +56,7 @@ const deleteSubject = async () => {
             </div>
             <div class="bg-neutral-100 p-4">
                 <div class="flex justify-end gap-2">
-                    <BaseButton secondary @click="closeModal">Cancelar</BaseButton>
+                    <BaseButton @click="closeModal">Cancelar</BaseButton>
                     <BaseButton danger @click="deleteSubject">{{ loading ? 'Eliminando...' : 'Eliminar' }}</BaseButton>
                 </div>
             </div>

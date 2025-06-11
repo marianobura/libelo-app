@@ -47,7 +47,7 @@ const addObjective = async () => {
             <h2 class="text-lg font-semibold mb-3">Agregar nueva opción</h2>
             <BaseInput type="text" placeholder="Introduzca su objetivo..." identifier="objectives" v-model="objectiveText" />
             <div class="flex justify-end mt-3 gap-2">
-                <BaseButton @click="closeModal" secondary>Cancelar</BaseButton>
+                <BaseButton @click="closeModal">Cancelar</BaseButton>
                 <BaseButton @click="addObjective" primary>Agregar</BaseButton>
             </div>
         </div>

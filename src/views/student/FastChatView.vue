@@ -22,7 +22,6 @@ watchEffect(() => {
     }
 });
 
-const userLetter = computed(() => userStore.user?.displayName?.charAt(0) || '');
 const subjectName = computed(() => subjectStore.subject?.name || "Materia");
 const userDisplayName = computed(() => userStore.user?.displayName || '');
 
@@ -71,7 +70,7 @@ const parseMarkdown = (text) => {
                     <div v-for="(message, index) in messages" :key="index" class="flex gap-2">
                         <div :class="message.sender === 'ai' ? 'bg-orange-600' : ''" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
                             <Bot v-if="message.sender === 'ai'" :size="20" />
-                            <UserAvatar v-if="message.sender === 'user'" :user-letter="userLetter" size="10" />
+                            <UserAvatar v-if="message.sender === 'user'" size="10" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>

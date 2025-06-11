@@ -2,7 +2,7 @@
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import { useUserStore } from '@/stores/userStore';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import BaseInput from '@/components/BaseInput.vue';
 import axios from 'axios';
 import BaseButton from '@/components/BaseButton.vue';
@@ -66,10 +66,6 @@ const updateUser = async () => {
     loading.value = false;
 };
 
-const userLetter = computed(() => {
-    return userStore.user?.displayName?.charAt(0) || '';
-});
-
 watchEffect(() => {
     firstName.value = userStore?.user.firstName;
     lastName.value = userStore?.user.lastName;
@@ -81,7 +77,7 @@ watchEffect(() => {
         <BaseNav title="Editar perfil" />
         <div class="flex flex-col gap-4 p-2">
             <div class="flex gap-4 items-center">
-                <UserAvatar :user-letter="userLetter" size="12" />
+                <UserAvatar size="12" />
                 <div class="flex flex-col">
                     <p class="font-semibold">{{ userStore?.user.displayName }}</p>
                     <router-link to="/settings/change-password" class="text-sm text-libelo-500">Cambiar contraseña</router-link>

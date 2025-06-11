@@ -47,7 +47,7 @@ onMounted(async () => {
             </BaseTitle>
 
             <div class="grid grid-cols-[1fr_48px] gap-2">
-                <BaseButton @click="showModalCoaurses = true">{{ subjectStore.subject?.classroomName ? 'Cambiar materia de Classroom' : 'Vincular materia con Classroom' }}</BaseButton>
+                <BaseButton @click="showModalCourses = true">{{ subjectStore.subject?.classroomName ? 'Cambiar materia de Classroom' : 'Vincular materia con Classroom' }}</BaseButton>
                 <BaseButton danger class="flex items-center justify-center" @click="showModalDelete = true"><Trash2 size="20" /></BaseButton>
             </div>
 
