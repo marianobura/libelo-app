@@ -5,7 +5,7 @@
             "promotions": [
                 {
                     "id": "P51711",
-                    "image": "https://instagram.ffdo4-1.fna.fbcdn.net/v/t39.30808-6/425696619_122097111350210618_3526590256834930037_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQuaW1hZ2VfdXJsZ2VuLjEwODB4MTA4MC5zZHIuZjMwODA4LmRlZmF1bHRfaW1hZ2UifQ&_nc_ht=instagram.ffdo4-1.fna.fbcdn.net&_nc_cat=102&_nc_oc=Q6cZ2QEcWFOgvm_z2wN4xX6MmnM-vkuUgbfBHRw4-y1AfH4jvycvLkGBRqI-gied1i5Z14Q&_nc_ohc=LeAvwXg_ZwAQ7kNvwHzPMNp&_nc_gid=mV2616tkFOOsHiv2GJUAew&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzI5OTAyNDczODEzMzMwMDQzNQ%3D%3D.3-ccb7-5&oh=00_AfKAVAjipbMsBtMfcVOYcfuCVnBwD2XdbwR9ELSoLcsRqg&oe=684301E3&_nc_sid=10d13b",
+                    "image": "https://elcomercio.pe/resizer/v2/XPMH3ESMLVFV7AKA6E24335KYE.png?auth=09ecc91ad6999caf86222a7493f7e939784ce719234167dc772668f51254533c&width=620&quality=75&smart=true",
                     "title": "2x1 en cucuruchos",
                     "description": "Disfrutá de un 2x1 en cucuruchos en Freddo.",
                     "location": "Buenos Aires",
@@ -245,25 +245,25 @@
                     "id": "P19512",
                     "image": "https://www.cinesabc.com/img/butacas.jpg",
                     "title": "2x1 en entradas de cine",
-                    "description": "Llevate 2 entradas por el precio de 1 en Cines ABC.",
+                    "description": "Llevate 2 entradas por el precio de 1 en cualquier Cine Cinemark.",
                     "location": "Buenos Aires",
                     "valid_until": "28/07/2025",
                     "terms": "Válido solo de lunes a jueves.",
                     "points": 30,
                     "code": "HELADO2X1",
-                    "name": "Cines ABC"
+                    "name": "Cines Cinemark"
                 },
                 {
                     "id": "P61552",
                     "image": "https://fotos.perfil.com/2024/06/27/trim/1140/641/luna-park-1826197.jpg",
                     "title": "50% de descuento en obras de teatro",
-                    "description": "Descuento en todas las funciones del Teatro Luna.",
+                    "description": "Descuento en todas las funciones del Teatro Luna Park.",
                     "location": "Rosario",
                     "valid_until": "15/11/2026",
                     "terms": "No acumulable con otras promociones.",
                     "points": 10,
                     "code": "HELADO2X1",
-                    "name": "Sony"
+                    "name": "Teatro Luna Park"
                 },
                 {
                     "id": "P78906",
@@ -275,7 +275,7 @@
                     "terms": "Solo en compras online.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Showcase"
+                    "name": "Gobierno de la Ciudad"
                 },
                 {
                     "id": "P29921",
@@ -287,7 +287,7 @@
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Musimundo"
+                    "name": "Bariloche Trekking"
                 },
                 {
                     "id": "P77324",
@@ -299,7 +299,7 @@
                     "terms": "Reservas con 30 días de anticipación.",
                     "points": 30,
                     "code": "HELADO2X1",
-                    "name": "Musimundo"
+                    "name": "Gobierno de la Ciudad"
                 },
                 {
                     "id": "P94026",
@@ -311,7 +311,7 @@
                     "terms": "No aplica en eventos privados.",
                     "points": 25,
                     "code": "HELADO2X1",
-                    "name": "Cinemark"
+                    "name": "Escape Room Argentina"
                 },
                 {
                     "id": "P89082",
@@ -323,7 +323,7 @@
                     "terms": "Con acompañante adulto.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Village Cines"
+                    "name": "Zoológico Natural de Tucumán"
                 },
                 {
                     "id": "P68464",
@@ -335,7 +335,7 @@
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
                     "code": "HELADO2X1",
-                    "name": "Cinemark"
+                    "name": "Teatro Independencia"
                 },
                 {
                     "id": "P51499",
@@ -347,7 +347,7 @@
                     "terms": "Aplica solo para residentes locales.",
                     "points": 30,
                     "code": "HELADO2X1",
-                    "name": "Village Cines"
+                    "name": "Museo Histórico Nacional"
                 },
                 {
                     "id": "P31576",
@@ -359,7 +359,7 @@
                     "terms": "Sujeto a condiciones climáticas.",
                     "points": 10,
                     "code": "HELADO2X1",
-                    "name": "Cinemark"
+                    "name": "Kayak Rincón"
                 }
             ]
         },
