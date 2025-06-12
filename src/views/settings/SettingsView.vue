@@ -32,7 +32,7 @@ const logout = async () => {
         <div class="flex flex-col gap-2 p-2">
             <LabelTitle label="Perfil">
                 <BaseItem title="Editar perfil" :icon="UserRoundPen" @click="goTo('/settings/edit-profile')" />
-                <BaseItem v-if="!userStore.user.google.isGoogleLinked" title="Cambiar contraseña" :icon="SquareAsterisk" @click="goTo('/settings/change-password')" />
+                <BaseItem v-if="userStore.user.password" title="Cambiar contraseña" :icon="SquareAsterisk" @click="goTo('/settings/change-password')" />
                 <BaseItem v-if="userStore.user.role === 'student'" title="Google" :icon="LayoutDashboard" @click="goTo('/settings/google')" />
             </LabelTitle>
             <LabelTitle v-if="userStore.user.role === 'teacher'" label="Materias">
