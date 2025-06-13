@@ -30,6 +30,7 @@ const removeTeacher = async () => {
         const apiUrl = new URL(`/api/chats/remove-teacher/${chatId}`, process.env.VUE_APP_API_URL);
         const response = await axios.patch(apiUrl.toString());
         if (response.status === 200) {
+            window.location.reload();
             closeModal();
         }
     } catch (error) {
