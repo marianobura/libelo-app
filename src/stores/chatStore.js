@@ -34,7 +34,8 @@ export const useChatStore = defineStore("chatStore", {
                         subjectName: chat.subjectName,
                         subjectId: chat.subjectId,
                         studentId: chat.studentId,
-                        teacherId: chat.teacherId
+                        teacherId: chat.teacherId,
+                        rated: chat.rated,
                     };
         
                     this.messages = chat.messages.map((message) => ({
