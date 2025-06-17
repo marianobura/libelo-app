@@ -37,28 +37,30 @@ const sendMessage = () => {
         subjectStore.subject?.name
     );
 
-    if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo.teacherId._id) {
-        notificationStore.createNotification({
-            userId: chatStore.chatInfo.teacherId,
-            type: "chat",
-            content: {
-                chatId: chatStore.chatInfo._id,
-                senderId: userStore.user._id,
-                message: chatStore.userMessage,
-            },
-            read: false,
-        })
-    } else if (userStore.user._id === chatStore.chatInfo.teacherId._id) {
-        notificationStore.createNotification({
-            userId: chatStore.chatInfo.studentId,
-            type: "chat",
-            content: {
-                chatId: chatStore.chatInfo._id,
-                senderId: userStore.user._id,
-                message: chatStore.userMessage,
-            },
-            read: false,
-        })
+    if (chatStore.chatInfo.teacherId) {
+        if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo.teacherId._id) {
+            notificationStore.createNotification({
+                userId: chatStore.chatInfo.teacherId,
+                type: "chat",
+                content: {
+                    chatId: chatStore.chatInfo._id,
+                    senderId: userStore.user._id,
+                    message: chatStore.userMessage,
+                },
+                read: false,
+            })
+        } else if (userStore.user._id === chatStore.chatInfo.teacherId._id) {
+            notificationStore.createNotification({
+                userId: chatStore.chatInfo.studentId,
+                type: "chat",
+                content: {
+                    chatId: chatStore.chatInfo._id,
+                    senderId: userStore.user._id,
+                    message: chatStore.userMessage,
+                },
+                read: false,
+            })
+        }
     }
 
     if (userStore.user.role === "teacher") {
