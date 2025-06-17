@@ -255,6 +255,8 @@ const cutEvents = (text, maxLength = 16) => {
     return text;
 };
 
+
+
 onMounted(async () => {
     await userStore.fetchUser();
     await getCalendarEvents();
