@@ -8,8 +8,9 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
 import { useUserStore } from "@/stores/userStore";
-import { Trash2, Pencil, Check } from "lucide-vue-next";
+import { Trash2, Pencil, Check, Plus } from "lucide-vue-next";
 import BaseModal from "@/components/BaseModal.vue";
+import BaseButton from "@/components/BaseButton.vue";
 
 const userStore = useUserStore();
 const calendarEvents = ref([]);
@@ -34,7 +35,13 @@ async function saveChanges() {
     start: { dateTime: new Date(formattedEditDate.value).toISOString() },
     end: { dateTime: new Date(new Date(formattedEditDate.value).getTime() + 60 * 60 * 1000).toISOString() }
   };
-  await editEvent(selectedEvent.value.id, updatedEvent);
+
+  if (!selectedEvent.value.id) {
+    await addEvent(updatedEvent);
+  } else {
+    await editEvent(selectedEvent.value.id, updatedEvent);
+  }
+
   isEditing.value = false;
   showEventModal.value = false;
   await getCalendarEvents();
@@ -198,6 +205,56 @@ async function editEvent(eventId, updatedEvent) {
   }
 }
 
+function openNewEventModal() {
+  const selectedDay = selectedDays.value[0];
+  if (!selectedDay) return;
+
+  const startDate = new Date(currentYear.value, currentMonth.value, selectedDay, 12);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+
+  selectedEvent.value = {
+    summary: "Nuevo evento",
+    description: "",
+    start: { dateTime: startDate.toISOString() },
+    end: { dateTime: endDate.toISOString() }
+  };
+
+  formattedEditDate.value = startDate.toISOString().slice(0, 16);
+  isEditing.value = true;
+  showEventModal.value = true;
+}
+
+async function addEvent(event) {
+  try {
+    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userStore?.user.google.accessToken}`
+      },
+      body: JSON.stringify(event)
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al agregar el evento");
+    }
+
+    const newEvent = await response.json();
+    calendarEvents.value.push(newEvent);
+  } catch (error) {
+    console.error("Error al agregar el evento:", error);
+  }
+}
+
+const cutEvents = (text, maxLength = 16) => {
+    if (text.length > maxLength) {
+        return text.slice(0, maxLength - 3) + '...';
+    }
+    return text;
+};
+
 onMounted(async () => {
     await userStore.fetchUser();
     await getCalendarEvents();
@@ -253,7 +310,7 @@ watch(currentDate, getCalendarEvents);
                             selectedDays.includes(day)
                                 ? 'bg-libelo-500 text-white font-semibold shadow'
                                 : isToday(day)
-                                    ? 'text-libelo-500 font-semibold'
+                                    ? 'text-libelo-500 font-bold'
                                     : 'hover:bg-libelo-100']">
                         {{ day }}
                         <span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
@@ -262,17 +319,28 @@ watch(currentDate, getCalendarEvents);
 
                 <div v-if="calendarEvents.length" class="mt-6 bg-libelo-700 rounded-md">
                     <ul class="list-disc list-inside text-sm text-gray-700">
-                        <li v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)"
-                            class="border border-white text-white px-3 pt-4 pb-4 list-none justify-between flex items-center gap-2 hover:bg-libelo-600">
-                            {{ event.summary }} - {{ event.start.dateTime || event.start.date || event.end.date }} 
-                            <span @click.stop="deleteEvent(event.id)"><Trash2 /></span>
+                        <li v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="border border-white text-white px-3 py-2 list-none flex flex-wrap gap-x-2 gap-y-1 items-center hover:bg-libelo-600">
+                        <div class="flex-1 truncate" :title="event.summary">
+                            <span class="font-semibold">{{ cutEvents(event.summary, 20) }}</span>
+                        </div>
+                        <div class="text-xs whitespace-nowrap mr-10">
+                            {{ (event.start.dateTime || event.start.date || event.end.date).slice(0, 10) }}
+                        </div>
+                        <button @click.stop="deleteEvent(event.id)">
+                            <Trash2 :size="16" />
+                        </button>
                         </li>
                     </ul>
                 </div>
             </BaseTitle>
         </div>
 
-         <BaseModal v-if="showEventModal" class="items-center justify-center">
+        <button v-if="selectedDays.length > 0" id="show-modal" @click="openNewEventModal" class="fixed bottom-20 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
+        <Plus :size="24" />
+        </button>
+
+
+        <BaseModal v-if="showEventModal" class="items-center justify-center">
             <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2">
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center justify-around mb-2">
@@ -282,24 +350,25 @@ watch(currentDate, getCalendarEvents);
                         <span @click.stop="deleteEvent(selectedEvent.id)"><Trash2 /></span>
                     </div>
                     <div v-if="isEditing">
-                    <input v-model="selectedEvent.summary" class="border rounded px-2 py-1 w-full" />
+                        <input v-model="selectedEvent.summary" class="border rounded px-2 py-1 w-full" />
                     </div>
                     <div v-else>
-                    <h3 class="text-lg font-bold">{{ selectedEvent?.summary }}</h3>
+                        <h3 class="text-lg font-bold truncate max-w-full">
+                            {{ selectedEvent?.summary }}
+                        </h3>
                     </div>
                     <div v-if="isEditing">
-                    <input type="datetime-local" v-model="formattedEditDate" class="border rounded px-2 py-1 w-full" />
+                        <input type="datetime-local" v-model="formattedEditDate" class="border rounded px-2 py-1 w-full" />
                     </div>
                     <div v-else>
-                    <p class="text-sm text-neutral-700">
-                        <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }}
-                    </p>
+                        <p class="text-sm text-neutral-700">
+                            <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }}
+                        </p>
                     </div>
                     <div v-if="isEditing">
-                    <textarea v-model="selectedEvent.description" class="border rounded px-2 py-1 w-full" rows="3" />
+                        <textarea v-model="selectedEvent.description" class="border rounded px-2 py-1 w-full" rows="3" />
                     </div>
-                    <div v-else>
-                    <p class="text-sm text-neutral-700"><strong>Descripción:</strong> {{ selectedEvent.description }}</p>
+                    <div v-else>                   
                     </div>
                     <div class="flex justify-end mt-4">
                         <BaseButton @click="showEventModal = false" secondary>Cerrar</BaseButton>

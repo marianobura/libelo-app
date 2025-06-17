@@ -10,7 +10,6 @@ import BaseBody from "@/components/BaseBody.vue";
 import ChatInput from "@/components/Chat/ChatInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import { LoaderCircle, RefreshCw, Star } from "lucide-vue-next";
-import axios from "axios";
 import EmptyState from "@/components/EmptyState.vue";
 import ChangeModal from "@/components/Chat/ChangeModal.vue";
 import RateModal from "@/components/Chat/RateModal.vue";
@@ -20,7 +19,6 @@ const subjectStore = useSubjectStore();
 const chatStore = useChatStore();
 const notificationStore = useNotificationStore();
 const route = useRoute();
-const points = computed(() => userStore.user?.points);
 const showChangeModal = ref(false);
 const showRateModal = ref(false);
 const showChangeButton = ref(false);
@@ -37,8 +35,9 @@ const sendMessage = () => {
         subjectStore.subject?.name
     );
 
-    if (chatStore.chatInfo.teacherId) {
-        if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo.teacherId._id) {
+    if (chatStore.chatInfo?.teacherId) {
+        if (!chatStore.chatInfo || !chatStore.chatInfo.teacherId) return;
+        if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo?.teacherId._id) {
             notificationStore.createNotification({
                 userId: chatStore.chatInfo.teacherId,
                 type: "chat",
@@ -49,7 +48,7 @@ const sendMessage = () => {
                 },
                 read: false,
             })
-        } else if (userStore.user._id === chatStore.chatInfo.teacherId._id) {
+        } else if (userStore.user._id === chatStore.chatInfo?.teacherId._id) {
             notificationStore.createNotification({
                 userId: chatStore.chatInfo.studentId,
                 type: "chat",
@@ -60,18 +59,6 @@ const sendMessage = () => {
                 },
                 read: false,
             })
-        }
-    }
-
-    if (userStore.user.role === "teacher") {
-        try {
-            const newPoints = points.value + 5;
-            const apiUrl = new URL(`/api/users/${userStore.user._id}`, process.env.VUE_APP_API_URL);
-            axios.put(apiUrl.toString(), { points: newPoints });
-
-            userStore.user.points = newPoints;
-        } catch (error) {
-            console.error("Error al actualizar los puntos:", error);
         }
     }
 };
