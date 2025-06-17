@@ -17,6 +17,8 @@ const calendarEvents = ref([]);
 const selectedDays = ref([]);
 const currentDate = ref(new Date());
 const showEventModal = ref(false);
+const deleteEventModal = ref(false);
+const eventToDelete = ref(null);
 const selectedEvent = ref(null);
 const isEditing = ref(false);
 const formattedEditDate = ref("");
@@ -27,6 +29,27 @@ watch(() => selectedEvent.value, (event) => {
     formattedEditDate.value = date.toISOString().slice(0, 16);
   }
 });
+
+function formatDateTime(dateObj) {
+  if (!dateObj) return '';
+  // Puede venir con dateTime o date
+  const dateStr = dateObj.dateTime || dateObj.date;
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return '';
+  return d.toLocaleString('es-AR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function confirmDelete(event) {
+  eventToDelete.value = event;
+  deleteEventModal.value = true;
+}
 
 async function saveChanges() {
   const updatedEvent = {
@@ -162,10 +185,12 @@ function hasEventOnDay(day) {
     });
 }
 
-async function deleteEvent(eventId) {
-  try {
-    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`;
+// Elimina evento confirmado
+async function deleteConfirmedEvent() {
+  if (!eventToDelete.value) return;
 
+  try {
+    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventToDelete.value.id}`;
     await fetch(url, {
       method: "DELETE",
       headers: {
@@ -173,7 +198,9 @@ async function deleteEvent(eventId) {
       }
     });
 
-    calendarEvents.value = calendarEvents.value.filter(event => event.id !== eventId);
+    calendarEvents.value = calendarEvents.value.filter(event => event.id !== eventToDelete.value.id);
+    deleteEventModal.value = false;
+    eventToDelete.value = null;
   } catch (error) {
     console.error("Error al eliminar el evento:", error);
   }
@@ -255,8 +282,6 @@ const cutEvents = (text, maxLength = 16) => {
     return text;
 };
 
-
-
 onMounted(async () => {
     await userStore.fetchUser();
     await getCalendarEvents();
@@ -326,10 +351,10 @@ watch(currentDate, getCalendarEvents);
                             <span class="font-semibold">{{ cutEvents(event.summary, 20) }}</span>
                         </div>
                         <div class="text-xs whitespace-nowrap mr-10">
-                            {{ (event.start.dateTime || event.start.date || event.end.date).slice(0, 10) }}
+                            {{ formatDateTime(event.start) }}
                         </div>
-                        <button @click.stop="deleteEvent(event.id)">
-                            <Trash2 :size="16" />
+                        <button @click.stop="confirmDelete(event)">
+                            <Trash2 :size="20" />
                         </button>
                         </li>
                     </ul>
@@ -340,7 +365,6 @@ watch(currentDate, getCalendarEvents);
         <button v-if="selectedDays.length > 0" id="show-modal" @click="openNewEventModal" class="fixed bottom-20 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
         <Plus :size="24" />
         </button>
-
 
         <BaseModal v-if="showEventModal" class="items-center justify-center">
             <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2">
@@ -364,7 +388,7 @@ watch(currentDate, getCalendarEvents);
                     </div>
                     <div v-else>
                         <p class="text-sm text-neutral-700">
-                            <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }}
+                            <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }} a {{ new Date(selectedEvent.end.dateTime).toLocaleString("es-AR") }}
                         </p>
                     </div>
                     <div v-if="isEditing">
@@ -378,5 +402,22 @@ watch(currentDate, getCalendarEvents);
                 </div>
             </div>
         </BaseModal>
+        <BaseModal v-if="deleteEventModal" class="items-center justify-center">
+        <div class="bg-white p-6 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
+          <h2 class="text-lg font-bold mb-2">¿Estás seguro de eliminar este evento?</h2>
+          <p class="text-sm text-gray-600">Si lo eliminás, se borrará definitivamente.</p>
+          <p class="text-sm text-gray-800 font-medium mt-2 whitespace-pre-wrap break-words">
+            Evento: <span class="font-semibold">{{ eventToDelete?.summary || 'Sin título' }}</span><br />
+            Fecha:
+            <span class="text-gray-700">
+              {{ new Date(eventToDelete?.start.dateTime).toLocaleString("es-AR") }} a {{ new Date(eventToDelete?.end.dateTime).toLocaleString("es-AR") }}
+            </span>
+          </p>
+          <div class="flex justify-end mt-4 gap-2">
+            <BaseButton @click="deleteEventModal = false" secondary>Cancelar</BaseButton>
+            <BaseButton @click="deleteConfirmedEvent" danger>Eliminar</BaseButton>
+          </div>
+        </div>
+      </BaseModal>
     </BaseBody>
 </template>
