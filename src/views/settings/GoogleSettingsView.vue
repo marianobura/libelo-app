@@ -37,7 +37,7 @@ onMounted(async () => {
                         <span class="font-semibold text-libelo">{{ userStore.user.google.gmail }}</span>
                     </div>
                 </BaseTitle>
-                <BaseTitle title="Vincular a otra cuenta" description="Para actualizar o cambiar la vinculación, haga clic en el botón a continuación:">
+                <BaseTitle title="Vincular a otra cuenta" description="Para cambiar la vinculación, haga clic en el botón a continuación:">
                 </BaseTitle>
             </div>
             <div v-else>
