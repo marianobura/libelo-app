@@ -42,7 +42,7 @@ const addObjective = async () => {
 </script>
 
 <template>
-    <BaseModal v-if="props.showModal" class="items-center justify-center" @click="handleOverlayClick">
+    <BaseModal :show="props.showModal" class="items-center justify-center" @click="handleOverlayClick">
         <div class="bg-white mx-2 p-4 rounded-xl w-full">
             <h2 class="text-lg font-semibold mb-3">Agregar nueva opción</h2>
             <BaseInput type="text" placeholder="Introduzca su objetivo..." identifier="objectives" v-model="objectiveText" />

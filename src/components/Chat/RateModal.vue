@@ -52,7 +52,7 @@ const RateTeacher = async () => {
 </script>
 
 <template>
-    <BaseModal v-if="props.showModal" class="justify-center items-center" @click="handleOverlayClick">
+    <BaseModal :show="props.showModal" class="justify-center items-center" @click="handleOverlayClick">
         <div class="bg-white rounded-xl w-full h-fit mx-2 overflow-hidden">
             <div :class="['relative w-full h-28', rating === 1 ? 'bg-rose-600' : rating === 2 ? 'bg-amber-600' : rating === 3 ? 'bg-yellow-500' : rating === 4 ? 'bg-lime-600' : rating === 5 ? 'bg-libelo-500' : 'bg-yellow-500']">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 aspect-square w-fit h-auto bg-white rounded-full">

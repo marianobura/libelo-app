@@ -129,40 +129,44 @@ onMounted(async () => {
 <template>
     <BaseBody>
         <BaseNav title="Trabajos" />
-        <div class="flex flex-col gap-4 p-2">
-            <SubjectBanner />
-            <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados.">
-                <div class="grid grid-cols-2 gap-2 w-full">
-                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
-                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
+        <div class="flex flex-col gap-4">
+            <div class="p-2">
+                <SubjectBanner />
+                <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados." />
+            </div>
+                <div class="grid grid-cols-2 gap-1 w-full">
+                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" class=" bg-gradient-to-br from-white to-gray-300 drop-shadow-lg" />
+                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" class=" bg-gradient-to-br from-white to-gray-300 drop-shadow-lg" />
                 </div>
-            </BaseTitle>
-            <BaseTitle v-if="showPending" title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
-                <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
-                    <div class="flex items-center justify-center size-8">
-                        <LoaderCircle class="animate-spin" :size="32" />
+            <div class="p-2">
+
+                <BaseTitle v-if="showPending" title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
+                    <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
+                        <div class="flex items-center justify-center size-8">
+                            <LoaderCircle class="animate-spin" :size="32" />
+                        </div>
                     </div>
-                </div>
-                <div v-if="!loading && worksPending.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
-                    <CheckCircle class="mx-auto mb-2" :size="32" />
-                    <h3 class="text-lg font-semibold">¡Estás al día!</h3>
-                    <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
-                </div>
-                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" />
-            </BaseTitle>
-            <BaseTitle v-if="showCompleted" title="Trabajos completados" description="Los trabajos están conectados con Classroom.">
-                <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
-                    <div class="flex items-center justify-center size-8">
-                        <LoaderCircle class="animate-spin" :size="32" />
+                    <div v-if="!loading && worksPending.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
+                        <CheckCircle class="mx-auto mb-2" :size="32" />
+                        <h3 class="text-lg font-semibold">¡Estás al día!</h3>
+                        <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
                     </div>
-                </div>
-                <div v-if="!loading && worksCompleted.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
-                    <CheckCircle class="mx-auto mb-2" :size="32" />
-                    <h3 class="text-lg font-semibold">¡Estás al día!</h3>
-                    <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
-                </div>
-                <PendingCard v-for="(course, index) in worksCompleted" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="getCompletedDescription(course)" />
-            </BaseTitle>
+                    <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" />
+                </BaseTitle>
+                <BaseTitle v-if="showCompleted" title="Trabajos completados" description="Los trabajos están conectados con Classroom.">
+                    <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
+                        <div class="flex items-center justify-center size-8">
+                            <LoaderCircle class="animate-spin" :size="32" />
+                        </div>
+                    </div>
+                    <div v-if="!loading && worksCompleted.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
+                        <CheckCircle class="mx-auto mb-2" :size="32" />
+                        <h3 class="text-lg font-semibold">¡Estás al día!</h3>
+                        <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
+                    </div>
+                    <PendingCard v-for="(course, index) in worksCompleted" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="getCompletedDescription(course)" />
+                </BaseTitle>
+            </div>
         </div>
     </BaseBody>
 </template>
