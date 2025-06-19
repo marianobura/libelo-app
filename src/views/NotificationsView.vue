@@ -12,6 +12,10 @@ const notificationStore = useNotificationStore();
 
 const notifications = computed(() => notificationStore.notifications);
 
+const markAsRead = async (notificationId) => {
+    await notificationStore.markAsRead(notificationId);
+};
+
 onMounted(async () => {
     await userStore.fetchUser();
     if (userStore.user?._id) {
@@ -27,18 +31,16 @@ onMounted(async () => {
         <div class="h-full p-2" :class="notifications.length === 0 ? 'flex items-center' : ''">
             <EmptyState v-if="notifications.length === 0" title="Todavía no hay notificaciones" description="Las notificaciones aparecerán aquí una vez que las hayas recibido." icon="BellOff" />
             <div v-else class="flex flex-col gap-2">
-                <div v-for="notification in notifications" :key="notification._id"
-                    class="bg-white rounded-xl p-4 flex flex-col gap-2">
+                <div v-for="notification in notifications" :key="notification._id" class="bg-white rounded-xl p-4 flex flex-col gap-2" @click="markAsRead(notification._id)">
                     <div class="flex items-center gap-2 text-libelo-500 font-semibold">
                         <MailPlus :size="24" />
                         <span>{{ notification.type === 'chat' ? 'Has recibido un nuevo mensaje' : 'Notificación' }}</span>
                     </div>
                     <div class="flex flex-col">
-                        <div class="text-sm">
-                            {{ notification.content?.message ? `"${notification.content.message}"` : notification.description || 'Tienes una nueva notificación' }}
-                        </div>
+                        <h2 class="text-sm">{{ notification.content?.message ? `"${notification.content.message}"` : notification.description || 'Tienes una nueva notificación' }}</h2>
                         <div class="flex items-center gap-2 text-gray-500">
                             <span v-if="!notification.read" class="text-xs text-red-500">No leído</span>
+                            <span v-else class="text-xs text-green-500">Leído</span>
                             <span>-</span>
                             <span class="text-xs">{{ new Date(notification.createdAt).toLocaleString() }}</span>
                         </div>

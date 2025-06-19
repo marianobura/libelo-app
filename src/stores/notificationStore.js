@@ -64,6 +64,6 @@ export const useNotificationStore = defineStore('notification', {
             } catch (err) {
                 console.error('Error marcando como leída:', err);
             }
-        }
+        },   
     }
 });
