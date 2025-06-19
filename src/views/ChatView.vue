@@ -69,6 +69,7 @@ onMounted(async () => {
     await chatStore.fetchChatMessages(subjectId.value);
 
     chatStore.listenForIncomingMessages();
+    chatStore.listenForTeacherAssignment();
 
     nextTick(() => {
         const chatContainer = document.querySelector("#container");
