@@ -11,7 +11,6 @@ const userStore = useUserStore();
 const loading = ref(false);
 const promotions = ref(promotionsData.promotions);
 const selectedCategory = ref(null);
-// loading.value = true;
 
 const getRandomPromotions = (promotions, category) => {
     return promotions
