@@ -90,5 +90,13 @@ export const useChatStore = defineStore("chatStore", {
                 }
             });
         },
+
+        listenForTeacherAssignment() {
+            socket.on("teacherAssigned", (newTeacherId) => {
+                if (this.chatInfo) {
+                    this.chatInfo.teacherId = newTeacherId;
+                }
+            });                       
+        },
     },
 });

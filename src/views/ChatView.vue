@@ -35,8 +35,7 @@ const sendMessage = () => {
         subjectStore.subject?.name
     );
 
-    if (chatStore.chatInfo?.teacherId) {
-        if (!chatStore.chatInfo || !chatStore.chatInfo.teacherId) return;
+    if (chatStore.chatInfo.teacherId) {
         if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo?.teacherId._id) {
             notificationStore.createNotification({
                 userId: chatStore.chatInfo.teacherId,
@@ -70,6 +69,7 @@ onMounted(async () => {
     await chatStore.fetchChatMessages(subjectId.value);
 
     chatStore.listenForIncomingMessages();
+    chatStore.listenForTeacherAssignment();
 
     nextTick(() => {
         const chatContainer = document.querySelector("#container");

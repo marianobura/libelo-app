@@ -1,7 +1,5 @@
 <script setup>
-import 'flowbite/dist/flowbite.min.js';
-import 'flowbite-datepicker';
-
+import { useCalendar } from '@/composables/useCalendar';
 import { ref, computed, onMounted, watch } from "vue";
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
@@ -11,28 +9,42 @@ import { useUserStore } from "@/stores/userStore";
 import { Trash2, Pencil, Check, Plus } from "lucide-vue-next";
 import BaseModal from "@/components/BaseModal.vue";
 import BaseButton from "@/components/BaseButton.vue";
+import CalendarInputSearch from "@/components/Calendar/CalendarInputSearch.vue";
+
+const {
+  currentDate,
+  selectedDays,
+  calendarEvents,
+  changeMonth,
+  toggleDay,
+  selectCurrentDay,
+  isToday,
+  hasEventOnDay,
+  getEventsforSelectedDays
+} = useCalendar();
 
 const userStore = useUserStore();
-const calendarEvents = ref([]);
-const selectedDays = ref([]);
-const currentDate = ref(new Date());
 const showEventModal = ref(false);
 const deleteEventModal = ref(false);
 const eventToDelete = ref(null);
 const selectedEvent = ref(null);
 const isEditing = ref(false);
 const formattedEditDate = ref("");
+const currentMonth = computed(() => currentDate.value.getMonth());
+const currentYear = computed(() => currentDate.value.getFullYear());
 
-watch(() => selectedEvent.value, (event) => {
-  if (event?.start?.dateTime) {
-    const date = new Date(event.start.dateTime);
-    formattedEditDate.value = date.toISOString().slice(0, 16);
-  }
+const daysInMonth = computed(() => {
+    return Number(new Date(currentYear.value, currentMonth.value + 1, 0).getDate()) || 0;
 });
 
+const firstDayOfMonth = computed(() => {
+    return Number(new Date(currentYear.value, currentMonth.value, 1).getDay()) || 0;
+});
+
+
+// Formatea la fecha y hora de un objeto Date o de un objeto con propiedades dateTime o date
 function formatDateTime(dateObj) {
   if (!dateObj) return '';
-  // Puede venir con dateTime o date
   const dateStr = dateObj.dateTime || dateObj.date;
   if (!dateStr) return '';
   const d = new Date(dateStr);
@@ -46,11 +58,13 @@ function formatDateTime(dateObj) {
   });
 }
 
+// Confirma la eliminación de un evento con un modal
 function confirmDelete(event) {
   eventToDelete.value = event;
   deleteEventModal.value = true;
 }
 
+// Guarda los cambios realizados en el evento
 async function saveChanges() {
   const updatedEvent = {
     summary: selectedEvent.value.summary,
@@ -58,13 +72,13 @@ async function saveChanges() {
     start: { dateTime: new Date(formattedEditDate.value).toISOString() },
     end: { dateTime: new Date(new Date(formattedEditDate.value).getTime() + 60 * 60 * 1000).toISOString() }
   };
-
+  
   if (!selectedEvent.value.id) {
     await addEvent(updatedEvent);
   } else {
     await editEvent(selectedEvent.value.id, updatedEvent);
   }
-
+  
   isEditing.value = false;
   showEventModal.value = false;
   await getCalendarEvents();
@@ -75,128 +89,40 @@ function openEventModal(event) {
   showEventModal.value = true;
 }
 
-const currentMonth = computed(() => currentDate.value.getMonth());
-const currentYear = computed(() => currentDate.value.getFullYear());
-
-const daysInMonth = computed(() => {
-    return Number(new Date(currentYear.value, currentMonth.value + 1, 0).getDate()) || 0;
-});
-
-const firstDayOfMonth = computed(() => {
-    return Number(new Date(currentYear.value, currentMonth.value, 1).getDay()) || 0;
-});
-
-const formattedDate = ref('');
-
-function formatDateInput(event) {
-  let value = event.target.value.replace(/\D/g, '');
-  if (value.length > 8) value = value.slice(0, 8);
-
-  if (value.length >= 5) {
-    value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
-  } else if (value.length >= 3) {
-    value = `${value.slice(0, 2)}/${value.slice(2)}`;
-  }
-
-  formattedDate.value = value;
-
-  if (value.length === 10) {
-    const [dd, mm, yyyy] = value.split('/');
-    const date = new Date(+yyyy, +mm - 1, +dd);
-    if (!isNaN(date)) {
-      currentDate.value = new Date(date.getFullYear(), date.getMonth(), 1);
-      selectedDays.value = [date.getDate()];
-    }
-  }
-}
-
-function changeMonth(offset) {
-    const newDate = new Date(currentYear.value, currentMonth.value + offset, 1);
-    currentDate.value = newDate;
-}
-
-function toggleDay(day) {
-    if (selectedDays.value[0] === day) {
-        selectedDays.value = [];
-    } else {
-        selectedDays.value = [day];
-    }
-}
-
-function selectCurrentDay() {
-    const today = new Date();
-    if (today.getFullYear() === currentYear.value && today.getMonth() === currentMonth.value) {
-        selectedDays.value = [today.getDate()];
-    } else {
-        selectedDays.value = [];
-    }
-}
-
-function isToday(day) {
-    const today = new Date();
-    return (
-        today.getFullYear() === currentYear.value &&
-        today.getMonth() === currentMonth.value &&
-        today.getDate() === day
-    );
-}
-
-function getEventsforSelectedDays() {
-    if (selectedDays.value.length === 0) return [];
-
-    return calendarEvents.value.filter(event => {
-        const eventDate = new Date(event.start.dateTime || event.start.date);
-        return (
-            eventDate.getFullYear() === currentYear.value &&
-            eventDate.getMonth() === currentMonth.value &&
-            selectedDays.value.includes(eventDate.getDate())
-        );
-    });
-}
-
+// fetch a la api para trar eventos del calendario
 async function getCalendarEvents() {
-    try {
-        const start = new Date(currentYear.value, currentMonth.value, 1).toISOString();
+  try {
+    const start = new Date(currentYear.value, currentMonth.value, 1).toISOString();
         const end = new Date(currentYear.value, currentMonth.value + 1, 0, 23, 59, 59).toISOString();
-
+        
         const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=100&orderBy=startTime&singleEvents=true&timeMin=${encodeURIComponent(start)}&timeMax=${encodeURIComponent(end)}`;
 
         const res = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${userStore?.user.google.accessToken}`
+          headers: {
+            Authorization: `Bearer ${userStore?.user.google.accessToken}`
             }
-        });
-
-        const data = await res.json();
-        calendarEvents.value = data.items || [];
-    } catch (err) {
-        console.error("Error al obtener eventos:", err);
-    }
-}
-
-function hasEventOnDay(day) {
-    return calendarEvents.value.some(event => {
-        const eventDate = new Date(event.start.dateTime || event.start.date);
-        return (
-            eventDate.getFullYear() === currentYear.value &&
-            eventDate.getMonth() === currentMonth.value &&
-            eventDate.getDate() === day
-        );
-    });
-}
-
-// Elimina evento confirmado
-async function deleteConfirmedEvent() {
-  if (!eventToDelete.value) return;
-
-  try {
-    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventToDelete.value.id}`;
-    await fetch(url, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${userStore?.user.google.accessToken}`
+          });
+          
+          const data = await res.json();
+          calendarEvents.value = data.items || [];
+        } catch (err) {
+          console.error("Error al obtener eventos:", err);
+        }
       }
-    });
+      
+      
+      // Elimina evento confirmado
+      async function deleteConfirmedEvent() {
+        if (!eventToDelete.value) return;
+        
+        try {
+          const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventToDelete.value.id}`;
+          await fetch(url, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${userStore?.user.google.accessToken}`
+            }
+          });
 
     calendarEvents.value = calendarEvents.value.filter(event => event.id !== eventToDelete.value.id);
     deleteEventModal.value = false;
@@ -206,10 +132,11 @@ async function deleteConfirmedEvent() {
   }
 }
 
+// Edita un evento específico
 async function editEvent(eventId, updatedEvent) {
   try {
     const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`;
-
+    
     const response = await fetch(url, {
       method: "PUT",
       headers: {
@@ -218,11 +145,11 @@ async function editEvent(eventId, updatedEvent) {
       },
       body: JSON.stringify(updatedEvent)
     });
-
+    
     if (!response.ok) {
       throw new Error("Error al editar el evento");
     }
-
+    
     const index = calendarEvents.value.findIndex(event => event.id === eventId);
     if (index !== -1) {
       calendarEvents.value[index] = { ...calendarEvents.value[index], ...updatedEvent };
@@ -232,29 +159,12 @@ async function editEvent(eventId, updatedEvent) {
   }
 }
 
-function openNewEventModal() {
-  const selectedDay = selectedDays.value[0];
-  if (!selectedDay) return;
 
-  const startDate = new Date(currentYear.value, currentMonth.value, selectedDay, 12);
-  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
-
-  selectedEvent.value = {
-    summary: "Nuevo evento",
-    description: "",
-    start: { dateTime: startDate.toISOString() },
-    end: { dateTime: endDate.toISOString() }
-  };
-
-  formattedEditDate.value = startDate.toISOString().slice(0, 16);
-  isEditing.value = true;
-  showEventModal.value = true;
-}
-
+// Agrega un nuevo evento al calendario
 async function addEvent(event) {
   try {
     const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events`;
-
+    
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -263,11 +173,11 @@ async function addEvent(event) {
       },
       body: JSON.stringify(event)
     });
-
+    
     if (!response.ok) {
       throw new Error("Error al agregar el evento");
     }
-
+    
     const newEvent = await response.json();
     calendarEvents.value.push(newEvent);
   } catch (error) {
@@ -275,40 +185,63 @@ async function addEvent(event) {
   }
 }
 
+// Abre el modal para crear un nuevo evento
+function openNewEventModal() {
+  const selectedDay = selectedDays.value[0];
+  if (!selectedDay) return;
+  
+  const startDate = new Date(currentYear.value, currentMonth.value, selectedDay, 12);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+  
+  selectedEvent.value = {
+    summary: "Nuevo evento",
+    description: "",
+    start: { dateTime: startDate.toISOString() },
+    end: { dateTime: endDate.toISOString() }
+  };
+  
+  formattedEditDate.value = startDate.toISOString().slice(0, 16);
+  isEditing.value = true;
+  showEventModal.value = true;
+}
+
+// Corta el texto de los eventos si es demasiado largo
 const cutEvents = (text, maxLength = 16) => {
-    if (text.length > maxLength) {
-        return text.slice(0, maxLength - 3) + '...';
-    }
-    return text;
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength - 3) + '...';
+  }
+  return text;
 };
 
 onMounted(async () => {
-    await userStore.fetchUser();
-    await getCalendarEvents();
-    await selectCurrentDay();
+  await userStore.fetchUser();
+  await getCalendarEvents();
+  await selectCurrentDay();
 });
 
-watch(currentDate, getCalendarEvents);
+// Llena el input del modal con la fecha exacta
+watch(() => selectedEvent.value, (event) => {
+  if (event?.start?.dateTime) {
+    const date = new Date(event.start.dateTime);
+    formattedEditDate.value = date.toISOString().slice(0, 16);
+  }
+});
+
+watch(currentDate, () => {
+  getCalendarEvents();
+  selectCurrentDay();
+});
 </script>
 
 <template>
-    <BaseBody>
-        <BaseNav title="Calendario" />
-        <div class="flex flex-col gap-4 p-2">
+  <BaseBody>
+    <BaseNav title="Calendario" />
+    <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
             <BaseTitle title="Revisa tus próximas fechas"
                 description="Consulta, organiza y planifica tus próximas fechas de forma simple y eficiente en un solo lugar.">
 
-                <div class="relative mt-3">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-libelo-600" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                    </div>
-                    <input id="custom-datepicker" type="text" v-model="formattedDate" @input="formatDateInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-libelo-500 focus:border-libelo-500 block w-full ps-10 p-2.5" placeholder="dd/mm/aaaa"/>
-                </div>
+                <CalendarInputSearch @select-date="currentDate = new Date($event)" />
 
                 <div class="flex justify-between items-center mb-4 mt-10">
                     <button @click="changeMonth(-1)" class="text-gray-500 hover:text-gray-700">&lt;</button>
@@ -372,7 +305,6 @@ watch(currentDate, getCalendarEvents);
                     <div class="flex items-center justify-around mb-2">
                         <span v-if="!isEditing" @click="isEditing = true"><Pencil /></span>
                         <span v-else @click="saveChanges"><Check /></span>
-
                         <span @click.stop="deleteEvent(selectedEvent.id)"><Trash2 /></span>
                     </div>
                     <div v-if="isEditing">
@@ -390,11 +322,6 @@ watch(currentDate, getCalendarEvents);
                         <p class="text-sm text-neutral-700">
                             <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }} a {{ new Date(selectedEvent.end.dateTime).toLocaleString("es-AR") }}
                         </p>
-                    </div>
-                    <div v-if="isEditing">
-                        <textarea v-model="selectedEvent.description" class="border rounded px-2 py-1 w-full" rows="3" />
-                    </div>
-                    <div v-else>                   
                     </div>
                     <div class="flex justify-end mt-4">
                         <BaseButton @click="showEventModal = false" secondary>Cerrar</BaseButton>
