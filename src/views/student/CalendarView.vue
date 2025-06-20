@@ -64,12 +64,14 @@ function confirmDelete(event) {
   deleteEventModal.value = true;
 }
 
+// Maneja la actualización de un evento desde el modal
 function handleUpdate({ event, date }) {
   selectedEvent.value = event;
   formattedEditDate.value = date;
   saveChanges();
 }
 
+// Maneja la eliminación de un evento desde el modal
 function handleDelete() {
   eventToDelete.value = selectedEvent.value;
   deleteEventModal.value = true;
@@ -248,84 +250,74 @@ watch(currentDate, () => {
   <BaseBody>
     <BaseNav title="Calendario" />
     <div class="flex flex-col gap-4 p-2">
-            <SubjectBanner />
-            <BaseTitle title="Revisa tus próximas fechas"
-                description="Consulta, organiza y planifica tus próximas fechas de forma simple y eficiente en un solo lugar.">
+      <SubjectBanner />
+      <BaseTitle title="Revisa tus próximas fechas"
+        description="Consulta, organiza y planifica tus próximas fechas de forma simple y eficiente en un solo lugar.">
 
-                <CalendarInputSearch @select-date="currentDate = new Date($event)" />
+        <CalendarInputSearch @select-date="currentDate = new Date($event)" />
 
-                <div class="flex justify-between items-center mb-4 mt-10">
-                    <button @click="changeMonth(-1)" class="text-gray-500 hover:text-gray-700">&lt;</button>
-                    <h2 class="text-xl font-semibold">
-                        {{ currentDate.toLocaleDateString("es-AR", { month: "long", year: "numeric" }) }}
-                    </h2>
-                    <button @click="changeMonth(1)" class="text-gray-500 hover:text-gray-700">&gt;</button>
-                </div>
+        <div class="flex justify-between items-center mb-4 mt-10">
+          <button @click="changeMonth(-1)" class="text-gray-500 hover:text-gray-700">&lt;</button>
+          <h2 class="text-xl font-semibold">
+            {{ currentDate.toLocaleDateString("es-AR", { month: "long", year: "numeric" }) }}
+          </h2>
+          <button @click="changeMonth(1)" class="text-gray-500 hover:text-gray-700">&gt;</button>
+        </div>
 
-                <div
-                    class="grid grid-cols-7 text-center text-gray-600 font-semibold border-b border-gray-300 pb-2 mb-2">
-                    <div>Dom</div>
-                    <div>Lun</div>
-                    <div>Mar</div>
-                    <div>Mié</div>
-                    <div>Jue</div>
-                    <div>Vie</div>
-                    <div>Sáb</div>
-                </div>
+        <div class="grid grid-cols-7 text-center text-gray-600 font-semibold border-b border-gray-300 pb-2 mb-2">
+          <div>Dom</div>
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mié</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sáb</div>
+        </div>
 
-                <div class="grid grid-cols-7 gap-2 text-center justify-items-center">
-                    <div v-for="n in firstDayOfMonth" :key="'blank-' + n"></div>
-                    <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)"
-                        class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors"
-                        :class="[
+        <div class="grid grid-cols-7 gap-2 text-center justify-items-center">
+          <div v-for="n in firstDayOfMonth" :key="'blank-' + n"></div>
+          <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)"
+            class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors"
+            :class="[
                             selectedDays.includes(day)
                                 ? 'bg-libelo-500 text-white font-semibold shadow'
                                 : isToday(day)
                                     ? 'text-libelo-500 font-bold'
                                     : 'hover:bg-libelo-100']">
-                        {{ day }}
-                        <span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
-                    </div>
-                </div>
-
-                <div v-if="calendarEvents.length" class="mt-6 bg-libelo-700 rounded-md">
-                    <ul class="list-disc list-inside text-sm text-gray-700">
-                        <li v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="border border-white text-white px-3 py-2 list-none flex flex-wrap gap-x-2 gap-y-1 items-center hover:bg-libelo-600">
-                        <div class="flex-1 truncate" :title="event.summary">
-                            <span class="font-semibold">{{ cutEvents(event.summary, 20) }}</span>
-                        </div>
-                        <div class="text-xs whitespace-nowrap mr-10">
-                            {{ formatDateTime(event.start) }}
-                        </div>
-                        <button @click.stop="confirmDelete(event)">
-                            <Trash2 :size="20" />
-                        </button>
-                        </li>
-                    </ul>
-                </div>
-            </BaseTitle>
+            {{ day }}
+            <span v-if="hasEventOnDay(day) && !selectedDays.includes(day)"
+              class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
+          </div>
         </div>
 
-        <button v-if="selectedDays.length > 0" id="show-modal" @click="openNewEventModal" class="fixed bottom-20 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
-        <Plus :size="24" />
-        </button>
+        <div v-if="calendarEvents.length" class="mt-6 bg-libelo-700 rounded-md">
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)"
+              class="border border-white text-white px-3 py-2 list-none flex flex-wrap gap-x-2 gap-y-1 items-center hover:bg-libelo-600">
+              <div class="flex-1 truncate" :title="event.summary">
+                <span class="font-semibold">{{ cutEvents(event.summary, 20) }}</span>
+              </div>
+              <div class="text-xs whitespace-nowrap mr-10">
+                {{ formatDateTime(event.start) }}
+              </div>
+              <button @click.stop="confirmDelete(event)">
+                <Trash2 :size="20" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </BaseTitle>
+    </div>
 
-       <EditModal
-  :show="showEventModal"
-  :event="selectedEvent"
-  :isEditing="isEditing"
-  :date="formattedEditDate"
-  @close="showEventModal = false"
-  @update="handleUpdate"
-  @delete="handleDelete"
-/>
-        
-<DeleteEventModal
-  :show="deleteEventModal"
-  :event="eventToDelete"
-  @close="deleteEventModal = false"
-  @confirm="deleteConfirmedEvent"
-/>
+    <button v-if="selectedDays.length > 0" id="show-modal" @click="openNewEventModal"
+      class="fixed bottom-20 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
+      <Plus :size="24" />
+    </button>
 
-    </BaseBody>
+    <EditModal :show="showEventModal" :event="selectedEvent" :isEditing="isEditing" :date="formattedEditDate"
+      @close="showEventModal = false" @update="handleUpdate" @delete="handleDelete" />
+
+    <DeleteEventModal :show="deleteEventModal" :event="eventToDelete" @close="deleteEventModal = false"
+      @confirm="deleteConfirmedEvent" />
+  </BaseBody>
 </template>
