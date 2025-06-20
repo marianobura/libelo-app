@@ -6,10 +6,10 @@ import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import SubjectBanner from "@/components/SubjectBanner.vue";
 import { useUserStore } from "@/stores/userStore";
-import { Trash2, Pencil, Check, Plus } from "lucide-vue-next";
-import BaseModal from "@/components/BaseModal.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import { Trash2, Plus } from "lucide-vue-next";
 import CalendarInputSearch from "@/components/Calendar/CalendarInputSearch.vue";
+import EditModal from "@/components/Calendar/EditModal.vue";
+import DeleteEventModal from "@/components/Calendar/DeleteEventModal.vue";
 
 const {
   currentDate,
@@ -61,6 +61,17 @@ function formatDateTime(dateObj) {
 // Confirma la eliminación de un evento con un modal
 function confirmDelete(event) {
   eventToDelete.value = event;
+  deleteEventModal.value = true;
+}
+
+function handleUpdate({ event, date }) {
+  selectedEvent.value = event;
+  formattedEditDate.value = date;
+  saveChanges();
+}
+
+function handleDelete() {
+  eventToDelete.value = selectedEvent.value;
   deleteEventModal.value = true;
 }
 
@@ -299,52 +310,22 @@ watch(currentDate, () => {
         <Plus :size="24" />
         </button>
 
-        <BaseModal v-if="showEventModal" class="items-center justify-center">
-            <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center justify-around mb-2">
-                        <span v-if="!isEditing" @click="isEditing = true"><Pencil /></span>
-                        <span v-else @click="saveChanges"><Check /></span>
-                        <span @click.stop="deleteEvent(selectedEvent.id)"><Trash2 /></span>
-                    </div>
-                    <div v-if="isEditing">
-                        <input v-model="selectedEvent.summary" class="border rounded px-2 py-1 w-full" />
-                    </div>
-                    <div v-else>
-                        <h3 class="text-lg font-bold truncate max-w-full">
-                            {{ selectedEvent?.summary }}
-                        </h3>
-                    </div>
-                    <div v-if="isEditing">
-                        <input type="datetime-local" v-model="formattedEditDate" class="border rounded px-2 py-1 w-full" />
-                    </div>
-                    <div v-else>
-                        <p class="text-sm text-neutral-700">
-                            <strong>Fecha:</strong> {{ new Date(selectedEvent.start.dateTime).toLocaleString("es-AR") }} a {{ new Date(selectedEvent.end.dateTime).toLocaleString("es-AR") }}
-                        </p>
-                    </div>
-                    <div class="flex justify-end mt-4">
-                        <BaseButton @click="showEventModal = false" secondary>Cerrar</BaseButton>
-                    </div>
-                </div>
-            </div>
-        </BaseModal>
-        <BaseModal v-if="deleteEventModal" class="items-center justify-center">
-        <div class="bg-white p-6 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
-          <h2 class="text-lg font-bold mb-2">¿Estás seguro de eliminar este evento?</h2>
-          <p class="text-sm text-gray-600">Si lo eliminás, se borrará definitivamente.</p>
-          <p class="text-sm text-gray-800 font-medium mt-2 whitespace-pre-wrap break-words">
-            Evento: <span class="font-semibold">{{ eventToDelete?.summary || 'Sin título' }}</span><br />
-            Fecha:
-            <span class="text-gray-700">
-              {{ new Date(eventToDelete?.start.dateTime).toLocaleString("es-AR") }} a {{ new Date(eventToDelete?.end.dateTime).toLocaleString("es-AR") }}
-            </span>
-          </p>
-          <div class="flex justify-end mt-4 gap-2">
-            <BaseButton @click="deleteEventModal = false" secondary>Cancelar</BaseButton>
-            <BaseButton @click="deleteConfirmedEvent" danger>Eliminar</BaseButton>
-          </div>
-        </div>
-      </BaseModal>
+       <EditModal
+  :show="showEventModal"
+  :event="selectedEvent"
+  :isEditing="isEditing"
+  :date="formattedEditDate"
+  @close="showEventModal = false"
+  @update="handleUpdate"
+  @delete="handleDelete"
+/>
+        
+<DeleteEventModal
+  :show="deleteEventModal"
+  :event="eventToDelete"
+  @close="deleteEventModal = false"
+  @confirm="deleteConfirmedEvent"
+/>
+
     </BaseBody>
 </template>
