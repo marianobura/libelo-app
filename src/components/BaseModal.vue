@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, defineProps } from 'vue';
+import { watch, defineProps, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
     show: Boolean,
@@ -9,11 +9,19 @@ const props = defineProps({
     }
 });
 
-onMounted(() => {
-    document.body.classList.add('overflow-hidden');
-});
+watch(
+    () => props.show,
+    (visible) => {
+        if (visible) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+    },
+    { immediate: true }
+);
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
     document.body.classList.remove('overflow-hidden');
 });
 </script>
