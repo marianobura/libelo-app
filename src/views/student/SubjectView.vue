@@ -11,8 +11,11 @@ import { ref, onMounted } from "vue";
 import DeleteModal from "@/components/Subject/DeleteModal.vue";
 import CoursesModal from "@/components/Subject/CoursesModal.vue";
 import { useSubjectStore } from "@/stores/subjectStore";
+import { useUserStore } from "@/stores/userStore";
+import { goTo } from "@/router";
 
 const subjectStore = useSubjectStore();
+const userStore = useUserStore();
 const route = useRoute();
 const showModalCourses = ref(false);
 const showModalDelete = ref(false);
@@ -39,7 +42,8 @@ onMounted(async () => {
             <BaseTitle title="Progreso y planificación" description="Gestiona tus sesiones, evalúa tu avance y mejora con ejercicios prácticos.">
                 <div class="grid grid-cols-2 gap-2">
                     <BaseCard :link-to="`/student/subject/${path}/objectives`" description="Establece y sigue tus metas de aprendizaje." :icon="Goal" />
-                    <BaseCard :link-to="`/student/subject/${path}/calendar`" description="Planifica y agenda tus próximas sesiones." :icon="CalendarDays" />
+                    <BaseCard v-if="userStore.user.google.isGoogleLinked" :link-to="`/student/subject/${path}/calendar`" description="Planifica y agenda tus próximas sesiones." :icon="CalendarDays" />
+                    <BaseCard v-else description="Planifica y agenda tus próximas sesiones." :icon="CalendarDays" @click="goTo('/settings/google')" />
                     <BaseCard v-if="subjectStore.subject?.classroomName" :link-to="`/student/subject/${path}/work`" description="Revisa y evalúa tu progreso académico." :icon="BookOpenCheck" />
                     <BaseCard v-else description="Revisa y evalúa tu progreso académico." :icon="BookOpenCheck" @click="showModalCourses = true" />
                     <BaseCard description="Practica con ejercicios y mejora tus habilidades." :icon="NotebookPen" disabled />
