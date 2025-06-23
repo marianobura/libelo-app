@@ -45,8 +45,6 @@ const firstDayOfMonth = computed(() => {
     return Number(new Date(currentYear.value, currentMonth.value, 1).getDay()) || 0;
 });
 
-
-// Formatea la fecha y hora de un objeto Date o de un objeto con propiedades dateTime o date
 function formatDateTime(dateObj) {
     if (!dateObj) return '';
     const dateStr = dateObj.dateTime || dateObj.date;
@@ -59,26 +57,22 @@ function formatDateTime(dateObj) {
     });
 }
 
-// Confirma la eliminación de un evento con un modal
 function confirmDelete(event) {
     eventToDelete.value = event;
     deleteEventModal.value = true;
 }
 
-// Maneja la actualización de un evento desde el modal
 function handleUpdate({ event, date }) {
     selectedEvent.value = event;
     formattedEditDate.value = date;
     saveChanges();
 }
 
-// Maneja la eliminación de un evento desde el modal
 function handleDelete() {
     eventToDelete.value = selectedEvent.value;
     deleteEventModal.value = true;
 }
 
-// Guarda los cambios realizados en el evento
 async function saveChanges() {
     const updatedEvent = {
         summary: selectedEvent.value.summary,
@@ -94,7 +88,6 @@ async function saveChanges() {
     }
 
     isEditing.value = false;
-    showEventModal.value = false;
     await getCalendarEvents();
 }
 
@@ -103,7 +96,6 @@ function openEventModal(event) {
     showEventModal.value = true;
 }
 
-// fetch a la api para trar eventos del calendario
 async function getCalendarEvents() {
     try {
         const start = new Date(currentYear.value, currentMonth.value, 1).toISOString();
@@ -124,8 +116,6 @@ async function getCalendarEvents() {
     }
 }
 
-
-// Elimina evento confirmado
 async function deleteConfirmedEvent() {
     if (!eventToDelete.value) return;
 
@@ -146,7 +136,6 @@ async function deleteConfirmedEvent() {
     }
 }
 
-// Edita un evento específico
 async function editEvent(eventId, updatedEvent) {
     try {
         const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`;
@@ -173,8 +162,6 @@ async function editEvent(eventId, updatedEvent) {
     }
 }
 
-
-// Agrega un nuevo evento al calendario
 async function addEvent(event) {
     try {
         const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events`;
@@ -199,7 +186,6 @@ async function addEvent(event) {
     }
 }
 
-// Abre el modal para crear un nuevo evento
 function openNewEventModal() {
     const selectedDay = selectedDays.value[0];
     if (!selectedDay) return;
@@ -259,7 +245,6 @@ onMounted(async () => {
     await selectCurrentDay();
 });
 
-// Llena el input del modal con la fecha exacta
 watch(() => selectedEvent.value, (event) => {
     if (event?.start?.dateTime) {
         const date = new Date(event.start.dateTime);
