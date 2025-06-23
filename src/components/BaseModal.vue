@@ -1,13 +1,29 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { watch, defineProps, onBeforeUnmount } from 'vue';
 
-onMounted(() => {
-    document.body.classList.add('overflow-hidden')
-})
+const props = defineProps({
+    show: Boolean,
+    animation: {
+        type: String,
+        default: 'fade'
+    }
+});
 
-onUnmounted(() => {
-    document.body.classList.remove('overflow-hidden')
-})
+watch(
+    () => props.show,
+    (visible) => {
+        if (visible) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+    },
+    { immediate: true }
+);
+
+onBeforeUnmount(() => {
+    document.body.classList.remove('overflow-hidden');
+});
 </script>
 
 <template>
