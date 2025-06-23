@@ -6,7 +6,7 @@ import BaseButton from '@/components/BaseButton.vue';
 <template>
     <div class="grid grid-rows-welcome min-h-full">
         <div class="flex justify-center items-end mb-8">
-            <WelcomeSvg />
+            <WelcomeSvg class="text-libelo-500" />
         </div>
         <div class="flex flex-col justify-between p-2">
             <div class="flex flex-col items-center gap-2 mb-4">
