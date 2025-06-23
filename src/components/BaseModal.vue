@@ -1,21 +1,13 @@
 <script setup>
-import { onMounted, onUnmounted, defineProps } from 'vue';
-
-const props = defineProps({
-    show: Boolean,
-    animation: {
-        type: String,
-        default: 'fade'
-    }
-});
+import { onMounted, onUnmounted } from 'vue'
 
 onMounted(() => {
-    document.body.classList.add('overflow-hidden');
-});
+    document.body.classList.add('overflow-hidden')
+})
 
 onUnmounted(() => {
-    document.body.classList.remove('overflow-hidden');
-});
+    document.body.classList.remove('overflow-hidden')
+})
 </script>
 
 <template>

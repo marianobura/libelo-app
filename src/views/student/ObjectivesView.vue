@@ -189,7 +189,7 @@ const cutObjectives = (text, maxLength = 16) => {
                 </div>
             </BaseModal>
 
-            <BaseModal v-if="showDeleteModal" class="items-center justify-center">
+            <BaseModal :show="showDeleteModal" class="items-center justify-center">
                 <div class="bg-white p-4 rounded-xl mx-2">
                     <div class="flex flex-col gap-1 w-full p-2">
                     <p class="font-semibold">Eliminar objetivos</p>
