@@ -16,7 +16,7 @@ defineProps({
                 <LibeloImagotipo />
             </div>
         </div>
-        <div class="grid grid-cols-[40px_1fr_40px] px-2 py-4 items-center gap-4 bg-body rounded-t-xl border-b border-neutral-300">
+        <div class="grid grid-cols-[40px_1fr_40px] p-2 items-center gap-4 bg-body rounded-t-xl border-b border-neutral-300">
             <div @click="goTo('/')" class="size-10 flex items-center justify-center rounded-xl border border-neutral-300 hover:bg-neutral-200">
                 <ArrowLeft :size="20" />
             </div>
