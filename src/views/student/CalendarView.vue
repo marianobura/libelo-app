@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import 'flowbite/dist/flowbite.min.js';
 import 'flowbite-datepicker';
 import { useCalendar } from '@/composables/useCalendar';
@@ -13,18 +12,9 @@ import { Trash2, ChevronLeft, ChevronRight, CalendarPlus } from "lucide-vue-next
 import EditModal from "@/components/Calendar/EditModal.vue";
 import DeleteEventModal from "@/components/Calendar/DeleteEventModal.vue";
 import BaseInput from '@/components/BaseInput.vue';
+import CreateEventModal from '@/components/Calendar/CreateEventModal.vue';
 
-const {
-    currentDate,
-    selectedDays,
-    calendarEvents,
-    changeMonth,
-    toggleDay,
-    selectCurrentDay,
-    isToday,
-    hasEventOnDay,
-    getEventsforSelectedDays
-} = useCalendar();
+const { currentDate, selectedDays, calendarEvents, changeMonth, toggleDay, selectCurrentDay, isToday, hasEventOnDay, getEventsforSelectedDays } = useCalendar();
 
 const userStore = useUserStore();
 const showEventModal = ref(false);
@@ -45,6 +35,9 @@ const firstDayOfMonth = computed(() => {
     return Number(new Date(currentYear.value, currentMonth.value, 1).getDay()) || 0;
 });
 
+const isCreating = computed(() => showEventModal.value && !selectedEvent.value?.id);
+const isEditingEvent = computed(() => showEventModal.value && !!selectedEvent.value?.id);
+
 function formatDateTime(dateObj) {
     if (!dateObj) return '';
     const dateStr = dateObj.dateTime || dateObj.date;
@@ -55,6 +48,13 @@ function formatDateTime(dateObj) {
         hour: '2-digit',
         minute: '2-digit',
     });
+}
+
+function closeModal() {
+    showEventModal.value = false;
+    isEditing.value = false;
+    selectedEvent.value = null;
+    formattedEditDate.value = '';
 }
 
 function confirmDelete(event) {
@@ -83,6 +83,7 @@ async function saveChanges() {
 
     if (!selectedEvent.value.id) {
         await addEvent(updatedEvent);
+        closeModal();
     } else {
         await editEvent(selectedEvent.value.id, updatedEvent);
     }
@@ -203,6 +204,13 @@ function openNewEventModal() {
     formattedEditDate.value = startDate.toISOString().slice(0, 16);
     isEditing.value = true;
     showEventModal.value = true;
+
+}
+
+function handleCreate({ event, date }) {
+    selectedEvent.value = event;
+    formattedEditDate.value = date;
+    saveChanges();
 }
 
 function formatDateInput(event) {
@@ -293,24 +301,25 @@ watch(currentDate, () => {
 
                 <div class="grid grid-cols-7 gap-2 text-center justify-items-center border-b border-gray-300 pb-2">
                     <div v-for="n in firstDayOfMonth" :key="'blank-' + n"></div>
-                    <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)" class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors" :class="[ selectedDays.includes(day) ? 'bg-libelo-500 text-white font-semibold shadow' : isToday(day) ? 'text-libelo-500 font-bold' : 'hover:bg-libelo-100']">
-                        {{ day }}
-                        <span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
+                    <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)" class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors" :class="[ selectedDays.includes(day) ? 'bg-libelo-500 text-white font-semibold shadow' : isToday(day) ? 'text-libelo-500 font-bold' : 'hover:bg-libelo-100']">{{ day }}<span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
                     </div>
                 </div>
                 <BaseTitle v-if="getEventsforSelectedDays().length" :title="`Eventos para el día ${selectedDateLabel}`">
                     <div v-if="calendarEvents.length" v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="p-2 flex justify-between items-center text-white bg-libelo-500 hover:bg-libelo-600 rounded-xl overflow-hidden">
                         <div class="flex flex-col overflow-hidden pl-1">
-                            <span class="text-xs whitespace-nowrap">{{ formatDateTime(event.start) }}</span>
+                            <span class="text-xs whitespace-nowrap">{{ formatDateTime(event.start) }} - {{ formatDateTime(event.end) }}</span>
                             <span class="font-semibold line-clamp-1 break-all">{{ event.summary }}</span>
                         </div>
-                        <button class="size-11 flex items-center justify-center hover:bg-libelo-600 rounded-lg shrink-0" @click.stop="confirmDelete(event)"><Trash2 :size="20" /></button>
+                        <button class="size-11 flex items-center justify-center hover:bg-libelo-600 rounded-lg shrink-0" @click.stop="confirmDelete(event)">
+                            <Trash2 :size="20" />
+                        </button>
                     </div>
                 </BaseTitle>
             </BaseTitle>
         </div>
 
-        <EditModal :show="showEventModal" :event="selectedEvent" :isEditing="isEditing" :date="formattedEditDate" @close="showEventModal = false" @update="handleUpdate" @delete="handleDelete" />
+        <EditModal v-if="isEditingEvent" :show="showEventModal" :event="selectedEvent" :isEditing="isEditing" :date="formattedEditDate" @close="showEventModal = false" @update="handleUpdate" @delete="handleDelete" />
+        <CreateEventModal v-else-if="isCreating" :show="showEventModal" :event="selectedEvent" :date="formattedEditDate" @close="showEventModal = false" @confirm="handleCreate" />
         <DeleteEventModal :show="deleteEventModal" :event="eventToDelete" @close="deleteEventModal = false" @confirm="deleteConfirmedEvent" />
     </BaseBody>
 </template>
