@@ -3,6 +3,7 @@
 import { defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseTitle from '../BaseTitle.vue';
 
 const props = defineProps({
     show: Boolean,
@@ -26,19 +27,27 @@ const handleConfirm = () => emit('confirm');
 
 <template>
     <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleOverlayClick">
-        <div class="bg-white p-6 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
-            <h2 class="text-lg font-bold mb-2">¿Estás seguro de eliminar este evento?</h2>
-            <p class="text-sm text-gray-600">Si lo eliminás, se borrará definitivamente.</p>
-            <p class="text-sm text-gray-800 font-medium mt-2 whitespace-pre-wrap break-words">
-                Evento: <span class="font-semibold">{{ props.event?.summary || 'Sin título' }}</span><br />
-                Fecha:
-                <span class="text-gray-700">
-                    {{ new Date(props.event?.start.dateTime).toLocaleString("es-AR") }} a
-                    {{ new Date(props.event?.end.dateTime).toLocaleString("es-AR") }}
-                </span>
-            </p>
+        <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
+            <BaseTitle title="¿Estás seguro de eliminar este evento?" description="Si lo eliminas, se borrará definitivamente.">
+                <div class="flex flex-col">
+                    <p class="text-semibold">
+                        <span class="font-semibold">Evento:</span>
+                        {{ props.event?.summary || 'Sin título' }}
+                    </p>
+                    <div class="flex flex-col">
+                        <p class="text-sm">
+                            <span class="font-semibold">Desde:</span>
+                            {{ new Date(props.event?.start.dateTime).toLocaleString("es-AR") }}
+                        </p>
+                        <p class="text-sm">
+                            <span class="font-semibold">Hasta:</span>
+                            {{ new Date(props.event?.end.dateTime).toLocaleString("es-AR") }}
+                        </p>
+                    </div>
+                </div>
+            </BaseTitle>
             <div class="flex justify-end mt-4 gap-2">
-                <BaseButton @click="handleClose" secondary>Cancelar</BaseButton>
+                <BaseButton @click="closeModal" secondary>Cancelar</BaseButton>
                 <BaseButton @click="handleConfirm" danger>Eliminar</BaseButton>
             </div>
         </div>
