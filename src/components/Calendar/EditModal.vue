@@ -28,6 +28,7 @@ const handleOverlayClick = (event) => {
 const localEvent = ref({ ...props.event });
 const localDate = ref(props.date);
 const localIsEditing = ref(props.isEditing);
+const errorMessage = ref('');
 
 watch(() => props.event, (newVal) => {
     localEvent.value = { ...newVal };
@@ -38,6 +39,11 @@ watch(() => props.date, (newVal) => {
 });
 
 const handleSave = () => {
+    if (!localDate.value || isNaN(new Date(localDate.value))) {
+        errorMessage.value = "Debes ingresar una fecha válida.";
+        return;
+    }
+
     emit('update', {
         event: localEvent.value,
         date: localDate.value
@@ -56,13 +62,16 @@ const handleDelete = () => {
         <div class="bg-white rounded-xl max-w-md w-full mx-2 overflow-hidden">
             <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-around gap-0.5">
-                    <span v-if="!localIsEditing" @click="localIsEditing = true" class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
+                    <span v-if="!localIsEditing" @click="localIsEditing = true"
+                        class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
                         <Pencil />
                     </span>
-                    <span v-else @click="handleSave" class="w-full flex items-center justify-center h-12 bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors">
+                    <span v-else @click="handleSave"
+                        class="w-full flex items-center justify-center h-12 bg-libelo-500 text-white hover:bg-libelo-700 hover:text-white transition-colors">
                         <Check />
                     </span>
-                    <span @click="handleDelete" class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+                    <span @click="handleDelete"
+                        class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
                         <Trash2 />
                     </span>
                 </div>
@@ -75,6 +84,9 @@ const handleDelete = () => {
                     </div>
                     <div v-if="localIsEditing">
                         <BaseInput type="datetime-local" v-model="localDate" placeholder="Fecha del evento" />
+                        <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
+                            {{ errorMessage }}
+                        </p>
                     </div>
                     <div v-else class="flex flex-col">
                         <p class="text-sm">

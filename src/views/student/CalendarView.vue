@@ -26,6 +26,7 @@ const formattedEditDate = ref("");
 const currentMonth = computed(() => currentDate.value.getMonth());
 const currentYear = computed(() => currentDate.value.getFullYear());
 const formattedDate = ref('');
+const errorMessage = ref('');
 
 const daysInMonth = computed(() => {
     return Number(new Date(currentYear.value, currentMonth.value + 1, 0).getDate()) || 0;
@@ -63,6 +64,10 @@ function confirmDelete(event) {
 }
 
 function handleUpdate({ event, date }) {
+     if (!date || isNaN(new Date(date))) {
+        errorMessage.value = "Debes ingresar una fecha válida.";
+        return;
+    }
     selectedEvent.value = event;
     formattedEditDate.value = date;
     saveChanges();
@@ -74,6 +79,16 @@ function handleDelete() {
 }
 
 async function saveChanges() {
+    if (!formattedEditDate.value || isNaN(new Date(formattedEditDate.value))) {
+        alert("Por favor, ingresá una fecha válida antes de guardar.");
+        return;
+    }
+    // if (!selectedEvent.value || !selectedEvent.value.summary) {
+    //     selectedEvent.value = {
+    //         summary: "(Sin título)"
+    //     };
+    //     return;
+    // }
     const updatedEvent = {
         summary: selectedEvent.value.summary,
         description: selectedEvent.value.description,
@@ -208,6 +223,10 @@ function openNewEventModal() {
 }
 
 function handleCreate({ event, date }) {
+     if (!date || isNaN(new Date(date))) {
+        errorMessage.value = "Debes ingresar una fecha válida.";
+        return;
+    }
     selectedEvent.value = event;
     formattedEditDate.value = date;
     saveChanges();

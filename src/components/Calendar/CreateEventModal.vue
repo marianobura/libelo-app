@@ -24,9 +24,17 @@ watch(() => props.show, (visible) => {
     }
 });
 
+const errorMessage = ref('');
 const handleClose = () => emit('close');
 
 const handleConfirm = () => {
+    if (!localDate.value || isNaN(new Date(localDate.value))) {
+        errorMessage.value = "Debes ingresar una fecha válida.";
+        return;
+    }
+
+    errorMessage.value = '';
+
     const updatedStart = new Date(localDate.value);
     const updatedEnd = new Date(updatedStart.getTime() + 60 * 60 * 1000);
 
@@ -46,6 +54,9 @@ const handleConfirm = () => {
             <BaseTitle title="Crear un nuevo evento">
                 <BaseInput v-model="localEvent.summary" placeholder="Nombre del evento" />
                 <BaseInput type="datetime-local" v-model="localDate" />
+                <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
+                    {{ errorMessage }}
+                </p>
                 <div class="flex gap-2">
                     <BaseButton @click="handleClose" secondary>Cancelar</BaseButton>
                     <BaseButton @click="handleConfirm" primary>Crear</BaseButton>
