@@ -305,15 +305,17 @@ watch(currentDate, () => {
                     </div>
                 </div>
                 <BaseTitle v-if="getEventsforSelectedDays().length" :title="`Eventos para el día ${selectedDateLabel}`">
-                    <div v-if="calendarEvents.length" v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="p-2 flex justify-between items-center text-white bg-libelo-500 hover:bg-libelo-600 rounded-xl overflow-hidden">
-                        <div class="flex flex-col overflow-hidden pl-1">
-                            <span class="text-xs whitespace-nowrap">{{ formatDateTime(event.start) }} - {{ formatDateTime(event.end) }}</span>
-                            <span class="font-semibold line-clamp-1 break-all">{{ event.summary }}</span>
+                    <template v-if="calendarEvents.length">
+                        <div v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="p-2 flex justify-between items-center text-white bg-libelo-500 hover:bg-libelo-600 rounded-xl overflow-hidden">
+                            <div class="flex flex-col overflow-hidden pl-1">
+                                <span class="text-xs whitespace-nowrap">{{ formatDateTime(event.start) }} - {{ formatDateTime(event.end) }}</span>
+                                <span class="font-semibold line-clamp-1 break-all">{{ event.summary }}</span>
+                            </div>
+                            <button class="size-11 flex items-center justify-center hover:bg-libelo-600 rounded-lg shrink-0" @click.stop="confirmDelete(event)">
+                                <Trash2 :size="20" />
+                            </button>
                         </div>
-                        <button class="size-11 flex items-center justify-center hover:bg-libelo-600 rounded-lg shrink-0" @click.stop="confirmDelete(event)">
-                            <Trash2 :size="20" />
-                        </button>
-                    </div>
+                    </template>
                 </BaseTitle>
             </BaseTitle>
         </div>
