@@ -114,8 +114,8 @@ onMounted(fetchChats);
             <SubjectBanner />
             <BaseTitle title="Gestión de chats" description="Revisa los chats pendientes y los que ya estás atendiendo.">
                 <div class="grid grid-cols-2 gap-2">
-                    <button class="w-full h-8 flex items-center justify-center rounded-full transition-all duration-200" :class="activeTab === 'pending' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('pending')">Pendientes ({{ pendingChats.length }})</button>
-                    <button class="w-full h-8 flex items-center justify-center rounded-full transition-all duration-200" :class="activeTab === 'active' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('active')">Activos ({{ activeChats.length }})</button>
+                    <button class="w-full h-8 flex items-center justify-center rounded-xl transition-all duration-200" :class="activeTab === 'pending' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('pending')">Pendientes ({{ pendingChats.length }})</button>
+                    <button class="w-full h-8 flex items-center justify-center rounded-xl transition-all duration-200" :class="activeTab === 'active' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('active')">Activos ({{ activeChats.length }})</button>
                 </div>
                 <div v-if="activeTab === 'pending'" class="flex flex-col gap-2">
                     <div v-if="pendingChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
