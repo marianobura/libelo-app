@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
@@ -7,7 +6,6 @@ import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
 import SubjectBanner from '@/components/SubjectBanner.vue';
 import BaseTitle from '@/components/BaseTitle.vue';
-import { MailX } from 'lucide-vue-next';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';
 import EmptyState from '@/components/EmptyState.vue';
