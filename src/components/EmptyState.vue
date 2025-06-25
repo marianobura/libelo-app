@@ -15,10 +15,10 @@ const SelectedIcon = computed(() => icons[props.icon]);
 
 <template>
     <div class="flex flex-col gap-2 items-center justify-center w-full text-neutral-800">
-        <component :is="SelectedIcon" size="64" />
-        <div class="flex flex-col">
+        <component :is="SelectedIcon" size="48" />
+        <div class="flex flex-col items-center">
             <span class="text-center text-xl font-medium text-700 border-b border-neutral-300 pb-2">{{ title }}</span>
-            <span class="text-center pt-2 max-w-64">{{ description }}</span>
+            <span class="text-center max-w-64">{{ description }}</span>
         </div>
     </div>
 </template>
