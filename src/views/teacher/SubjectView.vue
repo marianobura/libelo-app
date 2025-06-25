@@ -1,4 +1,5 @@
 <script setup>
+/* eslint-disable */
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
@@ -9,12 +10,14 @@ import BaseTitle from '@/components/BaseTitle.vue';
 import { MailX } from 'lucide-vue-next';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';
+import EmptyState from '@/components/EmptyState.vue';
 
 const route = useRoute();
 const currentSubject = computed(() => Object.keys(userStore.user?.preferredSubjects)[route.params.id]);
 const userStore = useUserStore();
 const allChats = ref([]);
 const loading = ref(false);
+const activeTab = ref('pending');
 
 const fetchChats = async () => {
     loading.value = true;
@@ -60,7 +63,7 @@ const filteredBranches = computed(() => {
 const sortedChats = computed(() => {
     return allChats.value
         .filter(chat => filteredBranches.value.includes(chat.subjectName) &&
-        (chat.teacherId === null || chat.teacherId._id === userStore.user._id))
+            (chat.teacherId === null || chat.teacherId._id === userStore.user._id))
         .map(chat => {
             const lastMessage = chat.messages.length ? chat.messages[chat.messages.length - 1] : null;
             return {
@@ -73,18 +76,35 @@ const sortedChats = computed(() => {
         .sort((a, b) => b.lastMessageTimestamp - a.lastMessageTimestamp);
 });
 
-const groupedChats = computed(() => {
-    const groups = sortedChats.value.reduce((acc, chat) => {
+const pendingChats = computed(() => {
+    return sortedChats.value.filter(chat => chat.teacherId === null);
+});
+
+const activeChats = computed(() => {
+    return sortedChats.value.filter(chat => chat.teacherId?._id === userStore.user._id);
+});
+
+const groupedPendingChats = computed(() => {
+    return pendingChats.value.reduce((acc, chat) => {
         const subject = chat.subjectName;
-        if (!acc[subject]) {
-            acc[subject] = [];
-        }
+        if (!acc[subject]) acc[subject] = [];
         acc[subject].push(chat);
         return acc;
     }, {});
-
-    return groups;
 });
+
+const groupedActiveChats = computed(() => {
+    return activeChats.value.reduce((acc, chat) => {
+        const subject = chat.subjectName;
+        if (!acc[subject]) acc[subject] = [];
+        acc[subject].push(chat);
+        return acc;
+    }, {});
+});
+
+const setTab = (tab) => {
+    activeTab.value = tab;
+};
 
 onMounted(fetchChats);
 </script>
@@ -94,26 +114,38 @@ onMounted(fetchChats);
         <BaseNav title="Materia" />
         <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
-            <BaseTitle title="Alumnos que te solicitaron" description="Estos son los alumnos que te solicitaron como mentor.">
-                <div v-if="sortedChats.length === 0" class="w-full flex flex-col bg-neutral-300 rounded-xl overflow-hidden">
-                    <div class="h-48 flex flex-col items-center justify-center gap-2 p-2 text-neutral-700">
-                        <MailX size="32" />
-                        <span class="text-center font-medium border-b border-neutral-300 pb-2">No hay chats disponibles</span>
-                    </div>
+            <BaseTitle title="Gestión de chats" description="Revisa los chats pendientes y los que ya estás atendiendo.">
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="w-full h-8 flex items-center justify-center rounded-full transition-all duration-200" :class="activeTab === 'pending' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('pending')">Pendientes ({{ pendingChats.length }})</button>
+                    <button class="w-full h-8 flex items-center justify-center rounded-full transition-all duration-200" :class="activeTab === 'active' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('active')">Activos ({{ activeChats.length }})</button>
                 </div>
-                <div v-else class="flex flex-col gap-2">
-                    <div v-for="(chats, subject) in groupedChats" :key="subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
-                        <span class="font-semibold p-2">{{ subject }}</span>
-                        <hr class="w-full border-neutral-500">
-                        <div class="flex flex-col divide-y divide-neutral-400">
-                            <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" :color="chat.teacherId === null ? 'red' : 'green'" :student="{
-                                name: chat.studentId.displayName,
-                                message: chat.lastMessageText,
-                                subjectName: chat.subjectName,
-                                ...chat.lastMessageTime }"
-                            />
-                        </div>
+                <div v-if="activeTab === 'pending'" class="flex flex-col gap-2">
+                    <div v-if="pendingChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                        <EmptyState title="Todavía no hay chats pendientes" description="Aparecerán aquí cuando alguien necesite tu asistencia." icon="MailX" />
                     </div>
+                    <template v-else>
+                        <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
+                            <span class="font-semibold p-2">{{ subject }}</span>
+                            <hr class="w-full border-neutral-500" />
+                            <div class="flex flex-col divide-y divide-neutral-400">
+                                <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="red" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div v-if="activeTab === 'active'" class="flex flex-col gap-2">
+                    <div v-if="activeChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                        <EmptyState title="Todavía no hay chats activos" description="Aparecerán aquí cuando respondas un chat pendiente." icon="MailX" />
+                    </div>
+                    <template v-else>
+                        <div v-for="(chats, subject) in groupedActiveChats" :key="'active-' + subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
+                            <span class="font-semibold p-2">{{ subject }}</span>
+                            <hr class="w-full border-neutral-500" />
+                            <div class="flex flex-col divide-y divide-neutral-400">
+                                <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="green" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </BaseTitle>
         </div>
