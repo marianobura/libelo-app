@@ -9,6 +9,7 @@ import BaseTitle from '@/components/BaseTitle.vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';
 import EmptyState from '@/components/EmptyState.vue';
+import { LoaderCircle } from 'lucide-vue-next';
 
 const route = useRoute();
 const currentSubject = computed(() => Object.keys(userStore.user?.preferredSubjects)[route.params.id]);
@@ -118,7 +119,10 @@ onMounted(fetchChats);
                     <button class="w-full h-8 flex items-center justify-center rounded-xl transition-all duration-200" :class="activeTab === 'active' ? 'bg-libelo-500 text-white' : 'border border-neutral-300 text-neutral-700'" @click="setTab('active')">Activos ({{ activeChats.length }})</button>
                 </div>
                 <div v-if="activeTab === 'pending'" class="flex flex-col gap-2">
-                    <div v-if="pendingChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-if="pendingChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
+                        <LoaderCircle class="animate-spin text-libelo-500" size="32" />
+                    </div>
+                    <div v-else-if="pendingChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats pendientes" description="Aparecerán aquí cuando alguien necesite tu asistencia." icon="MailX" />
                     </div>
                     <template v-else>
@@ -132,7 +136,10 @@ onMounted(fetchChats);
                     </template>
                 </div>
                 <div v-if="activeTab === 'active'" class="flex flex-col gap-2">
-                    <div v-if="activeChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-if="activeChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
+                        <LoaderCircle class="animate-spin text-libelo-500" size="32" />
+                    </div>
+                    <div v-else-if="activeChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats activos" description="Aparecerán aquí cuando respondas un chat pendiente." icon="MailX" />
                     </div>
                     <template v-else>
