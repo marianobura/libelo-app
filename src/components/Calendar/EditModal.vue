@@ -28,6 +28,7 @@ const handleOverlayClick = (event) => {
 const localEvent = ref({ ...props.event });
 const localDate = ref(props.date);
 const localIsEditing = ref(props.isEditing);
+const errorMessage = ref('');
 
 watch(() => props.event, (newVal) => {
     localEvent.value = { ...newVal };
@@ -38,6 +39,11 @@ watch(() => props.date, (newVal) => {
 });
 
 const handleSave = () => {
+    if (!localDate.value || isNaN(new Date(localDate.value))) {
+        errorMessage.value = "Debes ingresar una fecha válida.";
+        return;
+    }
+
     emit('update', {
         event: localEvent.value,
         date: localDate.value
@@ -73,8 +79,11 @@ const handleDelete = () => {
                     <div v-else class="mb-1">
                         <h3 class="text-lg font-bold truncate max-w-full">{{ localEvent.summary }}</h3>
                     </div>
-                    <div v-if="localIsEditing">
+                    <div v-if="localIsEditing" class="flex flex-col gap-1">
                         <BaseInput type="datetime-local" v-model="localDate" placeholder="Fecha del evento" />
+                        <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
+                            {{ errorMessage }}
+                        </p>
                     </div>
                     <div v-else class="flex flex-col">
                         <p class="text-sm">
