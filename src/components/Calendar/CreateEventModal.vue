@@ -18,7 +18,6 @@ const localDate = ref('');
 
 watch(() => props.show, (visible) => {
     if (visible && props.event) {
-        // Copiar evento localmente
         localEvent.value = { ...props.event };
         localDate.value = props.date || '';
     }
@@ -32,8 +31,6 @@ const handleConfirm = () => {
         errorMessage.value = "Debes ingresar una fecha válida.";
         return;
     }
-
-    errorMessage.value = '';
 
     const updatedStart = new Date(localDate.value);
     const updatedEnd = new Date(updatedStart.getTime() + 60 * 60 * 1000);

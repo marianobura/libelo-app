@@ -1,4 +1,4 @@
-a<script setup>
+<script setup>
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
@@ -62,16 +62,13 @@ const handleDelete = () => {
         <div class="bg-white rounded-xl max-w-md w-full mx-2 overflow-hidden">
             <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-around gap-0.5">
-                    <span v-if="!localIsEditing" @click="localIsEditing = true"
-                        class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
+                    <span v-if="!localIsEditing" @click="localIsEditing = true" class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
                         <Pencil />
                     </span>
-                    <span v-else @click="handleSave"
-                        class="w-full flex items-center justify-center h-12 bg-libelo-500 text-white hover:bg-libelo-700 hover:text-white transition-colors">
+                    <span v-else @click="handleSave" class="w-full flex items-center justify-center h-12 bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors">
                         <Check />
                     </span>
-                    <span @click="handleDelete"
-                        class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+                    <span @click="handleDelete" class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
                         <Trash2 />
                     </span>
                 </div>
@@ -82,7 +79,7 @@ const handleDelete = () => {
                     <div v-else class="mb-1">
                         <h3 class="text-lg font-bold truncate max-w-full">{{ localEvent.summary }}</h3>
                     </div>
-                    <div v-if="localIsEditing">
+                    <div v-if="localIsEditing" class="flex flex-col gap-1">
                         <BaseInput type="datetime-local" v-model="localDate" placeholder="Fecha del evento" />
                         <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
                             {{ errorMessage }}

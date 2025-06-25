@@ -1,7 +1,8 @@
 <script setup>
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref, onMounted, watch } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import { useUserStore } from "@/stores/userStore";
+import { useSubjectStore } from "@/stores/subjectStore";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import axios from "axios";
@@ -15,6 +16,7 @@ const loading = ref(false);
 const loadingCourses = ref(false);
 const courses = ref([])
 const userStore = useUserStore();
+const subjectStore = useSubjectStore();
 const courseSelected = ref(null);
 
 const props = defineProps({
@@ -88,6 +90,14 @@ const handleTokenFromGoogle = async (accessToken) => {
 
 onMounted(async () => {
     await fetchCourses();
+    watch([() => courses.value, () => subjectStore.subject?.classroomId], ([newCourses, classroomId]) => {
+        if (!newCourses.length || !classroomId) return;
+
+        const selected = newCourses.find(course => course.id === String(classroomId));
+        if (selected) {
+        courseSelected.value = { id: selected.id, name: selected.name };
+        }
+    }, { immediate: true });
 });
 </script>
 
@@ -107,7 +117,7 @@ onMounted(async () => {
                     </div>
                 </div>
                 <ul v-else-if="courses.length" class="flex flex-col gap-2">
-                    <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" class="bg-neutral-100 p-2 rounded-lg transition-all hover:bg-libelo-500 hover:text-white">{{ course.name }}</li>
+                    <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" :class="['p-2 rounded-lg transition-all cursor-pointer', courseSelected?.id === course.id ? 'bg-libelo-500 text-white' : 'bg-neutral-100 hover:bg-libelo-500 hover:text-white']">{{ course.name }}</li>
                 </ul>
                 <EmptyState v-else title="No tienes clases" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
             </div>

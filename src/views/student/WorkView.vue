@@ -135,8 +135,8 @@ onMounted(async () => {
                 <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados." />
             </div>
                 <div class="grid grid-cols-2 gap-1 w-full">
-                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" class=" bg-gradient-to-br from-white to-gray-300 drop-shadow-lg" />
-                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" class=" bg-gradient-to-br from-white to-gray-300 drop-shadow-lg" />
+                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" class=" bg-gradient-to-br from-white to-gray-200 drop-shadow-lg" />
+                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" class=" bg-gradient-to-br from-white to-gray-200 drop-shadow-lg" />
                 </div>
             <div class="p-2">
 
