@@ -42,8 +42,6 @@ export const useChatStore = defineStore("chatStore", {
                         sender: message.sender,
                         text: message.message,
                     }));
-
-                    socket.emit("joinRoom", this.chatInfo.subjectId);
                 }
             } catch (error) {
                 console.error("Error al obtener los mensajes:", error);

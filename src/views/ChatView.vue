@@ -13,6 +13,7 @@ import { LoaderCircle, RefreshCw, Star } from "lucide-vue-next";
 import EmptyState from "@/components/EmptyState.vue";
 import ChangeModal from "@/components/Chat/ChangeModal.vue";
 import RateModal from "@/components/Chat/RateModal.vue";
+import socket from "@/services/socket";
 
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
@@ -35,29 +36,31 @@ const sendMessage = () => {
         subjectStore.subject?.name
     );
 
-    if (chatStore.chatInfo.teacherId) {
-        if (userStore.user._id === chatStore.chatInfo.studentId._id && chatStore.chatInfo?.teacherId._id) {
+    const chatInfo = chatStore.chatInfo;
+
+    if (chatInfo && chatInfo.teacherId) {
+        if (userStore.user._id === chatInfo.studentId._id && chatInfo.teacherId._id) {
             notificationStore.createNotification({
-                userId: chatStore.chatInfo.teacherId,
+                userId: chatInfo.teacherId._id,
                 type: "chat",
                 content: {
-                    chatId: chatStore.chatInfo._id,
+                    chatId: chatInfo._id,
                     senderId: userStore.user._id,
                     message: chatStore.userMessage,
                 },
                 read: false,
-            })
-        } else if (userStore.user._id === chatStore.chatInfo?.teacherId._id) {
+            });
+        } else if (userStore.user._id === chatInfo.teacherId._id) {
             notificationStore.createNotification({
-                userId: chatStore.chatInfo.studentId,
+                userId: chatInfo.studentId._id,
                 type: "chat",
                 content: {
-                    chatId: chatStore.chatInfo._id,
+                    chatId: chatInfo._id,
                     senderId: userStore.user._id,
                     message: chatStore.userMessage,
                 },
                 read: false,
-            })
+            });
         }
     }
 };
@@ -66,6 +69,7 @@ onMounted(async () => {
     chatStore.loading = true;
     await userStore.fetchUser();
     await subjectStore.fetchSubject(subjectId.value);
+    socket.emit("joinRoom", subjectId.value);
     await chatStore.fetchChatMessages(subjectId.value);
 
     chatStore.listenForIncomingMessages();
