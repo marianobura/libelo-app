@@ -1,4 +1,3 @@
-<!-- DeleteEventModal.vue -->
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
@@ -23,6 +22,21 @@ const handleOverlayClick = (event) => {
 };
 
 const handleConfirm = () => emit('confirm');
+
+function formatFullDateTime(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+
+    const date = d.toLocaleDateString('es-AR');
+    const time = d.toLocaleTimeString('es-AR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    return `${date} a las ${time}`;
+}
 </script>
 
 <template>
@@ -37,11 +51,11 @@ const handleConfirm = () => emit('confirm');
                     <div class="flex flex-col">
                         <p class="text-sm">
                             <span class="font-semibold">Desde:</span>
-                            {{ new Date(props.event?.start.dateTime).toLocaleString("es-AR") }}
+                            {{ formatFullDateTime(props.event?.start.dateTime) }}
                         </p>
                         <p class="text-sm">
                             <span class="font-semibold">Hasta:</span>
-                            {{ new Date(props.event?.end.dateTime).toLocaleString("es-AR") }}
+                            {{ formatFullDateTime(props.event?.end.dateTime) }}
                         </p>
                     </div>
                 </div>
