@@ -79,7 +79,7 @@ const RateTeacher = async () => {
                     <BaseButton primary class="mt-4" @click="RateTeacher">Enviar calificación</BaseButton>
                 </template>
                 <template v-else>
-                    <p :class="['text-center font-semibold mt-4', rating === 1 ? 'text-rose-600' : rating === 2 ? 'text-amber-600' : rating === 3 ? 'text-yellow-500' : rating === 4 ? 'text-lime-600' : rating === 5 ? 'text-libelo-500' : 'text-yellow-500']">Gracias por tu valoración. Has calificado al profesor con <strong>{{ chatStore.chatInfo.rated }}</strong> estrella{{ chatStore.chatInfo.rated > 1 ? 's' : '' }}.</p>
+                    <p class="text-center font-semibold mt-4">Gracias por tu valoración. Has calificado al profesor con <span :class="rating === 1 ? 'text-rose-600' : rating === 2 ? 'text-amber-600' : rating === 3 ? 'text-yellow-500' : rating === 4 ? 'text-lime-600' : rating === 5 ? 'text-libelo-500' : 'text-yellow-500'">{{ chatStore.chatInfo.rated }}</span> estrella{{ chatStore.chatInfo.rated > 1 ? 's' : '' }}.</p>
                 </template>
             </div>
         </div>
