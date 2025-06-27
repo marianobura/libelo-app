@@ -110,13 +110,6 @@ const confirmDeleteObjectives = async () => {
         showDeleteModal.value = false;
     }
 };
-
-const cutObjectives = (text, maxLength = 16) => {
-    if (text.length > maxLength) {
-        return text.slice(0, maxLength - 3) + '...';
-    }
-    return text;
-};
 </script>
 
 <template>
@@ -172,9 +165,9 @@ const cutObjectives = (text, maxLength = 16) => {
 
             <ObjectivesModal :show-modal="showModal" @close="showModal = false" :subject-id="subjectId" @objective-added="addObjectiveToList" />
 
-            <BaseModal v-if="checkpointModal" class="items-center justify-center">
+            <BaseModal :show="checkpointModal" class="items-center justify-center">
                 <div class="bg-white p-4 rounded-xl w-full mx-2">
-                    <h2 class="text-lg font-semibold">Objetivo {{ selectedCheckpointIndex + 1 }}: {{ cutObjectives(userObjectives[selectedCheckpointIndex]?.text) }}</h2>
+                    <h2 class="text-lg font-semibold break-all line-clamp-1">Objetivo {{ selectedCheckpointIndex + 1 }}: {{ userObjectives[selectedCheckpointIndex]?.text }}</h2>
                     <div class="flex items-center gap-2 mt-3 mb-3">
                         <span v-if="userObjectives[selectedCheckpointIndex]?.completed" class="text-libelo-500 font-bold flex items-center">
                             <Check class="mr-1" /> Completado
