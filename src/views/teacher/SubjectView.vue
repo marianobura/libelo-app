@@ -122,7 +122,7 @@ onMounted(fetchChats);
                     <div v-if="pendingChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
-                    <div v-else-if="pendingChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-else-if="pendingChats.length === 0" class="bg-neutral-200 border border-neutral-300 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats pendientes" description="Aparecerán aquí cuando alguien necesite tu asistencia." icon="MailX" />
                     </div>
                     <template v-else>
@@ -139,7 +139,7 @@ onMounted(fetchChats);
                     <div v-if="activeChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
-                    <div v-else-if="activeChats.length === 0" class="bg-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-else-if="activeChats.length === 0" class="bg-neutral-200 border border-neutral-300 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats activos" description="Aparecerán aquí cuando respondas un chat pendiente." icon="MailX" />
                     </div>
                     <template v-else>
