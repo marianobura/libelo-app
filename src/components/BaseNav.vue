@@ -30,7 +30,7 @@ const goBack = () => router.back();
 </script>
 
 <template>
-    <div class="flex justify-between items-center px-2 bg-white border-b border-gray-300">
+    <div class="flex justify-between items-center px-2 bg-white border-b border-neutral-300">
         <div v-if="home" class="w-10 text-libelo-500">
             <LibeloIsologo />
         </div>
@@ -40,13 +40,13 @@ const goBack = () => router.back();
         </div>
         <div v-if="home" class="flex gap-2 items-center">
             <router-link to="/notifications"
-                class="relative flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                class="relative flex items-center justify-center size-10 bg-neutral-100 rounded-full hover:bg-neutral-200">
                 <Bell size="20" stroke-width="2" />
                 <span v-if="notificationStore.totalUnread > 0"
                     class="absolute top-0 right-0 w-3 h-3 rounded-full bg-libelo-500 border border-white"></span>
             </router-link>
             <router-link v-if="userStore.user?.role === 'teacher'" to="/teacher/promotions"
-                class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
+                class="flex items-center justify-center size-10 bg-neutral-100 rounded-full hover:bg-neutral-200">
                 <Coins size="20" stroke-width="2" />
             </router-link>
             <UserAvatar size="10" />
