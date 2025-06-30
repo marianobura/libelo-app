@@ -105,7 +105,7 @@ onMounted(async () => {
     <BaseModal :show="props.showModal" animation="slide-up" class="items-end justify-center" @click="handleOverlayClick">
         <div class="grid grid-rows-[auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-auto max-h-[80%]">
             <div class="flex justify-between items-center pb-4 border-b border-b-neutral-200">
-                <p class="text-lg font-semibold">Vincular materia</p>
+                <p class="text-lg font-semibold">{{ userStore.user.google.isGoogleLinked ? 'Vincular materia' : 'Vincular con Google' }}</p>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
                     <X :size="16" :stroke-width="3" />
                 </button>
@@ -121,7 +121,7 @@ onMounted(async () => {
                 </ul>
                 <EmptyState v-else title="No tienes clases" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
             </div>
-            <div v-else class="text-center px-4 py-6">
+            <div v-else class="text-center p-4">
                 <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
                 <p class="text-sm">Para ver tus cursos de Google Classroom, primero necesitas vincular tu cuenta de Google. Haz clic en el botón "Vincular con Google" para comenzar.</p>
             </div>
