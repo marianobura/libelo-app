@@ -77,13 +77,13 @@ function formatFullDateTime(dateStr) {
         <div class="bg-white rounded-xl max-w-md w-full mx-2 overflow-hidden">
             <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-around gap-0.5">
-                    <span v-if="!localIsEditing" @click="localIsEditing = true" class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
+                    <span v-if="!localIsEditing" @click="localIsEditing = true" class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors rounded-br-xl">
                         <Pencil />
                     </span>
-                    <span v-else @click="handleSave" class="w-full flex items-center justify-center h-12 bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors">
+                    <span v-else @click="handleSave" class="w-full flex items-center justify-center h-12 bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors rounded-br-xl">
                         <Check />
                     </span>
-                    <span @click="handleDelete" class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
+                    <span @click="handleDelete" class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors rounded-bl-xl">
                         <Trash2 />
                     </span>
                 </div>
