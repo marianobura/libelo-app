@@ -205,7 +205,6 @@ function openNewEventModal() {
     formattedEditDate.value = startDate.toISOString().slice(0, 16);
     isEditing.value = true;
     showEventModal.value = true;
-
 }
 
 function handleCreate({ event, date }) {
