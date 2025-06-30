@@ -18,7 +18,7 @@ const SelectedIcon = computed(() => icons[props.icon]);
         <component :is="SelectedIcon" size="48" />
         <div class="flex flex-col items-center">
             <span class="text-center text-xl font-medium text-700 border-b border-neutral-300 pb-2">{{ title }}</span>
-            <span class="text-center max-w-64">{{ description }}</span>
+            <span class="text-center max-w-64 pt-2">{{ description }}</span>
         </div>
     </div>
 </template>
