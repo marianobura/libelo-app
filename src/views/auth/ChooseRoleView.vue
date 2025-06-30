@@ -63,7 +63,7 @@ onMounted(async () => {
             <div class="flex flex-col gap-4 w-full">
                 <div v-for="i in info" :key="i.role" @click="handleRole(i.role)" class="flex justify-between items-center gap-12 outline outline-1 outline-neutral-300 p-2 rounded-xl has-[input:checked]:outline-libelo-500 has-[input:checked]:outline-2 overflow-hidden">
                     <div class="flex gap-4 items-center">
-                        <div class="size-16 flex-shrink-0">
+                        <div class="size-16 flex-shrink-0 content-end rounded-lg overflow-hidden">
                             <img :src="(`/img/${i.role}.svg`)" :alt="`Ilustración de un ${i.title.toLowerCase()}`" />
                         </div>
                         <div class="flex flex-col">
@@ -79,7 +79,7 @@ onMounted(async () => {
                     </div>
                 </div>
             </div>
-            <BaseButton primary @click="confirmRole" :disabled="!selectedRole">Confirmar y continuar</BaseButton>
+            <BaseButton primary @click="confirmRole">Confirmar y continuar</BaseButton>
         </div>
     </div>
 </template>
