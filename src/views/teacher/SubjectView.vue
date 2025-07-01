@@ -4,7 +4,7 @@ import axios from 'axios';
 import StudentCard from '@/components/Subject/StudentCard.vue';
 import BaseBody from '@/components/BaseBody.vue';
 import BaseNav from '@/components/BaseNav.vue';
-import SubjectBanner from '@/components/SubjectBanner.vue';
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
 import BaseTitle from '@/components/BaseTitle.vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';

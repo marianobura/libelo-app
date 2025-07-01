@@ -2,7 +2,7 @@
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
-import SubjectBanner from "@/components/SubjectBanner.vue";
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
 import StatusCard from "@/components/Work/StatusCard.vue";
 import PendingCard from "@/components/Work/PendingCard.vue";
 import { onMounted, ref } from "vue";
@@ -133,8 +133,8 @@ onMounted(async () => {
             <SubjectBanner />
             <BaseTitle title="Gestión de trabajos" description="Supervisa tu progreso revisando los trabajos y celebra tus logros con los trabajos completados.">
                 <div class="grid grid-cols-2 gap-2 w-full">
-                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" />
-                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" />
+                    <StatusCard @click="{ showPending = true; showCompleted = false }" :count="loading ? 0 : worksPending.length" description="Trabajos pendientes" :class="showPending ? 'bg-neutral-300' : ''" />
+                    <StatusCard @click="{ showPending = false; showCompleted = true }" :count="loading ? 0 : worksCompleted.length" description="Trabajos completados" :class="showCompleted ? 'bg-neutral-300' : ''" />
                 </div>
             </BaseTitle>
             <BaseTitle v-if="showPending" title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">

@@ -6,7 +6,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
-import SubjectBanner from "@/components/SubjectBanner.vue";
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
 import { useUserStore } from "@/stores/userStore";
 import { Trash2, ChevronLeft, ChevronRight, CalendarPlus } from "lucide-vue-next";
 import EditModal from "@/components/Calendar/EditModal.vue";
