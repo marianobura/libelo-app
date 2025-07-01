@@ -63,7 +63,7 @@ onMounted(async () => {
                 </div>
             </BaseTitle>
         </div>
-        <button v-if="subjects.length > 0" id="show-modal" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
+        <button v-if="subjects.length > 0" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
             <Plus :size="24" />
         </button>
 
