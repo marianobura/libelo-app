@@ -2,7 +2,7 @@
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import SubjectBanner from "@/components/SubjectBanner.vue";
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
 import { ref, computed, watchEffect } from "vue";
 import { useSubjectStore } from "@/stores/subjectStore";
 import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
