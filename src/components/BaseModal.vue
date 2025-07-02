@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
             <div class="relative">
                 <div class="absolute h-screen w-screen bg-black/20 z-60 bottom-0 left-0"></div>
                     <transition :name="props.animation" appear>
-                        <div class="fixed inset-0 flex bg-black/0 z-50" v-bind="attrs">
+                        <div class="fixed inset-0 flex" v-bind="attrs">
                             <slot />
                         </div>
                     </transition>
