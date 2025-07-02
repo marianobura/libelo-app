@@ -59,13 +59,15 @@ onMounted(async () => {
                     <BaseButton @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
                 </div>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content=subject.name />
+                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content="subject.name" :banner="subject.banner" :color="subject.color"/>
                 </div>
             </BaseTitle>
         </div>
-        <button v-if="subjects.length > 0" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
-            <Plus :size="24" />
-        </button>
+        <div v-if="subjects.length > 0" class="fixed bottom-0 right-0 bg-body p-2 rounded-full z-10">
+            <button @click="showModal = true" class="size-12 flex items-center justify-center bg-libelo-500 rounded-full text-white">
+                <Plus :size="24" />
+            </button>
+        </div>
 
         <HomeModal :show-modal="showModal" @close="showModal = false" @refresh="refreshSubjects" />
     </BaseBody>
