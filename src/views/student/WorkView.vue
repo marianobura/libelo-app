@@ -148,7 +148,7 @@ onMounted(async () => {
                     <h3 class="text-lg font-semibold">¡Estás al día!</h3>
                     <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
                 </div>
-                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" />
+                <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" :color="subjectStore.subject.color" />
             </BaseTitle>
             <BaseTitle v-if="showCompleted" title="Trabajos completados" description="Los trabajos están conectados con Classroom.">
                 <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
@@ -161,7 +161,7 @@ onMounted(async () => {
                     <h3 class="text-lg font-semibold">¡Estás al día!</h3>
                     <p class="text-sm mt-1">No hay tareas pendientes por el momento.</p>
                 </div>
-                <PendingCard v-for="(course, index) in worksCompleted" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="getCompletedDescription(course)" />
+                <PendingCard v-for="(course, index) in worksCompleted" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="getCompletedDescription(course)" :color="subjectStore.subject.color" />
             </BaseTitle>
         </div>
     </BaseBody>
