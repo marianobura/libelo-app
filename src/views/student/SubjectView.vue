@@ -56,7 +56,7 @@ onMounted(async () => {
             </div>
 
         </div>
-        <CoursesModal :show-modal="showModalCourses" @close="showModalCourses = false" />
+        <CoursesModal :show-modal="showModalCourses" @close="showModalCourses = false" @update="subjectStore.fetchSubject(path, true)" />
         <DeleteModal :show-modal="showModalDelete" @close="showModalDelete = false" />
     </BaseBody>
 </template>
