@@ -18,8 +18,8 @@ export const useSubjectStore = defineStore("subjectStore", {
     },
 
     actions: {
-        async fetchSubject(subjectId) {
-            if (this.subject && this.subject._id === subjectId) {
+        async fetchSubject(subjectId, force = false) {
+            if (!force && this.subject && this.subject._id === subjectId) {
                 return;
             }
 
