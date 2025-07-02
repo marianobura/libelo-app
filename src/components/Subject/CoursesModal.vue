@@ -23,7 +23,7 @@ const props = defineProps({
     showModal: Boolean
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "update"]);
 
 const closeModal = () => {
     emit("close");
@@ -66,11 +66,11 @@ const addCourse = async () => {
             classroomId: courseSelected.value.id,
             classroomName: courseSelected.value.name
         });
+        emit("update");
+        closeModal();
     } catch (error) {
         console.error("Error al vincular la materia:", error);
     } finally {
-        location.reload();
-        closeModal();
         loading.value = false;
     }
 };
