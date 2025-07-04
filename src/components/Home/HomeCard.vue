@@ -15,7 +15,8 @@ const bannerStyle = computed(() => ({
     backgroundImage: `url(${props.banner})`,
     backgroundSize: 'cover',
     backgroundPosition: 'right',
-    opacity: 0.1
+    opacity: 0.1,
+    filter: 'grayscale(100%)',
 }));
 
 function getContrastingTextColor(bgColor) {
@@ -43,8 +44,8 @@ const textColor = computed(() => {
     <div class="relative w-full h-20 rounded-xl overflow-hidden cursor-pointer">
         <div class="absolute inset-0" :style="gradientStyle" />
         <div v-if="banner" class="absolute inset-0" :style="bannerStyle" />
-        <div class="relative z-10 flex h-full p-4 uppercase">
-            <div class="line-clamp-2 break-words" :style="{ color: textColor }">{{ content }}</div>
+        <div class="relative z-10 flex items-center justify-center h-full p-4 uppercase">
+            <div class="line-clamp-2 text-center break-words" :style="{ color: textColor }">{{ content }}</div>
         </div>
     </div>
 </template>
