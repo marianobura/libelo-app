@@ -107,9 +107,8 @@ onMounted(async () => {
             </div>
             <div :class="chatStore.loading || chatStore.messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col">
                 <div id="container" :class="chatStore.loading || chatStore.messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
-                    <div v-if="chatStore.loading" class="flex flex-col gap-2 items-center justify-center w-full text-neutral-700">
+                    <div v-if="chatStore.loading" class="flex items-center justify-center w-full text-libelo-500">
                         <LoaderCircle class="animate-spin" size="32" />
-                        <span class="font-medium text-lg max-w-64">Cargando mensajes...</span>
                     </div>
                     <EmptyState v-if="!chatStore.loading && chatStore.messages.length === 0" title="Todavía no hay mensajes" description="Escribe tu duda y un profesor te responderá pronto." icon="MailX" />
                     <div v-else v-for="(message, index) in chatStore.messages" :key="index" class="flex gap-2">

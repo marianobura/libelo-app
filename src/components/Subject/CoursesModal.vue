@@ -112,7 +112,7 @@ onMounted(async () => {
             </div>
             <div v-if="userStore.user.google.isGoogleLinked" class="bg-white py-4 overflow-scroll">
                 <div v-if="loadingCourses" class="w-full my-8 flex items-center justify-center">
-                    <div class="flex items-center justify-center size-8">
+                    <div class="flex items-center justify-center size-8 text-libelo-500">
                         <LoaderCircle class="animate-spin" :size="32" />
                     </div>
                 </div>

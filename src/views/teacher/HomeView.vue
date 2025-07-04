@@ -41,12 +41,7 @@ onMounted(async () => {
             <HomeHeader />
             <BaseTitle :link="!loading && groupedSubjects.length > 0" title="Materias favoritas" description="Selecciona una materia para acceder a una lista con los chats de los estudiantes y ayudarlos con sus dudas.">
                 <div v-if="loading" class="mt-12 flex items-center justify-center w-full h-full text-libelo-500">
-                    <div class="animate-spin">
-                        <LoaderCircle :size="32" />
-                    </div>
-                    <div class="ml-2">
-                        <p class="font-semibold">Cargando...</p>
-                    </div>
+                    <LoaderCircle class="animate-spin" :size="32" />
                 </div>
                 <div v-else-if="groupedSubjects.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
                     <span>Todavía no tienes ninguna materia favorita.</span>

@@ -117,13 +117,8 @@ const confirmDeleteObjectives = async () => {
         <BaseNav title="Objetivos" />
         <div class="flex flex-col gap-4 p-2">
             <SubjectBanner />
-            <div v-if="loading" class="mt-12 flex items-center justify-center text-libelo-500 h-96">
-                <div class="animate-spin">
-                    <LoaderCircle :size="32" />
-                </div>
-                <div class="ml-2">
-                    <p class="font-semibold">Cargando...</p>
-                </div>
+            <div v-if="loading" class="mt-12 flex items-center justify-center text-libelo-500">
+                <LoaderCircle class="animate-spin" :size="32" />
             </div>
             <div v-else-if="userObjectives.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
                 <span>Todavía no tienes ningún objetivo.</span>
