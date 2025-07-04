@@ -15,12 +15,6 @@ const closeModal = () => {
     emit("close");
 };
 
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-};
-
 const handleConfirm = () => emit('confirm');
 
 function formatFullDateTime(dateStr) {
@@ -40,7 +34,7 @@ function formatFullDateTime(dateStr) {
 </script>
 
 <template>
-    <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleOverlayClick">
+    <BaseModal :show="props.show" class="items-center justify-center" @close="closeModal">
         <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
             <BaseTitle title="¿Estás seguro de eliminar este evento?" description="Si lo eliminas, se borrará definitivamente.">
                 <div class="flex flex-col">

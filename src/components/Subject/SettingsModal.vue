@@ -24,12 +24,6 @@ const closeModal = () => {
     emit("close");
 };
 
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-};
-
 watch(() => props.showModal, async (show) => {
     if (show) {
         await subjectStore.fetchSubject(path);
@@ -143,7 +137,7 @@ const saveSettings = async () => {
 </script>
 
 <template>
-    <BaseModal :show="showModal" animation="slide-up" class="items-end justify-center" @click="handleOverlayClick">
+    <BaseModal :show="showModal" animation="slide-up" class="items-end justify-center" @close="closeModal">
         <div class="grid grid-rows-[auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-[80%]">
             <div class="flex justify-between items-center pb-4 border-b border-b-neutral-200">
                 <p class="text-lg font-semibold">Configuración de la materia</p>
