@@ -138,10 +138,8 @@ onMounted(async () => {
                 </div>
             </BaseTitle>
             <BaseTitle v-if="showPending" title="Trabajos pendientes" description="Los trabajos están conectados con Classroom.">
-                <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
-                    <div class="flex items-center justify-center size-8">
-                        <LoaderCircle class="animate-spin" :size="32" />
-                    </div>
+                <div v-if="loading" class="w-full mt-8 flex items-center justify-center size-8 text-libelo-500">
+                    <LoaderCircle class="animate-spin" :size="32" />
                 </div>
                 <div v-if="!loading && worksPending.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
                     <CheckCircle class="mx-auto mb-2" :size="32" />
@@ -151,10 +149,8 @@ onMounted(async () => {
                 <PendingCard v-for="(course, index) in worksPending" :link="course.alternateLink" :key="course.id" :num="index + 1" :title="course.title" :description="'Fecha de entrega: ' + formatDueDate(course.dueDate, course.dueTime)" :color="subjectStore.subject.color" />
             </BaseTitle>
             <BaseTitle v-if="showCompleted" title="Trabajos completados" description="Los trabajos están conectados con Classroom.">
-                <div v-if="loading" class="w-full mt-8 flex items-center justify-center">
-                    <div class="flex items-center justify-center size-8">
-                        <LoaderCircle class="animate-spin" :size="32" />
-                    </div>
+                <div v-if="loading" class="w-full mt-8 flex items-center justify-center size-8 text-libelo-500">
+                    <LoaderCircle class="animate-spin" :size="32" />
                 </div>
                 <div v-if="!loading && worksCompleted.length === 0" class="px-4 py-6 text-center rounded-xl bg-libelo-50 text-libelo-500 border border-libelo-200">
                     <CheckCircle class="mx-auto mb-2" :size="32" />

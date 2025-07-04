@@ -74,8 +74,8 @@ const parseMarkdown = (text) => {
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>
                             <div :class="message.sender === 'ai' ? '' : 'bg-libelo-500 p-2'" class="rounded-xl w-fit">
-                                <p v-if="message.sender === 'ai' && message.loading" class="animate-spin">
-                                    <LoaderCircle />
+                                <p v-if="message.sender === 'ai' && message.loading" class="text-libelo-500">
+                                    <LoaderCircle class="animate-spin"/>
                                 </p>
                                 <div v-else v-html="parseMarkdown(message.text)" :class="message.sender === 'user' ? 'text-white' : ''"  class="text-sm prose prose-sm max-w-full"></div>
                             </div>
