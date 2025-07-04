@@ -19,12 +19,6 @@ const closeModal = () => {
     emit("close");
 };
 
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-};
-
 const localEvent = ref({ ...props.event });
 const localDate = ref(props.date);
 const localIsEditing = ref(props.isEditing);
@@ -73,7 +67,7 @@ function formatFullDateTime(dateStr) {
 </script>
 
 <template>
-    <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleOverlayClick">
+    <BaseModal :show="props.show" class="items-center justify-center" @close="closeModal">
         <div class="bg-white rounded-xl max-w-md w-full mx-2 overflow-hidden">
             <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-around gap-0.5">
