@@ -41,25 +41,70 @@ watch(() => props.showModal, async (show) => {
 
 const settings = {
     banners: [
-        "/banners/Geography_thumb.jpg",
-        "/banners/Geometry_thumb.jpg",
-        "/banners/img_backtoschool.jpg",
-        "/banners/img_bookclub.jpg",
-        "/banners/img_breakfast_thumb.jpg",
-        "/banners/img_carmaintenance_thumb.jpg",
-        "/banners/img_code.jpg",
-        "/banners/img_reachout_thumb.jpg",
-        "/banners/img_violin2_thumb.jpg",
-        "/banners/img_volleyball_thumb.jpg",
-        "/banners/Math_thumb.jpg",
-        "/banners/SocialStudies_thumb.jpg",
-        "/banners/WorldHistory_thumb.jpg",
-        "/banners/WorldStudies_thumb.jpg",
-        "/banners/Writing_thumb.jpg"
+        "https://www.gstatic.com/classroom/themes/Biology_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Chemistry_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Design_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/English_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Geography_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Geometry_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Honors_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/LanguageArts_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Math_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Physics_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Psychology_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/SocialStudies_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/USHistory_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/WorldHistory_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/WorldStudies_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/Writing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_americanfootball_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_arts_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_athleticsjumping_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_backtoschool_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_bbq_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_billiard_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_birthday_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_bookclub_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_bowling_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_boxing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_breakfast_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_cinema_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_climbing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_code_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_coffee_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_concert_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_cooking_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_cricket_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_cycling_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_cyclingbmx_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_dancing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_equestrian_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_fencing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_golf_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_graduation_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_gym_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_karate_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_kayaking_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_learninstrument_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_learnlanguage_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_mealfamily_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_pingpong_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_reachout_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_read_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_rowing_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_soccer_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_swimming_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_tennis_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_theatreopera_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_triathlon_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_violin2_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_volleyball_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_waterpolo_thumb.jpg",
+        "https://www.gstatic.com/classroom/themes/img_wrestling_thumb.jpg"
     ],
     colors: [
+        "#083DB2, #1F2B96",
         "#C82A2A, #962222",
-        "#2A3AC8, #1F2B96",
         "#2AC84D, #1F9439",
         "#C8632A, #92481F",
         "#C8C22A, #989320",
@@ -106,7 +151,7 @@ const saveSettings = async () => {
                     <X :size="16" :stroke-width="3" />
                 </button>
             </div>
-            <div class="pt-4 overflow-auto">
+            <div class="py-2 overflow-auto">
                 <div class="flex flex-col gap-2">
                     <span class="font-semibold">Elige una portada para tu materia</span>
                     <div class="grid grid-cols-2 gap-2">
@@ -115,8 +160,8 @@ const saveSettings = async () => {
                 </div>
                 <div class="flex flex-col gap-2 mt-4">
                     <span class="font-semibold">Elige un color para tu materia</span>
-                    <div class="flex flex-wrap gap-2">
-                        <div v-for="color in settings.colors" :key="color" class="size-8 rounded-xl cursor-pointer" :class="{ 'opacity-100': selectedColor === null || selectedColor === color, 'opacity-50': selectedColor !== null && selectedColor !== color }" :style="{ backgroundImage: `linear-gradient(to bottom, ${color})` }" @click="selectedColor = selectedColor === color ? null : color" />
+                    <div class="grid grid-cols-6 gap-2">
+                        <div v-for="color in settings.colors" :key="color" class="h-8 w-full rounded-xl cursor-pointer" :class="{ 'opacity-100': selectedColor === null || selectedColor === color, 'opacity-50': selectedColor !== null && selectedColor !== color }" :style="{ backgroundImage: `linear-gradient(to bottom, ${color})` }" @click="selectedColor = selectedColor === color ? null : color" />
                     </div>
                 </div>
             </div>

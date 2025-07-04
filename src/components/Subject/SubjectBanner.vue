@@ -39,7 +39,8 @@ const bannerStyle = computed(() => ({
     backgroundImage: `url(${subjectStore.subject?.banner})`,
     backgroundSize: 'cover',
     backgroundPosition: 'right',
-    opacity: 0.1
+    opacity: 0.2,
+    filter: 'grayscale(100%)',
 }));
 
 function getContrastingTextColor(bgColor) {
