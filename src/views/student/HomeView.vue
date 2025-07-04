@@ -49,10 +49,7 @@ onMounted(async () => {
                 <div v-if="loading" class="mt-12 flex items-center justify-center w-full h-full text-libelo-500">
                     <LoaderCircle class="animate-spin" :size="32" />
                 </div>
-                <div v-else-if="subjects.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
-                    <span>Todavía no tienes ninguna materia creada.</span>
-                    <BaseButton @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
-                </div>
+                <BaseButton v-else-if="subjects.length === 0" @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
                     <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content="subject.name" :banner="subject.banner" :color="subject.color"/>
                 </div>
