@@ -1,9 +1,8 @@
 <script setup>
-/* eslint-disable */
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
-import { Trash2, Pencil, Check, X } from 'lucide-vue-next';
+import { X } from 'lucide-vue-next';
 import BaseInput from '../BaseInput.vue';
 
 const props = defineProps({
@@ -43,7 +42,7 @@ const handleSave = () => {
         event: localEvent.value,
         date: localDate.value
     });
-    localIsEditing.value = false;
+    closeModal();
 }
 
 const handleDelete = () => {
