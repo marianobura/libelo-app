@@ -1,11 +1,14 @@
 <script setup>
 import { defineProps, computed } from "vue";
+import { useUserStore } from "@/stores/userStore";
 
 const props = defineProps({
     content: String,
     color: String,
     banner: String
 });
+
+const userStore = useUserStore();
 
 const gradientStyle = computed(() => ({
     backgroundImage: `linear-gradient(to bottom, ${props.color})`
@@ -41,9 +44,9 @@ const textColor = computed(() => {
 </script>
 
 <template>
-    <div class="relative w-full h-20 rounded-xl overflow-hidden cursor-pointer">
-        <div class="absolute inset-0" :style="gradientStyle" />
-        <div v-if="banner" class="absolute inset-0" :style="bannerStyle" />
+    <div class="relative w-full h-20 rounded-xl overflow-hidden cursor-pointer" :class="userStore.user.role === 'teacher' ? 'bg-libelo-500' : ''">
+        <div v-if="userStore.user.role === 'student'" class="absolute inset-0" :style="gradientStyle" />
+        <div v-if="banner && userStore.user.role === 'student'" class="absolute inset-0" :style="bannerStyle" />
         <div class="relative z-10 flex items-center justify-center h-full p-4 uppercase">
             <div class="line-clamp-2 text-center break-words" :style="{ color: textColor }">{{ content }}</div>
         </div>
