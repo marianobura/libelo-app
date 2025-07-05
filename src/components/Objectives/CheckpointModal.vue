@@ -1,6 +1,5 @@
 <script setup>
 import BaseModal from "@/components/BaseModal.vue";
-import BaseButton from "@/components/BaseButton.vue";
 import { Check, X } from "lucide-vue-next";
 import { defineProps, defineEmits } from "vue";
 
@@ -18,17 +17,19 @@ const closeModal = () => emit("close");
 <template>
     <BaseModal :show="props.showModal" class="items-center justify-center" @close="closeModal">
         <div class="bg-white p-4 rounded-xl w-full mx-2">
-            <h2 class="text-lg font-semibold break-all line-clamp-1">Objetivo {{ props.index + 1 }}: {{ props.objective?.text }}</h2>
-            <div class="flex items-center gap-2 mt-3 mb-3">
-                <span v-if="props.objective?.completed" class="text-libelo-500 font-bold flex items-center">
-                    <Check class="mr-1" /> Completado
-                </span>
-                <span v-else class="text-red-500 font-bold flex items-center">
-                    <X class="mr-1" /> No completado
-                </span>
+            <div class="flex justify-between items-center pb-4 mb-2 border-b border-neutral-300">
+                <h2 class="text-lg font-semibold break-all line-clamp-1">Objetivo {{ props.index + 1 }}</h2>
+                <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
+                    <X :size="16" :stroke-width="3" />
+                </button>
             </div>
-            <div class="flex justify-end mt-3">
-                <BaseButton @click="closeModal" secondary>Cerrar</BaseButton>
+            <div class="flex flex-col gap-2">
+                <p class="font-semibold">{{ props.objective?.text }}</p>
+                <div class="font-semibold flex items-center gap-2 px-3 py-1 rounded-full w-fit" :class="props.objective?.completed ? 'text-libelo-500 bg-libelo-100' : 'text-red-500 bg-red-100'">
+                    <Check v-if="props.objective?.completed" size="16" />
+                    <X v-else size="16" />
+                    <span class="text-sm">{{ props.objective?.completed ? 'Completado' : 'Pendiente'}}</span>
+                </div>
             </div>
         </div>
     </BaseModal>
