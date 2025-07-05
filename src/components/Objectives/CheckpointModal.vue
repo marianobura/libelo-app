@@ -17,7 +17,7 @@ const closeModal = () => emit("close");
 <template>
     <BaseModal :show="props.showModal" class="items-center justify-center" @close="closeModal">
         <div class="bg-white p-4 rounded-xl w-full mx-2">
-            <div class="flex justify-between items-center pb-4 mb-2 border-b border-neutral-300">
+            <div class="flex justify-between items-center pb-2 mb-2 border-b border-neutral-300">
                 <h2 class="text-lg font-semibold break-all line-clamp-1">Objetivo {{ props.index + 1 }}</h2>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
                     <X :size="16" :stroke-width="3" />

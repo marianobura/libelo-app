@@ -18,7 +18,7 @@ const confirm = () => emit("confirm");
     <BaseModal :show="props.showModal" class="justify-center items-center" @close="closeModal">
         <div class="w-full m-2 rounded-xl overflow-hidden">
             <div class="flex gap-4 bg-white p-4">
-                <div class="size-12 flex items-center justify-center bg-red-500/20 rounded-full text-red-500 flex-shrink-0">
+                <div class="size-12 flex items-center justify-center bg-red-100 rounded-full text-red-500 flex-shrink-0">
                     <TriangleAlert size="24" />
                 </div>
                 <div class="flex flex-col gap-1 w-full">

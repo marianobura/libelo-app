@@ -40,7 +40,7 @@ const addObjective = async () => {
 <template>
     <BaseModal :show="props.showModal" class="items-center justify-center" @close="closeModal">
         <div class="bg-white mx-2 p-4 rounded-xl w-full">
-            <div class="flex justify-between items-center pb-4">
+            <div class="flex justify-between items-center pb-2 mb-2 border-b border-neutral-200">
                 <h2 class="text-lg font-semibold">Agrega un objetivo</h2>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
                     <X :size="16" :stroke-width="3" />
