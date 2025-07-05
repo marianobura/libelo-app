@@ -48,7 +48,7 @@ const handleConfirm = () => {
 <template>
     <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleClose">
         <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center pb-2 mb-2 border-b border-b-neutral-200">
+            <div class="flex justify-between items-center pb-4">
                 <p class="text-lg font-semibold">Crear un nuevo evento</p>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="handleClose">
                     <X :size="16" :stroke-width="3" />
