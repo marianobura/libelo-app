@@ -4,6 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseModal from "@/components/BaseModal.vue";
 import axios from "axios";
+import { X } from "lucide-vue-next";
 
 const props = defineProps({
     showModal: Boolean,
@@ -39,12 +40,14 @@ const addObjective = async () => {
 <template>
     <BaseModal :show="props.showModal" class="items-center justify-center" @close="closeModal">
         <div class="bg-white mx-2 p-4 rounded-xl w-full">
-            <h2 class="text-lg font-semibold mb-3">Agregar nueva opción</h2>
-            <BaseInput type="text" placeholder="Introduzca su objetivo..." identifier="objectives" v-model="objectiveText" />
-            <div class="flex justify-end mt-3 gap-2">
-                <BaseButton @click="closeModal">Cancelar</BaseButton>
-                <BaseButton @click="addObjective" primary>Agregar</BaseButton>
+            <div class="flex justify-between items-center pb-4">
+                <h2 class="text-lg font-semibold">Agrega un objetivo</h2>
+                <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
+                    <X :size="16" :stroke-width="3" />
+                </button>
             </div>
+            <BaseInput type="text" placeholder="Introduzca su objetivo..." identifier="objectives" v-model="objectiveText" />
+            <BaseButton @click="addObjective" primary class="mt-3">Agregar</BaseButton>
         </div>
     </BaseModal>
 </template>

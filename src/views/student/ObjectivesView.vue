@@ -136,23 +136,23 @@ const confirmDeleteObjectives = async () => {
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 mt-4">
-                        <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500">
+                        <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500 bg-white">
                             <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
                                 <div class="relative mb-auto">
                                     <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                                    <span class="size-6 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                        <Check v-if="objective.completed" />
+                                    <span class="size-6 flex items-center justify-center border border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                        <Check size="16" v-if="objective.completed" />
                                     </span>
                                 </div>
                                 <span>{{ objective.text }}</span>
                             </label>
                             <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 border border-red-700 rounded-lg text-red-700 hover:bg-red-700 hover:text-white" @click="removeObjective(objective._id)">
-                                <X :size="12"/>
+                                <X :size="16"/>
                             </div>
                         </div>
                     </div>
                     <div class=" mt-4 grid grid-cols-[1fr_48px] gap-2">
-                        <BaseButton @click="showModal = true" primary>Agregar objetivo</BaseButton>
+                        <BaseButton @click="showModal = true" primary>Agregar un objetivo</BaseButton>
                         <BaseButton danger @click="showDeleteModal = true" class="flex items-center justify-center"><Trash2 size="20" /></BaseButton>
                     </div>
                 </div>
