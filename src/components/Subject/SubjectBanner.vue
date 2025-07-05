@@ -65,10 +65,10 @@ const textColor = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-col justify-end p-3 h-28 w-full rounded-xl relative overflow-hidden">
-        <div class="absolute inset-0" :style="gradientStyle" />
-        <div v-if="subjectStore.subject?.banner" class="absolute inset-0" :style="bannerStyle" />
-        <div class="absolute size-8 flex items-center justify-center top-0 right-0 mt-2 mr-2 rounded-xl z-10 bg-black/30" @click="showModal = true">
+    <div class="flex flex-col justify-end p-3 h-28 w-full rounded-xl relative overflow-hidden" :class="userStore.user.role === 'teacher' ? 'bg-libelo-500' : ''">
+        <div v-if="userStore.user.role === 'student'" class="absolute inset-0" :style="gradientStyle" />
+        <div v-if="subjectStore.subject?.banner && userStore.user.role === 'student'" class="absolute inset-0" :style="bannerStyle" />
+        <div v-if="userStore.user.role === 'student'" class="absolute size-8 flex items-center justify-center top-0 right-0 mt-2 mr-2 rounded-xl z-10 bg-black/30" @click="showModal = true">
             <Pencil class="text-white" size="16" />
         </div>
         <span class="font-semibold text-xl uppercase break-all line-clamp-1 z-10" :style="{ color: textColor }">
