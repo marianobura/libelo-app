@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <router-link :to="props.linkTo" class="flex items-center justify-between gap-8 w-full p-2 odd:bg-neutral-300 even:bg-neutral-200">
+    <router-link :to="props.linkTo" class="flex items-center justify-between gap-8 w-full p-2">
         <div class="flex gap-2 items-center max-w-[70%]">
             <div class="relative">
                 <UserAvatar :user-letter="props.student.name.charAt(0).toUpperCase()" size="10" />
