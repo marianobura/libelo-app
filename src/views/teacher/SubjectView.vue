@@ -122,14 +122,14 @@ onMounted(fetchChats);
                     <div v-if="pendingChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
-                    <div v-else-if="pendingChats.length === 0" class="bg-neutral-200 border border-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-else-if="pendingChats.length === 0" class="pt-12 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats pendientes" description="Aparecerán aquí cuando alguien necesite tu asistencia." icon="MailX" />
                     </div>
                     <template v-else>
-                        <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
+                        <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
                             <span class="font-semibold p-2">{{ subject }}</span>
-                            <hr class="w-full border-neutral-500" />
-                            <div class="flex flex-col divide-y divide-neutral-400">
+                            <hr class="w-full border-neutral-300" />
+                            <div class="flex flex-col divide-y divide-neutral-300">
                                 <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="red" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
                             </div>
                         </div>
@@ -139,14 +139,14 @@ onMounted(fetchChats);
                     <div v-if="activeChats.length === 0 && loading" class="flex justify-center mt-12 w-full">
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
-                    <div v-else-if="activeChats.length === 0" class="bg-neutral-200 border border-neutral-300 p-4 flex items-center justify-center rounded-xl">
+                    <div v-else-if="activeChats.length === 0" class="pt-12 p-4 flex items-center justify-center rounded-xl">
                         <EmptyState title="Todavía no hay chats activos" description="Aparecerán aquí cuando respondas un chat pendiente." icon="MailX" />
                     </div>
                     <template v-else>
-                        <div v-for="(chats, subject) in groupedActiveChats" :key="'active-' + subject" class="flex flex-col w-full bg-neutral-300 rounded-xl overflow-hidden">
+                        <div v-for="(chats, subject) in groupedActiveChats" :key="'active-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
                             <span class="font-semibold p-2">{{ subject }}</span>
-                            <hr class="w-full border-neutral-500" />
-                            <div class="flex flex-col divide-y divide-neutral-400">
+                            <hr class="w-full border-neutral-300" />
+                            <div class="flex flex-col divide-y divide-neutral-300">
                                 <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="green" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
                             </div>
                         </div>
