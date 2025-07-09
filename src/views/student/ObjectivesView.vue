@@ -2,7 +2,7 @@
 import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import SubjectBanner from "@/components/SubjectBanner.vue";
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
 import { ref, computed, watchEffect } from "vue";
 import { useSubjectStore } from "@/stores/subjectStore";
 import ObjectivesModal from "@/components/Objectives/ObjectivesModal.vue";
@@ -112,6 +112,13 @@ const confirmDeleteObjectives = async () => {
         showDeleteModal.value = false;
     }
 };
+
+const cutObjectives = (text, maxLength = 16) => {
+    if (text.length > maxLength) {
+        return text.slice(0, maxLength - 3) + '...';
+    }
+    return text;
+};
 </script>
 
 <template>
@@ -156,7 +163,6 @@ const confirmDeleteObjectives = async () => {
                                 class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500">
                                 <label :for="objective._id"
                                     class="flex items-center gap-2 line-clamp-1 break-all w-full">
-                                    <!-- Drag handle -->
                                     <div
                                         class="drag-handle cursor-move size-6 flex items-center justify-center text-gray-400 hover:text-black">
                                         ⋮
@@ -195,7 +201,8 @@ const confirmDeleteObjectives = async () => {
 
             <BaseModal :show="checkpointModal" class="items-center justify-center">
                 <div class="bg-white p-4 rounded-xl w-full mx-2">
-                    <h2 class="text-lg font-semibold">Objetivo {{ selectedCheckpointIndex + 1 }}: {{ cutObjectives(userObjectives[selectedCheckpointIndex]?.text) }}</h2>
+                    <h2 class="text-lg font-semibold">Objetivo {{ selectedCheckpointIndex + 1 }}: {{
+                        cutObjectives(userObjectives[selectedCheckpointIndex]?.text) }}</h2>
                     <div class="flex items-center gap-2 mt-3 mb-3">
                         <span v-if="userObjectives[selectedCheckpointIndex]?.completed"
                             class="text-libelo-500 font-bold flex items-center">

@@ -47,25 +47,19 @@ onMounted(async () => {
             <HomeHeader />
             <BaseTitle title="Tus materias" description="Descubre una variedad de materias y encuentra el mentor perfecto para tus necesidades educativas.">
                 <div v-if="loading" class="mt-12 flex items-center justify-center w-full h-full text-libelo-500">
-                    <div class="animate-spin">
-                        <LoaderCircle :size="32" />
-                    </div>
-                    <div class="ml-2">
-                        <p class="font-semibold">Cargando...</p>
-                    </div>
+                    <LoaderCircle class="animate-spin" :size="32" />
                 </div>
-                <div v-else-if="subjects.length === 0" class="flex flex-col items-center justify-center gap-2 w-full bg-neutral-200 border border-neutral-300 font-semibold p-2 rounded-xl">
-                    <span>Todavía no tienes ninguna materia creada.</span>
-                    <BaseButton @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
-                </div>
+                <BaseButton v-else-if="subjects.length === 0" @click="showModal = true" primary>Agrega tu primera materia</BaseButton>
                 <div v-else class="grid grid-cols-2 gap-2 w-full text-white font-semibold">
-                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content=subject.name />
+                    <HomeCard v-for="subject in subjects" :key="subject._id" @click="goTo(`/student/subject/${subject._id}`)" :content="subject.name" :banner="subject.banner" :color="subject.color"/>
                 </div>
             </BaseTitle>
         </div>
-        <button v-if="subjects.length > 0" id="show-modal" @click="showModal = true" class="fixed bottom-0 right-0 size-12 flex items-center justify-center bg-libelo-500 rounded-full mr-2 mb-2 text-white">
-            <Plus :size="24" />
-        </button>
+        <div v-if="subjects.length > 0" class="fixed bottom-0 right-0 bg-body p-2 rounded-full rounded-br-none z-10">
+            <button @click="showModal = true" class="size-12 flex items-center justify-center bg-libelo-500 rounded-full text-white">
+                <Plus :size="24" />
+            </button>
+        </div>
 
         <HomeModal :show-modal="showModal" @close="showModal = false" @refresh="refreshSubjects" />
     </BaseBody>

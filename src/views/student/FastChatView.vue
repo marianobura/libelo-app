@@ -22,7 +22,6 @@ watchEffect(() => {
     }
 });
 
-const subjectName = computed(() => subjectStore.subject?.name || "Materia");
 const userDisplayName = computed(() => userStore.user?.displayName || '');
 
 const messages = ref([
@@ -75,8 +74,8 @@ const parseMarkdown = (text) => {
                         <div class="flex flex-col w-full gap-1">
                             <span :class="message.sender === 'ai' ? 'text-orange-600' : 'text-libelo-500'" class="text-sm font-semibold">{{ message.sender === 'ai' ? 'Inteligencia Artificial' : userDisplayName }}</span>
                             <div :class="message.sender === 'ai' ? '' : 'bg-libelo-500 p-2'" class="rounded-xl w-fit">
-                                <p v-if="message.sender === 'ai' && message.loading" class="animate-spin">
-                                    <LoaderCircle />
+                                <p v-if="message.sender === 'ai' && message.loading" class="text-libelo-500">
+                                    <LoaderCircle class="animate-spin"/>
                                 </p>
                                 <div v-else v-html="parseMarkdown(message.text)" :class="message.sender === 'user' ? 'text-white' : ''"  class="text-sm prose prose-sm max-w-full"></div>
                             </div>
@@ -84,13 +83,7 @@ const parseMarkdown = (text) => {
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col gap-3 w-full">
-                <div class="flex justify-center items-center w-full py-2 px-4 bg-white rounded-full">
-                    <p v-if="!subjectName" class="text-sm text-neutral-700">Cargando...</p>
-                    <p v-else class="text-sm text-neutral-700 break-all line-clamp-1">Chat rápido de <span class="font-semibold">{{ subjectName }}</span></p>
-                </div>
-                <ChatInput v-model="userMessage" @sendMessage="sendMessage" />
-            </div>
+            <ChatInput v-model="userMessage" @sendMessage="sendMessage" />
         </div>
     </BaseBody>
 </template>

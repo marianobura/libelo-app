@@ -1,5 +1,7 @@
 <script setup>
-import { watch, defineProps, onBeforeUnmount } from 'vue';
+import { watch, defineProps, defineEmits, onBeforeUnmount, useAttrs } from 'vue';
+
+const emit = defineEmits(['close']);
 
 const props = defineProps({
     show: Boolean,
@@ -8,6 +10,8 @@ const props = defineProps({
         default: 'fade'
     }
 });
+
+const attrs = useAttrs();
 
 watch(
     () => props.show,
@@ -24,14 +28,25 @@ watch(
 onBeforeUnmount(() => {
     document.body.classList.remove('overflow-hidden');
 });
+
+const closeModal = () => {
+    emit('close');
+};
 </script>
 
 <template>
-    <transition :name="props.animation">
-        <div v-if="props.show" class="fixed inset-0 flex bg-black/20 z-50">
-            <slot />
-        </div>
-    </transition>
+    <teleport to="body">
+        <div v-if="props.show" class="fixed bg-black/0 z-50">
+            <div class="relative">
+                <div class="absolute h-screen w-screen bg-black/20 z-60 bottom-0 left-0"></div>
+                    <transition :name="props.animation" appear>
+                        <div class="fixed inset-0 flex" @click.self="closeModal" v-bind="attrs">
+                            <slot />
+                        </div>
+                    </transition>
+                </div>
+            </div>
+    </teleport>
 </template>
 
 <style scoped>

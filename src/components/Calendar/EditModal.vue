@@ -2,7 +2,7 @@
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
-import { Trash2, Pencil, Check } from 'lucide-vue-next';
+import { X } from 'lucide-vue-next';
 import BaseInput from '../BaseInput.vue';
 
 const props = defineProps({
@@ -17,12 +17,6 @@ const emit = defineEmits(['close', 'update', 'delete']);
 const closeModal = () => {
     localIsEditing.value = false;
     emit("close");
-};
-
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
 };
 
 const localEvent = ref({ ...props.event });
@@ -48,7 +42,7 @@ const handleSave = () => {
         event: localEvent.value,
         date: localDate.value
     });
-    localIsEditing.value = false;
+    closeModal();
 }
 
 const handleDelete = () => {
@@ -73,46 +67,48 @@ function formatFullDateTime(dateStr) {
 </script>
 
 <template>
-    <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleOverlayClick">
-        <div class="bg-white rounded-xl max-w-md w-full mx-2 overflow-hidden">
-            <div class="flex flex-col gap-2">
-                <div class="flex items-center justify-around gap-0.5">
-                    <span v-if="!localIsEditing" @click="localIsEditing = true" class="w-full flex items-center justify-center h-12 bg-libelo-100 text-libelo-500 hover:bg-libelo-500 hover:text-white transition-colors">
-                        <Pencil />
-                    </span>
-                    <span v-else @click="handleSave" class="w-full flex items-center justify-center h-12 bg-green-100 text-green-500 hover:bg-green-500 hover:text-white transition-colors">
-                        <Check />
-                    </span>
-                    <span @click="handleDelete" class="w-full flex items-center justify-center h-12 bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-colors">
-                        <Trash2 />
-                    </span>
+    <BaseModal :show="props.show" class="items-center justify-center" @close="closeModal">
+        <div class="bg-white rounded-xl max-w-md w-full mx-2 p-4 overflow-hidden">
+            <div class="flex flex-col">
+                <div class="flex justify-between items-center pb-2 border-b border-neutral-200">
+                    <p class="text-lg font-semibold">{{ localIsEditing ? 'Editar evento' : 'Información del evento' }}</p>
+                    <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
+                        <X :size="16" :stroke-width="3" />
+                    </button>
                 </div>
-                <div class="pt-2 p-4">
-                    <div v-if="localIsEditing" class="mb-2">
+                <div class="flex flex-col mt-2" :class="localIsEditing ? 'gap-2' : ''">
+                    <template v-if="localIsEditing">
                         <BaseInput v-model="localEvent.summary" placeholder="Nombre del evento" />
-                    </div>
-                    <div v-else class="mb-1">
-                        <h3 class="text-lg font-bold truncate max-w-full">{{ localEvent.summary }}</h3>
-                    </div>
-                    <div v-if="localIsEditing" class="flex flex-col gap-1">
-                        <BaseInput type="datetime-local" v-model="localDate" placeholder="Fecha del evento" />
-                        <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
-                            {{ errorMessage }}
-                        </p>
-                    </div>
-                    <div v-else class="flex flex-col">
-                        <p class="text-sm">
-                            <span class="font-semibold">Desde:</span>
-                            {{ formatFullDateTime(props.event?.start.dateTime) }}
-                        </p>
-                        <p class="text-sm">
-                            <span class="font-semibold">Hasta:</span>
-                            {{ formatFullDateTime(props.event?.end.dateTime) }}
-                        </p>
-                    </div>
-                    <div class="flex justify-end mt-4">
-                        <BaseButton @click="closeModal" secondary>Cerrar</BaseButton>
-                    </div>
+                        <div class="flex flex-col gap-1">
+                            <BaseInput type="datetime-local" v-model="localDate" placeholder="Fecha del evento" />
+                            <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
+                                {{ errorMessage }}
+                            </p>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <h3 class="text-lg font-semibold line-clamp-1 break-all">{{ localEvent.summary }}</h3>
+                        <div class="flex flex-col">
+                            <p class="text-sm">
+                                <span class="font-semibold">Desde:</span>
+                                {{ formatFullDateTime(props.event?.start.dateTime) }}
+                            </p>
+                            <p class="text-sm">
+                                <span class="font-semibold">Hasta:</span>
+                                {{ formatFullDateTime(props.event?.end.dateTime) }}
+                            </p>
+                        </div>
+                    </template>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <template v-if="localIsEditing">
+                        <BaseButton @click="localIsEditing = false">Cancelar</BaseButton>
+                        <BaseButton @click="handleSave" primary>Confirmar</BaseButton>
+                    </template>
+                    <template v-else>
+                        <BaseButton @click="localIsEditing = true" primary>Editar</BaseButton>
+                        <BaseButton @click="handleDelete" danger>Eliminar</BaseButton>
+                    </template>
                 </div>
             </div>
         </div>

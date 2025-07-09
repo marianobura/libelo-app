@@ -49,12 +49,6 @@ const closeModal = () => {
     emit("close");
 };
 
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-};
-
 const addSubject = async () => {
     loading.value = true;
 
@@ -79,15 +73,15 @@ const addSubject = async () => {
 </script>
 
 <template>
-    <BaseModal :show="props.showModal" animation="slide-up" class="items-end justify-center" @click="handleOverlayClick">
+    <BaseModal :show="props.showModal" animation="slide-up" class="items-end justify-center" @close="closeModal">
         <div class="grid grid-rows-[auto_auto_1fr_auto] bg-white p-4 rounded-t-xl w-full h-[80%]">
-            <div class="flex justify-between items-center pb-4 border-b border-b-neutral-200">
+            <div class="flex justify-between items-center pb-2 mb-2 border-b border-neutral-200">
                 <p class="text-lg font-semibold">Nueva materia</p>
                 <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="closeModal">
                     <X :size="16" :stroke-width="3" />
                 </button>
             </div>
-            <div class="py-2">
+            <div class="pb-2">
                 <BaseInput search v-model="searchQuery" identifier="search" placeholder="Busca una materia" />
             </div>
             <div v-if="Object.keys(filteredSubjects).length > 0" class="overflow-scroll">

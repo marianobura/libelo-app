@@ -18,12 +18,6 @@ const closeModal = () => {
     emit("close");
 };
 
-const handleOverlayClick = (event) => {
-    if (event.target === event.currentTarget) {
-        closeModal();
-    }
-};
-
 const chatStore = useChatStore();
 const hasRated = computed(() => chatStore.chatInfo?.rated !== null);
 const rating = ref(chatStore.chatInfo?.rated ?? 3);
@@ -52,7 +46,7 @@ const RateTeacher = async () => {
 </script>
 
 <template>
-    <BaseModal :show="props.showModal" class="justify-center items-center" @click="handleOverlayClick">
+    <BaseModal :show="props.showModal" class="justify-center items-center" @close="closeModal">
         <div class="bg-white rounded-xl w-full h-fit mx-2 overflow-hidden">
             <div :class="['relative w-full h-28', rating === 1 ? 'bg-rose-600' : rating === 2 ? 'bg-amber-600' : rating === 3 ? 'bg-yellow-500' : rating === 4 ? 'bg-lime-600' : rating === 5 ? 'bg-libelo-500' : 'bg-yellow-500']">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 aspect-square w-fit h-auto bg-white rounded-full">

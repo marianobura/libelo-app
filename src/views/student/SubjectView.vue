@@ -3,8 +3,8 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import BaseCard from "@/components/Subject/BaseCard.vue";
-import SubjectBanner from "@/components/SubjectBanner.vue";
-import { BookOpenCheck, Bot, CalendarDays, Goal, NotebookPen, Trash2, UserRound } from "lucide-vue-next";
+import SubjectBanner from "@/components/Subject/SubjectBanner.vue";
+import { BookOpenCheck, Bot, CalendarDays, Goal, Dices, Trash2, UserRound } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import { ref, onMounted } from "vue";
@@ -46,7 +46,7 @@ onMounted(async () => {
                     <BaseCard v-else description="Planifica y agenda tus próximas sesiones." :icon="CalendarDays" @click="goTo('/settings/google')" />
                     <BaseCard v-if="subjectStore.subject?.classroomName" :link-to="`/student/subject/${path}/work`" description="Revisa y evalúa tu progreso académico." :icon="BookOpenCheck" />
                     <BaseCard v-else description="Revisa y evalúa tu progreso académico." :icon="BookOpenCheck" @click="showModalCourses = true" />
-                    <BaseCard description="Practica con ejercicios y mejora tus habilidades." :icon="NotebookPen" disabled />
+                    <BaseCard description="Practica con ejercicios y mejora tus habilidades." :icon="Dices" disabled />
                 </div>
             </BaseTitle>
 
@@ -56,7 +56,7 @@ onMounted(async () => {
             </div>
 
         </div>
-        <CoursesModal :show-modal="showModalCourses" @close="showModalCourses = false" />
+        <CoursesModal :show-modal="showModalCourses" @close="showModalCourses = false" @update="subjectStore.fetchSubject(path, true)" />
         <DeleteModal :show-modal="showModalDelete" @close="showModalDelete = false" />
     </BaseBody>
 </template>

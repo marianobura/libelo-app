@@ -3,7 +3,7 @@ import { ref, watch, defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseInput from '@/components/BaseInput.vue';
-import BaseTitle from '../BaseTitle.vue';
+import { X } from 'lucide-vue-next';
 
 const props = defineProps({
     show: Boolean,
@@ -48,17 +48,20 @@ const handleConfirm = () => {
 <template>
     <BaseModal :show="props.show" class="items-center justify-center" @click.self="handleClose">
         <div class="bg-white p-4 rounded-xl max-w-md w-full mx-2 max-h-[80vh] overflow-y-auto">
-            <BaseTitle title="Crear un nuevo evento">
+            <div class="flex justify-between items-center pb-4">
+                <p class="text-lg font-semibold">Crear un nuevo evento</p>
+                <button class="flex items-center justify-center bg-neutral-100 rounded-full p-2 text-neutral-600" @click="handleClose">
+                    <X :size="16" :stroke-width="3" />
+                </button>
+            </div>
+            <div class="flex flex-col gap-2">
                 <BaseInput v-model="localEvent.summary" placeholder="Nombre del evento" />
                 <BaseInput type="datetime-local" v-model="localDate" />
                 <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
                     {{ errorMessage }}
                 </p>
-                <div class="flex gap-2">
-                    <BaseButton @click="handleClose" secondary>Cancelar</BaseButton>
-                    <BaseButton @click="handleConfirm" primary>Crear</BaseButton>
-                </div>
-            </BaseTitle>
+                <BaseButton @click="handleConfirm" primary>Crear evento</BaseButton>
+            </div>
         </div>
     </BaseModal>
 </template>
