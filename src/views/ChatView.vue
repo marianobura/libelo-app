@@ -110,16 +110,16 @@ onMounted(async () => {
                     <button v-if="showChangeButton" class="h-9 px-3 flex items-center border-r border-neutral-200" @click="showChangeModal = true, showChangeButton = !showChangeButton">
                         <span class="text-sm">Cambiar profesor</span>
                     </button>
-                    <button class="p-2" @click="showChangeButton = !showChangeButton">
-                        <RefreshCw class="text-black" :size="20" />
+                    <button class="p-2" @click="showChangeButton = !showChangeButton, showRateButton = false">
+                        <RefreshCw :size="20" />
                     </button>
                 </div>
                 <div class="w-fit bg-white rounded-full flex items-center">
                     <button v-if="showRateButton" class="h-9 px-3 flex items-center border-r border-neutral-200" @click="showRateModal = true, showRateButton = !showRateButton">
                         <span class="text-sm">Calificar profesor</span>
                     </button>
-                    <button class="p-2" @click="showRateButton = !showRateButton">
-                        <Star class="text-black" :size="20" />
+                    <button class="p-2" @click="showRateButton = !showRateButton, showChangeButton = false">
+                        <Star :size="20" />
                     </button>
                 </div>
             </div>
