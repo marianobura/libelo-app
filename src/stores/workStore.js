@@ -14,9 +14,6 @@ export const useWorkStore = defineStore('workStore', {
         },
         getWorks(classroomId) {
             return this.worksByClassroom[classroomId] || { pending: [], completed: [], loaded: false };
-        },
-        clear() {
-            this.worksByClassroom = {};
         }
     }
 });

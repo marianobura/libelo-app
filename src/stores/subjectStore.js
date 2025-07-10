@@ -8,10 +8,6 @@ export const useSubjectStore = defineStore("subjectStore", {
     }),
 
     getters: {
-        isSubjectLoaded: (state) => {
-            return !!state.subject;
-        },
-
         getSubjectData: (state) => {
             return state.subject;
         },

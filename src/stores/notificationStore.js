@@ -12,18 +12,15 @@ export const useNotificationStore = defineStore('notification', {
         unreadNotifications: (state) => {
             return state.notifications.filter(notif => !notif.read);
         },
-        totalUnread: (state) => {
-            return state.notifications.filter(notif => !notif.read).length;
-        }
     },
 
     actions: {
-        async fetchNotifications(userId) {
+        async fetchNotifications(receiverId) {
             this.loading = true;
             this.error = null;
 
             try {
-                const apiUrl = new URL(`/api/notifications/${userId}`, process.env.VUE_APP_API_URL);
+                const apiUrl = new URL(`/api/notifications/${receiverId}`, process.env.VUE_APP_API_URL);
                 const res = await axios.get(apiUrl.toString());
                 this.notifications = res.data.data;
             } catch (err) {
