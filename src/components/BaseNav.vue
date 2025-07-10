@@ -42,7 +42,7 @@ const goBack = () => router.back();
             <router-link to="/notifications"
                 class="relative flex items-center justify-center size-10 bg-neutral-100 rounded-full hover:bg-neutral-200">
                 <Bell size="20" stroke-width="2" />
-                <span v-if="notificationStore.totalUnread > 0"
+                <span v-if="notificationStore.unreadNotifications.length > 0"
                     class="absolute top-0 right-0 w-3 h-3 rounded-full bg-libelo-500 border border-white"></span>
             </router-link>
             <router-link v-if="userStore.user?.role === 'teacher'" to="/teacher/promotions"
