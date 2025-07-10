@@ -2,7 +2,7 @@
 import BaseNav from '@/components/BaseNav.vue';
 import BaseBody from '@/components/BaseBody.vue';
 import { Bot, LoaderCircle } from 'lucide-vue-next';
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, nextTick } from 'vue';
 import { useSubjectStore } from "@/stores/subjectStore";
 import { useUserStore } from '@/stores/userStore';
 import { sendMessageToAI } from '@/services/ai';
@@ -15,6 +15,7 @@ import { marked } from 'marked';
 const route = useRoute();
 const userStore = useUserStore();
 const subjectStore = useSubjectStore();
+const chatContainer = ref(null);
 
 watchEffect(() => {
     if (route.params.id) {
@@ -39,20 +40,32 @@ const sendMessage = async () => {
     const userText = userMessage.value;
     messages.value.push({ sender: 'user', text: userText });
     userMessage.value = '';
+    scrollToBottom();
 
     const loadingMessage = reactive({ sender: 'ai', text: '', loading: true });
     messages.value.push(loadingMessage);
+    scrollToBottom();
 
     try {
         const aiResponse = await sendMessageToAI(userText);
 
         loadingMessage.text = aiResponse;
         loadingMessage.loading = false;
+        scrollToBottom();
     } catch (error) {
         console.error('Error al obtener la respuesta de la IA:', error);
         messages.value.push({ sender: 'ai', text: 'Lo siento, algo salió mal.' });
         loadingMessage.loading = false;
+        scrollToBottom();
     }
+};
+
+const scrollToBottom = () => {
+    nextTick(() => {
+        const container = chatContainer.value;
+        const lastMessage = container?.lastElementChild;
+        lastMessage?.scrollIntoView({ behavior: 'smooth' });
+    });
 };
 
 const parseMarkdown = (text) => {
@@ -65,7 +78,7 @@ const parseMarkdown = (text) => {
         <BaseNav title="Chat rápido" />
         <div class="flex flex-col justify-between gap-2 p-2 pt-0 max-h-[calc(100vh-60px)]">
             <div class="flex flex-col overflow-y-auto">
-                <div id="container" class="flex flex-col justify-end gap-5 pt-2">
+                <div ref="chatContainer" class="flex flex-col justify-end gap-5 pt-2">
                     <div v-for="(message, index) in messages" :key="index" class="flex gap-2">
                         <div :class="message.sender === 'ai' ? 'bg-orange-600' : ''" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
                             <Bot v-if="message.sender === 'ai'" :size="20" />
