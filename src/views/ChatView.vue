@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, nextTick, ref } from "vue";
+import { computed, onMounted, nextTick, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useSubjectStore } from "@/stores/subjectStore";
@@ -24,6 +24,7 @@ const showChangeModal = ref(false);
 const showRateModal = ref(false);
 const showChangeButton = ref(false);
 const showRateButton = ref(false);
+const scrollMessage = ref(null);
 
 const user = computed(() => userStore.user);
 const subjectId = computed(() => route.params.id);
@@ -36,34 +37,55 @@ const sendMessage = () => {
         subjectStore.subject?.name
     );
 
-    const chatInfo = chatStore.chatInfo;
+    notificationStore.createNotification({
+        receiverId: userStore.user.role === "student" ? chatStore.chatInfo?.teacherId : chatStore.chatInfo?.studentId,
+        type: "chat",
+        content: {
+            chatId: subjectId.value,
+            senderId: userStore.user._id,
+            message: chatStore.userMessage,
+        },
+        read: false,
+    });
+};
 
-    if (chatInfo && chatInfo.teacherId) {
-        if (userStore.user._id === chatInfo.studentId._id && chatInfo.teacherId._id) {
-            notificationStore.createNotification({
-                userId: chatInfo.teacherId._id,
-                type: "chat",
-                content: {
-                    chatId: chatInfo._id,
-                    senderId: userStore.user._id,
-                    message: chatStore.userMessage,
-                },
-                read: false,
-            });
-        } else if (userStore.user._id === chatInfo.teacherId._id) {
-            notificationStore.createNotification({
-                userId: chatInfo.studentId._id,
-                type: "chat",
-                content: {
-                    chatId: chatInfo._id,
-                    senderId: userStore.user._id,
-                    message: chatStore.userMessage,
-                },
-                read: false,
-            });
+const scrollToBottom = () => {
+    nextTick(() => {
+        const elements = scrollMessage.value;
+        const lastEl = Array.isArray(elements) ? elements[elements.length - 1] : elements;
+        if (lastEl?.scrollIntoView) {
+            lastEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    });
+};
+
+watch(() => chatStore.messages.length, (newLength, oldLength) => {
+    if (newLength > oldLength) {
+        const lastMessage = chatStore.messages[newLength - 1];
+        if (lastMessage.sender._id === user.value._id) {
+            scrollToBottom();
+        }
+    }}
+);
+
+const groupedMessages = computed(() => {
+    const groups = [];
+    let currentGroup = null;
+
+    for (const message of chatStore.messages) {
+        if (!currentGroup || currentGroup.sender._id !== message.sender._id) {
+            currentGroup = {
+                sender: message.sender,
+                messages: [message],
+            };
+            groups.push(currentGroup);
+        } else {
+            currentGroup.messages.push(message);
         }
     }
-};
+
+    return groups;
+});
 
 onMounted(async () => {
     chatStore.loading = true;
@@ -75,11 +97,7 @@ onMounted(async () => {
     chatStore.listenForIncomingMessages();
     chatStore.listenForTeacherAssignment();
 
-    nextTick(() => {
-        const chatContainer = document.querySelector("#container");
-        const lastMessage = chatContainer.lastElementChild;
-        lastMessage?.scrollIntoView({ behavior: "smooth" });
-    });
+    scrollToBottom();
 });
 </script>
 
@@ -105,19 +123,19 @@ onMounted(async () => {
                     </button>
                 </div>
             </div>
-            <div :class="chatStore.loading || chatStore.messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col">
-                <div id="container" :class="chatStore.loading || chatStore.messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
+            <div :class="chatStore.loading || chatStore.messages.length === 0 ? 'overflow-hidden h-full' : 'overflow-y-auto mt-auto'" class="flex flex-col ">
+                <div ref="scrollContainer" :class="chatStore.loading || chatStore.messages.length === 0 ? 'items-center justify-center h-full' : 'justify-end'" class="flex flex-col gap-5 pt-2">
                     <div v-if="chatStore.loading" class="flex items-center justify-center w-full text-libelo-500">
                         <LoaderCircle class="animate-spin" size="32" />
                     </div>
                     <EmptyState v-if="!chatStore.loading && chatStore.messages.length === 0" title="Todavía no hay mensajes" description="Escribe tu duda y un profesor te responderá pronto." icon="MailX" />
-                    <div v-else v-for="(message, index) in chatStore.messages" :key="index" class="flex gap-2">
-                        <div :class="message.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
-                            <UserAvatar size="10" :orange="message.sender.role === 'teacher'" :user-letter="message.sender.displayName?.charAt(0) || '?'" />
+                    <div v-else v-for="(group, groupIndex) in groupedMessages" :key="groupIndex" :ref="groupIndex === groupedMessages.length - 1 ? 'scrollMessage' : null" class="flex gap-2">
+                        <div :class="group.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
+                            <UserAvatar size="10" :orange="group.sender.role === 'teacher'" :user-letter="group.sender.displayName?.charAt(0) || '?'" />
                         </div>
                         <div class="flex flex-col w-full gap-1">
-                            <span :class="message.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">{{ message.sender.displayName }}</span>
-                            <div :class="message.sender.role === 'student' ? 'bg-libelo-500 text-white' : 'bg-orange-600/40'" class="p-2 rounded-xl w-fit">
+                            <span :class="group.sender.role === 'student' ? 'text-libelo-500' : 'text-orange-600'" class="text-sm font-semibold">{{ group.sender.displayName }}</span>
+                            <div v-for="(message, index) in group.messages" :key="index" :class="group.sender.role === 'student' ? 'bg-libelo-500 text-white' : 'bg-orange-600/40'" class="p-2 rounded-xl w-fit">
                                 <p class="text-sm break-all">{{ message.text }}</p>
                             </div>
                         </div>
