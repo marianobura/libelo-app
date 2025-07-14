@@ -12,7 +12,7 @@ import { useRoute } from "vue-router";
 import axios from "axios";
 import { Check, LoaderCircle, X, Trash2 } from "lucide-vue-next";
 import BaseTitle from "@/components/BaseTitle.vue";
-
+import Draggable from "vuedraggable";
 
 const subjectStore = useSubjectStore();
 const route = useRoute();
@@ -25,6 +25,7 @@ const showDeleteModal = ref(false);
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subject?.objectives ?? []);
 const maxProgress = 100;
+console.log(userObjectives.value);
 
 const checkpoints = computed(() => {
     return userObjectives.value.length > 0
@@ -136,22 +137,27 @@ const confirmDeleteObjectives = async () => {
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 mt-4">
-                        <div v-for="objective in userObjectives" :key="objective._id" class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500 bg-white">
-                            <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
-                                <div class="relative mb-auto">
-                                    <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                                    <span class="size-6 flex items-center justify-center border border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                        <Check size="16" v-if="objective.completed" />
-                                    </span>
+                        <Draggable v-model="subjectStore.subject.objectives" item-key="_id" handle=".drag-handle" class="flex flex-col gap-2">
+                            <template #item="{ element: objective }">
+                                <div class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500">
+                                    <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
+                                        <div class="drag-handle cursor-move size-6 flex items-center justify-center text-gray-400 hover:text-black">⋮</div>
+                                        <div class="relative mb-auto">
+                                            <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
+                                            <span class="size-6 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                                <Check v-if="objective.completed" />
+                                            </span>
+                                        </div>
+                                        <span>{{ objective.text }}</span>
+                                    </label>
+                                    <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 border border-red-700 rounded-lg text-red-700 hover:bg-red-700 hover:text-white" @click="removeObjective(objective._id)">
+                                        <X :size="12" />
+                                    </div>
                                 </div>
-                                <span>{{ objective.text }}</span>
-                            </label>
-                            <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 border border-red-700 rounded-lg text-red-700 hover:bg-red-700 hover:text-white" @click="removeObjective(objective._id)">
-                                <X :size="16"/>
-                            </div>
-                        </div>
+                            </template>
+                        </Draggable>
                     </div>
-                    <div class=" mt-4 grid grid-cols-[1fr_48px] gap-2">
+                    <div class="mt-4 grid grid-cols-[1fr_48px] gap-2">
                         <BaseButton @click="showModal = true" primary>Agregar un objetivo</BaseButton>
                         <BaseButton danger @click="showDeleteModal = true" class="flex items-center justify-center"><Trash2 size="20" /></BaseButton>
                     </div>
