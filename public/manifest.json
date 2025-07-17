@@ -6,8 +6,8 @@
     "background_color": "#083db2",
     "display": "standalone",
     "orientation": "portrait",
-    "scope": "https://libelo.vercel.app/",
-    "start_url": "https://libelo.vercel.app/",
+    "scope": "https://libelo.onrender.com/",
+    "start_url": "https://libelo.onrender.com/",
     "icons": [
         { "src": "icons/icon48.png", "sizes": "48x48", "type": "image/png" },
         { "src": "icons/icon72.png", "sizes": "72x72", "type": "image/png" },
