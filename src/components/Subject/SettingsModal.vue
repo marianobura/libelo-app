@@ -129,8 +129,16 @@ const saveSettings = async () => {
             color: selectedColor.value
         });
 
+        const updatedSubject = {
+            ...subjectStore.subject,
+            banner: selectedBanner.value,
+            color: selectedColor.value,
+        };
+
         subjectStore.subject.banner = selectedBanner.value;
         subjectStore.subject.color = selectedColor.value;
+
+        subjectStore.updateSubject(updatedSubject);
 
         closeModal();
     } catch (error) {
