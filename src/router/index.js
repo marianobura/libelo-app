@@ -74,6 +74,12 @@ const routes = [
         component: () => import("@/views/ChatView.vue"),
         meta: { requiresAuth: true },
     },
+    {
+        path: "/download",
+        name: "download",
+        component: () => import("@/views/DownloadView.vue"),
+        meta: { requiresAuth: false },
+    },
 
     // Estudiante
     {
