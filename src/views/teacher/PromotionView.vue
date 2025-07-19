@@ -8,6 +8,7 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import axios from "axios";
 import { Coins, Info, MapPin, TicketCheck } from "lucide-vue-next";
+import RedeemModal from "@/components/Promotions/RedeemModal.vue";
 
 const promotions = ref(promotionsData.promotions);
 const route = useRoute();
@@ -73,7 +74,7 @@ const redeemPromotion = async () => {
         <div class="p-4">
             <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
             <div v-else class="flex flex-col justify-between h-full gap-4">
-                <div>
+                <div class="flex flex-col">
                     <img :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl">
                     <div class="flex flex-col py-2 border-b border-neutral-300">
                         <div class="flex justify-between items-center">
@@ -112,16 +113,6 @@ const redeemPromotion = async () => {
             </div>
         </div>
 
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div class="bg-white p-4 rounded shadow-lg w-80">
-                <h3 class="font-bold text-lg mb-2">Canjear promoción</h3>
-                <p>¿Estás seguro de que deseas canjear esta promoción?</p>
-                <p v-if="errors.promo" class="text-red-500 text-sm">{{ errors.promo }}</p>
-                <div class="flex justify-end mt-4 gap-2">
-                    <BaseButton @click="closeModal" danger>Cancelar</BaseButton>
-                    <BaseButton @click="redeemPromotion" primary>Canjear</BaseButton>
-                </div>
-            </div>
-        </div>
+        <RedeemModal :show-modal="showModal" :promotion="promotion" :user-points="userPoints" :error="errors.promo" @close="closeModal" @redeem="redeemPromotion" />
     </BaseBody>
 </template>
