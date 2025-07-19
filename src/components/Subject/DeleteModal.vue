@@ -6,7 +6,9 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import { goTo } from "@/router";
 import axios from "axios";
+import { useSubjectStore } from "@/stores/subjectStore";
 
+const subjectStore = useSubjectStore();
 const route = useRoute();
 const path = route.params.id;
 const loading = ref(false);
@@ -26,6 +28,7 @@ const deleteSubject = async () => {
     try {
         const apiUrl = new URL(`/api/subjects/${path}`, process.env.VUE_APP_API_URL);
         await axios.delete(apiUrl.toString());
+        subjectStore.removeSubject(path);
         goTo("/student");
     } catch (error) {
         console.error("Error al eliminar la materia:", error);
