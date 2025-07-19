@@ -20,7 +20,7 @@ defineProps({
 });
 
 onMounted(async () => {
-    if (userStore.user?._id) {
+    if (userStore.user?._id && router.currentRoute.value.name === ('student-home' || 'teacher-home')) {
         await notificationStore.fetchNotifications(userStore.user._id);
     }
 });
