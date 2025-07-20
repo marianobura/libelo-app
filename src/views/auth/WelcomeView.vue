@@ -5,7 +5,7 @@ import BaseButton from '@/components/BaseButton.vue';
 
 <template>
     <div class="grid grid-rows-welcome min-h-full">
-        <div class="flex justify-center items-center pb-8 bg-libelo-500 relative overflow-hidden">
+        <div class="flex justify-center items-center pb-8 mb-2 bg-libelo-500 relative overflow-hidden">
             <WelcomeSvg class="text-white w-48" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 64" class="w-full h-16 absolute bottom-0" preserveAspectRatio="none">
                 <path d="M0,64 Q720,0 1440,64 L1440,64 L0,64 Z" fill="white" />
