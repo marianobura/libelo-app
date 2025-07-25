@@ -9,6 +9,7 @@ import { useUserStore } from "@/stores/userStore";
 import axios from "axios";
 import { Coins, Info, MapPin, TicketCheck } from "lucide-vue-next";
 import RedeemModal from "@/components/Promotions/RedeemModal.vue";
+import { watch } from "vue";
 
 const promotions = ref(promotionsData.promotions);
 const route = useRoute();
@@ -17,6 +18,15 @@ const showModal = ref(false);
 const userStore = useUserStore();
 const userPoints = computed(() => userStore.user?.points);
 const errors = ref({ promo: "" });
+const imageFailed = ref(false);
+
+watch(() => promotion.value.image, () => {
+    imageFailed.value = false;
+});
+
+const handleImageError = () => {
+    imageFailed.value = true;
+};
 
 onMounted(() => {
     const promotionId = route.params.id;
@@ -75,7 +85,10 @@ const redeemPromotion = async () => {
             <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
             <div v-else class="flex flex-col justify-between h-full gap-4">
                 <div class="flex flex-col">
-                    <img :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl">
+                    <img v-if="promotion.image && !imageFailed" :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl" @error="handleImageError">
+                    <div v-else class="w-full h-56 flex items-center justify-center bg-libelo-500 rounded-xl">
+                        <img src="/logo.svg" alt="Logo de Libelo" class="w-32 h-auto">
+                    </div>
                     <div class="flex flex-col py-2 border-b border-neutral-300">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold overflow-hidden text-ellipsis line-clamp-1">{{ promotion.title }}</h3>
