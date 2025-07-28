@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, computed } from 'vue';
-import { BellOff, MailX, BookX, SearchX } from 'lucide-vue-next';
+import { BellOff, MailX, BookX, SearchX, TicketCheck } from 'lucide-vue-next';
 
 const props = defineProps({
     title: String,
@@ -8,7 +8,7 @@ const props = defineProps({
     icon: String,
 });
 
-const icons = { BellOff, MailX, BookX, SearchX };
+const icons = { BellOff, MailX, BookX, SearchX, TicketCheck };
 
 const SelectedIcon = computed(() => icons[props.icon]);
 </script>
