@@ -54,12 +54,12 @@ onMounted(() => {
                         </div>
                         <div class="flex flex-col gap-1">
                             <span class="font-semibold line-clamp-1 break-all">{{ promotion.title }}</span>
-                            <div class="flex gap-2 text-sm">Código del canjeo:<span class="px-2 py-0.5 bg-libelo-50 text-libelo-500 font-semibold rounded-xl">{{ promotion.code }}</span></div>
+                            <div class="flex gap-2 text-sm">Código del canjeo:<span class="px-2 py-0.5 bg-libelo-50 text-libelo-500 font-semibold rounded-xl tracking-wider">{{ promotion.code }}</span></div>
                         </div>
                     </div>
                 </div>
             </BaseTitle>
-            <div v-else class="mt-12">
+            <div v-else class="h-full flex items-center">
                 <EmptyState title="No tienes promociones" :icon="TicketCheck">Aún no has canjeado ninguna promoción. ¡Explora las disponibles y canjea la que más te guste!</EmptyState>
             </div>
         </div>
