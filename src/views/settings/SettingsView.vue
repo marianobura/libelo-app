@@ -3,7 +3,7 @@ import BaseBody from "@/components/BaseBody.vue";
 import BaseNav from "@/components/BaseNav.vue";
 import LabelTitle from "@/components/Settings/LabelTitle.vue";
 import BaseItem from "@/components/Settings/BaseItem.vue";
-import { UserRoundPen, SquareAsterisk, LayoutDashboard, BookHeart } from "lucide-vue-next";
+import { UserRoundPen, SquareAsterisk, LayoutDashboard, BookHeart, TicketCheck } from "lucide-vue-next";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRouter } from "vue-router";
 import { goTo } from "@/router";
@@ -37,6 +37,9 @@ const logout = async () => {
             </LabelTitle>
             <LabelTitle v-if="userStore.user.role === 'teacher'" label="Materias">
                 <BaseItem title="Materias favoritas" :icon="BookHeart" @click="goTo('/settings/favorite-subjects')" />
+            </LabelTitle>
+            <LabelTitle v-if="userStore.user.role === 'teacher'" label="Promociones">
+                <BaseItem title="Canjeadas" :icon="TicketCheck" @click="goTo('/settings/promotions')" />
             </LabelTitle>
             <BaseButton @click="logout" danger>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</BaseButton>
         </div>

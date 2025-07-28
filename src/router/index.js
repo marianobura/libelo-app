@@ -63,6 +63,12 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/settings/promotions",
+        name: "promotions-redeem",
+        component: () => import("@/views/teacher/PromotionsRedeemView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/settings/google",
         name: "google-settings",
         component: () => import("@/views/settings/GoogleSettingsView.vue"),
