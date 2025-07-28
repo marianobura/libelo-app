@@ -7,6 +7,7 @@ import { goTo } from '@/router';
 import { useUserStore } from '@/stores/userStore';
 import promotionsData from '@/assets/promotions.json';
 import BaseTitle from '@/components/BaseTitle.vue';
+import { TicketCheck } from 'lucide-vue-next';
 
 const userStore = useUserStore();
 const promotions = ref(promotionsData.promotions);
@@ -59,7 +60,7 @@ onMounted(() => {
                 </div>
             </BaseTitle>
             <div v-else class="mt-12">
-                <EmptyState title="No tienes promociones" description="Aún no has canjeado ninguna promoción. ¡Explora las disponibles y canjea la que más te guste!" icon="TicketCheck" />
+                <EmptyState title="No tienes promociones" :icon="TicketCheck">Aún no has canjeado ninguna promoción. ¡Explora las disponibles y canjea la que más te guste!</EmptyState>
             </div>
         </div>
     </BaseBody>
