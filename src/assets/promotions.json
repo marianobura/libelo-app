@@ -12,7 +12,6 @@
                     "valid_until": "16/09/2026",
                     "terms": "Válido hasta las 20:00 hs.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "Freddo"
                 },
                 {
@@ -21,10 +20,9 @@
                     "title": "15% de descuento en envíos",
                     "description": "15% off en pedidos a domicilio de Persicco.",
                     "location": "Santa Fe",
-                    "valid_until": "23/04/2025",
+                    "valid_until": "23/04/2026",
                     "terms": "Válido para envíos en la ciudad.",
                     "points": 15,
-                    "code": "HELADO2X1",
                     "name": "Persicco"
                 },
                 {
@@ -33,10 +31,9 @@
                     "title": "Combo Familiar $4000",
                     "description": "Combo de 1kg de helado + 6 cucuruchos en Chungo.",
                     "location": "Córdoba",
-                    "valid_until": "06/09/2025",
+                    "valid_until": "06/09/2026",
                     "terms": "No acumulable con otras ofertas.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Chungo"
                 },
                 {
@@ -48,7 +45,6 @@
                     "valid_until": "12/10/2026",
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Saverio"
                 },
                 {
@@ -60,7 +56,6 @@
                     "valid_until": "21/12/2026",
                     "terms": "Solo efectivo.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Cremolatti"
                 },
                 {
@@ -72,7 +67,6 @@
                     "valid_until": "08/01/2026",
                     "terms": "Stock limitado.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "Sei Tu"
                 },
                 {
@@ -84,7 +78,6 @@
                     "valid_until": "14/08/2026",
                     "terms": "Con consumo de adulto.",
                     "points": 15,
-                    "code": "HELADO2X1",
                     "name": "Lucciano's"
                 },
                 {
@@ -93,10 +86,9 @@
                     "title": "25% en pedidos online",
                     "description": "Descuento en pedidos online en Rapa Nui.",
                     "location": "Bariloche",
-                    "valid_until": "15/04/2025",
+                    "valid_until": "15/04/2026",
                     "terms": "Solo para envíos.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "Rapa Nui"
                 },
                 {
@@ -105,10 +97,9 @@
                     "title": "Sábado de Promoción",
                     "description": "Con la compra de 2kg, llevate 1kg extra.",
                     "location": "Mar del Plata",
-                    "valid_until": "17/12/2025",
+                    "valid_until": "17/12/2026",
                     "terms": "Válido solo los sábados.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Grido"
                 }
             ]
@@ -125,7 +116,6 @@
                     "valid_until": "08/12/2026",
                     "terms": "No acumulable.",
                     "points": 15,
-                    "code": "HELADO2X1",
                     "name": "Tienda Urbana"
                 },
                 {
@@ -137,7 +127,6 @@
                     "valid_until": "11/10/2026",
                     "terms": "Aplica a prendas seleccionadas.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Boutique del Sol"
                 },
                 {
@@ -146,10 +135,9 @@
                     "title": "15% off en compras online",
                     "description": "Descuento en compras por la web de 47 street.",
                     "location": "Rosario",
-                    "valid_until": "16/03/2025",
+                    "valid_until": "16/03/2026",
                     "terms": "Solo en compras mayores a $10,000.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "47 street"
                 },
                 {
@@ -161,7 +149,6 @@
                     "valid_until": "09/01/2026",
                     "terms": "Sujeto a disponibilidad.",
                     "points": 15,
-                    "code": "HELADO2X1",
                     "name": "Fashion Store"
                 },
                 {
@@ -173,7 +160,6 @@
                     "valid_until": "21/11/2026",
                     "terms": "Solo pagos en una cuota.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Montagne"
                 },
                 {
@@ -185,7 +171,6 @@
                     "valid_until": "14/02/2026",
                     "terms": "Aplica a modelos seleccionados.",
                     "points": 15,
-                    "code": "HELADO2X1",
                     "name": "Zapatilandia"
                 },
                 {
@@ -197,7 +182,6 @@
                     "valid_until": "24/11/2026",
                     "terms": "Sin excepciones.",
                     "points": 5,
-                    "code": "HELADO2X1",
                     "name": "Levi's"
                 },
                 {
@@ -209,7 +193,6 @@
                     "valid_until": "19/07/2026",
                     "terms": "Válido hasta agotar stock.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Brooksfield"
                 },
                 {
@@ -221,7 +204,6 @@
                     "valid_until": "25/02/2026",
                     "terms": "Promoción válida solo en tienda física.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "Tienda Look"
                 },
                 {
@@ -233,7 +215,6 @@
                     "valid_until": "06/03/2026",
                     "terms": "Solo efectivo.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Mimo & Co"
                 }
             ]
@@ -247,10 +228,9 @@
                     "title": "2x1 en entradas de cine",
                     "description": "Llevate 2 entradas por el precio de 1 en cualquier Cine Cinemark.",
                     "location": "Buenos Aires",
-                    "valid_until": "28/07/2025",
+                    "valid_until": "28/07/2026",
                     "terms": "Válido solo de lunes a jueves.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Cines Cinemark"
                 },
                 {
@@ -262,7 +242,6 @@
                     "valid_until": "15/11/2026",
                     "terms": "No acumulable con otras promociones.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Teatro Luna Park"
                 },
                 {
@@ -274,7 +253,6 @@
                     "valid_until": "10/08/2026",
                     "terms": "Solo en compras online.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Gobierno de la Ciudad"
                 },
                 {
@@ -286,7 +264,6 @@
                     "valid_until": "09/03/2026",
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Bariloche Trekking"
                 },
                 {
@@ -298,7 +275,6 @@
                     "valid_until": "04/01/2026",
                     "terms": "Reservas con 30 días de anticipación.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Gobierno de la Ciudad"
                 },
                 {
@@ -310,7 +286,6 @@
                     "valid_until": "24/06/2026",
                     "terms": "No aplica en eventos privados.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "Escape Room Argentina"
                 },
                 {
@@ -319,10 +294,9 @@
                     "title": "Entradas gratis para menores",
                     "description": "Entradas gratis para menores de 12 años en Zoológico Natural.",
                     "location": "Tucumán",
-                    "valid_until": "06/05/2025",
+                    "valid_until": "06/05/2026",
                     "terms": "Con acompañante adulto.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Zoológico Natural de Tucumán"
                 },
                 {
@@ -334,7 +308,6 @@
                     "valid_until": "28/01/2026",
                     "terms": "Sujeto a disponibilidad.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Teatro Independencia"
                 },
                 {
@@ -346,7 +319,6 @@
                     "valid_until": "18/11/2026",
                     "terms": "Aplica solo para residentes locales.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Museo Histórico Nacional"
                 },
                 {
@@ -358,7 +330,6 @@
                     "valid_until": "23/12/2026",
                     "terms": "Sujeto a condiciones climáticas.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Kayak Rincón"
                 }
             ]
@@ -375,7 +346,6 @@
                     "valid_until": "16/09/2026",
                     "terms": "No válido los domingos.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Don Julio"
                 },
                 {
@@ -387,7 +357,6 @@
                     "valid_until": "06/04/2026",
                     "terms": "Válido solo de lunes a jueves.",
                     "points": 20,
-                    "code": "HELADO2X1",
                     "name": "Pizzería El Rincón"
                 },
                 {
@@ -396,10 +365,9 @@
                     "title": "Descuento en parrillada",
                     "description": "25% de descuento en parrillada para 4 personas en La Dorita.",
                     "location": "Rosario",
-                    "valid_until": "08/09/2025",
+                    "valid_until": "08/09/2026",
                     "terms": "Solo efectivo.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "La Dorita"
                 },
                 {
@@ -408,10 +376,9 @@
                     "title": "Bebida gratis con tu almuerzo",
                     "description": "Incluí una bebida gratis en el restaurante Buen Sabor.",
                     "location": "Mendoza",
-                    "valid_until": "13/11/2025",
+                    "valid_until": "13/11/2026",
                     "terms": "Una bebida por persona.",
                     "points": 10,
-                    "code": "HELADO2X1",
                     "name": "Buen Sabor"
                 },
                 {
@@ -420,10 +387,9 @@
                     "title": "50% en segunda hamburguesa",
                     "description": "Descuento en tu segunda hamburguesa en Dean and Dennys.",
                     "location": "Salta",
-                    "valid_until": "20/09/2025",
+                    "valid_until": "20/09/2026",
                     "terms": "No acumulable.",
                     "points": 5,
-                    "code": "HELADO2X1",
                     "name": "Dean and Dennys"
                 },
                 {
@@ -435,7 +401,6 @@
                     "valid_until": "08/05/2026",
                     "terms": "Aplica solo a take/away.",
                     "points": 30,
-                    "code": "HELADO2X1",
                     "name": "Sushi Bar"
                 },
                 {
@@ -447,7 +412,6 @@
                     "valid_until": "03/09/2026",
                     "terms": "Solo para cenas.",
                     "points": 5,
-                    "code": "HELADO2X1",
                     "name": "Café Martinez"
                 },
                 {
@@ -459,7 +423,6 @@
                     "valid_until": "10/12/2026",
                     "terms": "Solo pagos en efectivo.",
                     "points": 25,
-                    "code": "HELADO2X1",
                     "name": "La Continental"
                 },
                 {
@@ -471,7 +434,6 @@
                     "valid_until": "27/12/2026",
                     "terms": "Con consumo mínimo de $5,000.",
                     "points": 5,
-                    "code": "HELADO2X1",
                     "name": "Crizia"
                 },
                 {
@@ -483,7 +445,6 @@
                     "valid_until": "03/01/2026",
                     "terms": "Solo de 18:00 a 20:00 hs.",
                     "points": 5,
-                    "code": "HELADO2X1",
                     "name": "Bar de Tapas"
                 }
             ]
