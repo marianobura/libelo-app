@@ -42,6 +42,15 @@ const closeModal = () => {
     errors.value.promo = "";
 };
 
+function generateRandomCode(length = 8) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
 const redeemPromotion = async () => {
     if (!promotion.value.id) {
         errors.value.promo = "Promoción no válida.";
@@ -54,10 +63,11 @@ const redeemPromotion = async () => {
     }
 
     try {
+        const promotionCode = generateRandomCode();
         const apiUrl = new URL(`/api/users/${userStore.user._id}/redeem-promotion`, process.env.VUE_APP_API_URL);
         const response = await axios.put(apiUrl, {
             promotionId: promotion.value.id,
-            promotionCode: promotion.value.code || "SIN-CÓDIGO",
+            promotionCode: promotionCode,
             newPoints: userPoints.value - promotion.value.points,
         });
 
@@ -66,7 +76,7 @@ const redeemPromotion = async () => {
         userStore.user.points = data.user.points;
         userStore.user.promotions.push({
             id: promotion.value.id,
-            promotion_code: promotion.value.code || "SIN-CÓDIGO",
+            code: promotionCode,
             redeemed: true,
         });
 
@@ -81,9 +91,8 @@ const redeemPromotion = async () => {
 <template>
     <BaseBody>
         <BaseNav title="Promoción" />
-        <div class="p-4">
-            <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
-            <div v-else class="flex flex-col justify-between h-full gap-4">
+        <div class="p-2">
+            <div class="flex flex-col justify-between h-full gap-4">
                 <div class="flex flex-col">
                     <img v-if="promotion.image && !imageFailed" :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl" @error="handleImageError">
                     <div v-else class="w-full h-56 flex items-center justify-center bg-libelo-500 rounded-xl">
