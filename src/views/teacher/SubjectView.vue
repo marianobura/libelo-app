@@ -9,7 +9,7 @@ import BaseTitle from '@/components/BaseTitle.vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';
 import EmptyState from '@/components/EmptyState.vue';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, MailX } from 'lucide-vue-next';
 
 const route = useRoute();
 const currentSubject = computed(() => Object.keys(userStore.user?.preferredSubjects)[route.params.id]);
@@ -123,7 +123,7 @@ onMounted(fetchChats);
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
                     <div v-else-if="pendingChats.length === 0" class="pt-12 p-4 flex items-center justify-center rounded-xl">
-                        <EmptyState title="Todavía no hay chats pendientes" description="Aparecerán aquí cuando alguien necesite tu asistencia." icon="MailX" />
+                        <EmptyState title="Todavía no hay chats pendientes" :icon="MailX">Aparecerán aquí cuando alguien necesite tu asistencia.</EmptyState>
                     </div>
                     <template v-else>
                         <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
@@ -140,7 +140,7 @@ onMounted(fetchChats);
                         <LoaderCircle class="animate-spin text-libelo-500" size="32" />
                     </div>
                     <div v-else-if="activeChats.length === 0" class="pt-12 p-4 flex items-center justify-center rounded-xl">
-                        <EmptyState title="Todavía no hay chats activos" description="Aparecerán aquí cuando respondas un chat pendiente." icon="MailX" />
+                        <EmptyState title="Todavía no hay chats activos" :icon="MailX">Aparecerán aquí cuando respondas un chat pendiente.</EmptyState>
                     </div>
                     <template v-else>
                         <div v-for="(chats, subject) in groupedActiveChats" :key="'active-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">

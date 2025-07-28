@@ -6,7 +6,7 @@ import { useSubjectStore } from "@/stores/subjectStore";
 import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import axios from "axios";
-import { LoaderCircle, X } from "lucide-vue-next";
+import { BookX, LoaderCircle, X } from "lucide-vue-next";
 import EmptyState from "../EmptyState.vue";
 import GoogleLogin from "../SignAccount/GoogleLogin.vue";
 
@@ -113,7 +113,7 @@ onMounted(async () => {
                 <ul v-else-if="courses.length" class="flex flex-col gap-2">
                     <li v-for="course in courses" :key="course.id" @click="selectCourse(course)" :class="['p-2 rounded-lg transition-all cursor-pointer', courseSelected?.id === course.id ? 'bg-libelo-500 text-white' : 'bg-neutral-100 hover:bg-libelo-500 hover:text-white']">{{ course.name }}</li>
                 </ul>
-                <EmptyState v-else title="No tienes clases" description="Únete a una clase en Google Classroom y la verás listada aquí." icon="BookX" />
+                <EmptyState v-else title="No tienes clases" :icon="BookX">Únete a una clase en Google Classroom y la verás listada aquí.</EmptyState>
             </div>
             <div v-else class="text-center p-4">
                 <p class="text-lg font-semibold mb-2 text-pretty">Esta cuenta no está vinculada con Google</p>
