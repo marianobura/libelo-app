@@ -129,7 +129,7 @@ onMounted(async () => {
                         <LoaderCircle class="animate-spin" size="32" />
                     </div>
                     <EmptyState v-if="!chatStore.loading && chatStore.messages.length === 0" title="Todavía no hay mensajes" :icon="MailX">Escribe tu duda y un profesor te responderá pronto.</EmptyState>
-                    <div v-else v-for="(group, groupIndex) in groupedMessages" :key="groupIndex" :ref="groupIndex === groupedMessages.length - 1 ? 'scrollMessage' : null" class="flex gap-2">
+                    <div v-else-if="!chatStore.loading" v-for="(group, groupIndex) in groupedMessages" :key="groupIndex" :ref="groupIndex === groupedMessages.length - 1 ? 'scrollMessage' : null" class="flex gap-2">
                         <div :class="group.sender.role === 'student' ? 'bg-libelo-500' : 'bg-orange-600'" class="flex items-center justify-center size-10 rounded-full text-white flex-shrink-0">
                             <UserAvatar size="10" :orange="group.sender.role === 'teacher'" :user-letter="group.sender.displayName?.charAt(0) || '?'" />
                         </div>
