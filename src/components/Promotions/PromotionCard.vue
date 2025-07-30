@@ -1,5 +1,4 @@
 <script setup>
-/* eslint-disable */
 import { MapPin, TicketCheck, Info, Coins, ArrowUpRight } from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { defineProps, watch } from "vue";
