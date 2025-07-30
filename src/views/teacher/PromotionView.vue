@@ -10,6 +10,7 @@ import axios from "axios";
 import { Coins, Info, MapPin, TicketCheck } from "lucide-vue-next";
 import RedeemModal from "@/components/Promotions/RedeemModal.vue";
 import { watch } from "vue";
+import LibeloIsologo from "@/assets/LibeloIsologo.vue";
 
 const promotions = ref(promotionsData.promotions);
 const route = useRoute();
@@ -96,7 +97,7 @@ const redeemPromotion = async () => {
                 <div class="flex flex-col">
                     <img v-if="promotion.image && !imageFailed" :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl" @error="handleImageError">
                     <div v-else class="w-full h-56 flex items-center justify-center bg-libelo-500 rounded-xl">
-                        <img src="/logo.svg" alt="Logo de Libelo" class="w-32 h-auto">
+                        <LibeloIsologo class="w-32 h-auto text-white" />
                     </div>
                     <div class="flex flex-col py-2 border-b border-neutral-300">
                         <div class="flex justify-between items-center">

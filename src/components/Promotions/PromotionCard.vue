@@ -4,6 +4,7 @@ import { MapPin, TicketCheck, Info, Coins, ArrowUpRight } from "lucide-vue-next"
 import { useRouter } from "vue-router";
 import { defineProps, watch } from "vue";
 import { ref } from "vue";
+import LibeloIsologo from "@/assets/LibeloIsologo.vue";
 
 const props = defineProps({
     promotion: {
@@ -39,8 +40,8 @@ const goToPromotion = () => {
 <template>
     <div v-if="detailed" :class="props.promotion.category ? 'relative' : ''" class="bg-white snap-center flex-none w-11/12 rounded-xl border border-neutral-300 cursor-pointer overflow-hidden hover:bg-neutral-100" @click="goToPromotion">
         <img v-if="props.promotion.image && !imageFailed" :src="props.promotion.image" alt="Imagen de promoción" class="w-full h-40 object-cover" @error="handleImageError">
-        <div v-else class="w-full h-40 flex items-center justify-center bg-libelo-500">
-            <img src="/logo.svg" alt="Logo de Libelo" class="w-32 h-auto">
+        <div v-else class="w-full h-40 flex items-center justify-center bg-libelo-500 text-white">
+            <LibeloIsologo class="w-32 h-auto" />
         </div>
         <p v-if="props.promotion.category" class="absolute top-0 bg-white px-2 py-1 pb-0.5 rounded-br-md text-sm font-semibold text-libelo-500">{{ props.promotion.category }}</p>
         <div class="flex flex-col p-2">
@@ -81,7 +82,7 @@ const goToPromotion = () => {
     <div v-if="compact" class="grid grid-cols-[auto_1fr] items-center bg-white w-full rounded-xl border border-neutral-300 cursor-pointer overflow-hidden hover:bg-neutral-100" @click="goToPromotion">
         <div class="size-24 overflow-hidden" :class="imageFailed ? 'bg-libelo-500 flex items-center justify-center' : ''">
             <img v-if="props.promotion.image && !imageFailed" :src="props.promotion.image" alt="Imagen de promoción" class="size-24 h-full object-cover" @error="handleImageError">
-            <img v-else src="/logo.svg" alt="Logo de Libelo" class="w-16 h-auto">
+            <LibeloIsologo v-else class="w-16 h-auto text-white" />
         </div>
         <div class="flex flex-col p-2">
             <div class="flex justify-between items-center border-b border-neutral-300 mb-1 pb-1">
