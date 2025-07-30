@@ -162,18 +162,20 @@ router.beforeEach((to, from, next) => {
     const role = localStorage.getItem("role");
 
     if (to.meta.requiresAuth && !token) {
-        next({ name: "welcome" });
-    } else if (!to.meta.requiresAuth && token) {
-        if (role === 'student') {
-            next({ name: 'student-home' });
-        } else if (role === 'teacher') {
-            next({ name: 'teacher-home' });
-        } else {
-            next({ name: 'choose-role' });
-        }
-    } else {
-        next();
+        return next({ name: "welcome" });
     }
+
+    if (!to.meta.requiresAuth && token) {
+        if (role === "student") {
+            return next({ name: "student-home" });
+        } else if (role === "teacher") {
+            return next({ name: "teacher-home" });
+        } else {
+            return next({ name: "choose-role" });
+        }
+    }
+
+    return next();
 });
 
 const goTo = (path) => {
