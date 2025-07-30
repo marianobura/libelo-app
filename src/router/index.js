@@ -83,7 +83,7 @@ const routes = [
     {
         path: "/download",
         name: "download",
-        component: () => import("@/views/DownloadView.vue"),
+        component: () => import("@/views/InstallView.vue"),
         meta: { requiresAuth: false },
     },
 
