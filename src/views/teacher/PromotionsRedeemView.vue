@@ -8,6 +8,7 @@ import { useUserStore } from '@/stores/userStore';
 import promotionsData from '@/assets/promotions.json';
 import BaseTitle from '@/components/BaseTitle.vue';
 import { TicketCheck } from 'lucide-vue-next';
+import LibeloIsologo from '@/assets/LibeloIsologo.vue';
 
 const userStore = useUserStore();
 const promotions = ref(promotionsData.promotions);
@@ -45,16 +46,16 @@ onMounted(() => {
         <div class="p-2">
             <BaseTitle v-if="enrichedPromotions.length > 0" title="Promociones canjeadas" description="Estas son todas las promociones que has canjeado. Revisa los detalles y disfruta tus beneficios.">
                 <div class="flex flex-col gap-2">
-                    <div v-for="promotion in enrichedPromotions" :key="promotion.id" class="p-2 bg-white rounded-xl flex gap-2 items-center" @click="goTo(`/teacher/promotions/${promotion.id}`)">
-                        <div class="size-16 rounded-lg shrink-0 overflow-hidden">
-                            <img v-if="promotion.image && !failedImages.has(promotion.id)" :src="promotion.image" alt="Imagen de la promoción" class="w-full h-full object-cover rounded-lg" @error="handleImageError(promotion.id)" />
-                            <div v-else class="bg-libelo-500 flex items-center justify-center h-full w-full">
-                                <img src="/logo.svg" alt="Logo de Libelo" class="w-10 h-auto">
+                    <div v-for="promotion in enrichedPromotions" :key="promotion.id" class="bg-white rounded-xl flex items-center overflow-hidden" @click="goTo(`/teacher/promotions/${promotion.id}`)">
+                        <div class="size-20 shrink-0 overflow-hidden">
+                            <img v-if="promotion.image && !failedImages.has(promotion.id)" :src="promotion.image" alt="Imagen de la promoción" class="w-full h-full object-cover" @error="handleImageError(promotion.id)" />
+                            <div v-else class="p-2 bg-libelo-500 flex items-center justify-center h-full w-full">
+                                <LibeloIsologo class="w-12 h-auto text-white" />
                             </div>
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-semibold line-clamp-1 break-all">{{ promotion.title }}</span>
-                            <div class="flex gap-2 text-sm">Código del canjeo:<span class="px-2 py-0.5 bg-libelo-50 text-libelo-500 font-semibold rounded-xl tracking-wider">{{ promotion.code }}</span></div>
+                        <div class="p-2 flex flex-col grow">
+                            <span class="font-semibold line-clamp-1 break-all border-b border-neutral-200 pb-1 mb-1">{{ promotion.title }}</span>
+                            <div class="flex gap-2 text-sm mt-1">Código de canjeo:<span class="px-2 py-0.5 bg-libelo-50 text-libelo-500 font-semibold rounded-xl tracking-wider">{{ promotion.code }}</span></div>
                         </div>
                     </div>
                 </div>
