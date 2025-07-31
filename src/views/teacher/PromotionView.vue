@@ -20,6 +20,8 @@ const userStore = useUserStore();
 const userPoints = computed(() => userStore.user?.points);
 const errors = ref({ promo: "" });
 const imageFailed = ref(false);
+const redeem = ref(false);
+const loading = ref(false);
 
 watch(() => promotion.value.image, () => {
     imageFailed.value = false;
@@ -53,6 +55,8 @@ function generateRandomCode(length = 8) {
 }
 
 const redeemPromotion = async () => {
+    loading.value = true;
+
     if (!promotion.value.id) {
         errors.value.promo = "Promoción no válida.";
         return;
@@ -81,10 +85,16 @@ const redeemPromotion = async () => {
             redeemed: true,
         });
 
-        closeModal();
-        alert("¡Promoción canjeada con éxito!");
+        promotion.value = {
+            ...promotion.value,
+            code: promotionCode,
+        };
+
+        redeem.value = true;
     } catch (error) {
         errors.value.promo = error.response?.data?.msg || "Error al canjear la promoción.";
+    } finally {
+        loading.value = false;
     }
 };
 </script>
@@ -131,11 +141,12 @@ const redeemPromotion = async () => {
                         </div>
                     </div>
                 </div>
-                <BaseButton v-if="userPoints >= promotion.points" @click="openModal" primary>Canjear por {{ promotion.points }} puntos</BaseButton>
+                <BaseButton v-if="userPoints >= promotion.points && !userStore.user.promotions.some(p => p.id === promotion.id)" @click="openModal" primary>Canjear por {{ promotion.points }} puntos</BaseButton>
+                <BaseButton v-else-if="userStore.user.promotions.some(p => p.id === promotion.id)" danger>Ya canjeaste esta promoción</BaseButton>
                 <BaseButton v-else danger>No tienes puntos suficientes</BaseButton>
             </div>
         </div>
 
-        <RedeemModal :show-modal="showModal" :promotion="promotion" :user-points="userPoints" :error="errors.promo" @close="closeModal" @redeem="redeemPromotion" />
+        <RedeemModal :show-modal="showModal" :promotion="promotion" :user-points="userPoints" :error="errors.promo" :promotion-redeem="redeem" :loading="loading" @close="closeModal" @redeem="redeemPromotion" />
     </BaseBody>
 </template>
