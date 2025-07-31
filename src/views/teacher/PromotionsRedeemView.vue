@@ -45,7 +45,7 @@ onMounted(() => {
         <BaseNav title="Mis promociones" />
         <div class="p-2">
             <BaseTitle v-if="enrichedPromotions.length > 0" title="Promociones canjeadas" description="Estas son todas las promociones que has canjeado. Revisa los detalles y disfruta tus beneficios.">
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col-reverse gap-2">
                     <div v-for="promotion in enrichedPromotions" :key="promotion.id" class="bg-white rounded-xl flex items-center overflow-hidden" @click="goTo(`/teacher/promotions/${promotion.id}`)">
                         <div class="size-20 shrink-0 overflow-hidden">
                             <img v-if="promotion.image && !failedImages.has(promotion.id)" :src="promotion.image" alt="Imagen de la promoción" class="w-full h-full object-cover" @error="handleImageError(promotion.id)" />
@@ -53,7 +53,7 @@ onMounted(() => {
                                 <LibeloIsologo class="w-12 h-auto text-white" />
                             </div>
                         </div>
-                        <div class="p-2 flex flex-col grow">
+                        <div class="px-2 flex flex-col grow">
                             <span class="font-semibold line-clamp-1 break-all border-b border-neutral-200 pb-1 mb-1">{{ promotion.title }}</span>
                             <div class="flex gap-2 text-sm mt-1">Código de canjeo:<span class="px-2 py-0.5 bg-libelo-50 text-libelo-500 font-semibold rounded-xl tracking-wider">{{ promotion.code }}</span></div>
                         </div>
