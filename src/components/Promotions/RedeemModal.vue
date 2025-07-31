@@ -4,7 +4,6 @@ import BaseButton from "@/components/BaseButton.vue";
 import { defineProps, defineEmits } from "vue";
 import BaseTitle from "@/components/BaseTitle.vue";
 import { computed } from "vue";
-import { goTo } from "@/router";
 
 const props = defineProps({
     showModal: Boolean,
@@ -42,11 +41,10 @@ const code = computed(() => props.promotion.code ? props.promotion.code.split(""
             <template v-else>
                 <BaseTitle title="Promoción canjeada" description="¡Has canjeado la promoción exitosamente! Utiliza esta promoción en un local disponible y disfrútala al máximo con el siguiente código:">
                     <div class="flex justify-between">
-                        <span v-for="(char, index) in code" :key="index" class="flex items-center justify-center bg-libelo-50 rounded-md size-8 text-libelo-500 font-semibold">{{ char }}</span>
+                        <span v-for="(char, index) in code" :key="index" class="flex items-center justify-center bg-libelo-50 rounded-xl size-8 text-libelo-500 font-semibold">{{ char }}</span>
                     </div>
                 </BaseTitle>
                 <div class="flex flex-col gap-2 mt-4">
-                    <BaseButton @click="goTo('/settings/promotions')" secondary>Promociones canjeadas</BaseButton>
                     <BaseButton @click="closeModal" primary>Continuar</BaseButton>
                 </div>
             </template>
