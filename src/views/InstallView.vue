@@ -56,14 +56,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="w-screen h-screen grid grid-rows-3">
+    <div class="w-screen h-dvh grid grid-rows-3">
         <div class="h-full w-full flex items-center justify-center relative bg-libelo-500 row-span-2">
             <WelcomeSvg class="text-white w-40" />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 64" class="w-full h-16 absolute bottom-0" preserveAspectRatio="none">
                 <path d="M0,64 Q720,0 1440,64 L1440,64 L0,64 Z" fill="white" />
             </svg>
         </div>
-        <div class="flex flex-col items-center p-2" :class="!installing && !installed && canInstall || installed ? 'justify-end' : 'justify-center'">
+        <div class="flex flex-col items-center p-2" :class="!installing && !installed && canInstall ? 'justify-end' : 'justify-center'">
             <template v-if="!canInstall">
                 <p class="text-balance text-center text-lg font-semibold">No se puede descargar la aplicación en este dispositivo.</p>
             </template>
@@ -81,8 +81,7 @@ onMounted(() => {
                 <p class="text-neutral-700 text-center">Por favor, espera mientras se instala la aplicación.</p>
             </template>
             <template v-if="installed">
-                <p class="text-lg mb-2 font-semibold">¡La aplicación fue instalada con éxito!</p>
-                <BaseButton primary @click="router.replace('/')">Ir a la aplicación</BaseButton>
+                <p class="text-lg mb-2">¡La aplicación fue instalada con éxito!</p>
             </template>
         </div>
     </div>
