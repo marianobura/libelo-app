@@ -40,6 +40,18 @@ const openModal = () => {
     showModal.value = true;
 };
 
+const openModalAsRedeemed = () => {
+    const redeemedPromo = userStore.user.promotions.find(p => p.id === promotion.value.id);
+    if (redeemedPromo) {
+        promotion.value = {
+            ...promotion.value,
+            code: redeemedPromo.code,
+        };
+        redeem.value = true;
+        showModal.value = true;
+    }
+};
+
 const closeModal = () => {
     showModal.value = false;
     errors.value.promo = "";
@@ -142,7 +154,7 @@ const redeemPromotion = async () => {
                     </div>
                 </div>
                 <BaseButton v-if="userPoints >= promotion.points && !userStore.user.promotions.some(p => p.id === promotion.id)" @click="openModal" primary>Canjear por {{ promotion.points }} puntos</BaseButton>
-                <BaseButton v-else-if="userStore.user.promotions.some(p => p.id === promotion.id)" danger>Ya canjeaste esta promoción</BaseButton>
+                <BaseButton v-else-if="userStore.user.promotions.some(p => p.id === promotion.id)" @click="openModalAsRedeemed" danger>Ya canjeaste esta promoción</BaseButton>
                 <BaseButton v-else danger>No tienes puntos suficientes</BaseButton>
             </div>
         </div>
