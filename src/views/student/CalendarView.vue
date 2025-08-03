@@ -38,17 +38,30 @@ const firstDayOfMonth = computed(() => {
 const isCreating = computed(() => showEventModal.value && !selectedEvent.value?.id);
 const isEditingEvent = computed(() => showEventModal.value && !!selectedEvent.value?.id);
 
-function formatDateTime(dateObj) {
-    if (!dateObj) return '';
-    const dateStr = dateObj.dateTime || dateObj.date;
-    if (!dateStr) return '';
-    const d = new Date(dateStr);
-    if (isNaN(d)) return '';
-    return d.toLocaleString('es-AR', {
+function formatDateTime(event) {
+    if (event.start?.date || event.end?.date) {
+        return "Todo el día";
+    }
+
+    const start = new Date(event.start.dateTime);
+    const end = new Date(event.end.dateTime);
+
+    const startTime = start.toLocaleTimeString('es-AR', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
     });
+    const endTime = end.toLocaleTimeString('es-AR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    });
+
+    if (startTime === endTime) {
+        return startTime;
+    }
+
+    return `${startTime} - ${endTime}`;
 }
 
 function closeModal() {
@@ -301,14 +314,14 @@ watch(currentDate, () => {
 
                 <div class="grid grid-cols-7 gap-2 text-center justify-items-center border-b border-gray-300 pb-2">
                     <div v-for="n in firstDayOfMonth" :key="'blank-' + n"></div>
-                    <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)" class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors" :class="[ selectedDays.includes(day) ? 'bg-libelo-500 text-white font-semibold shadow' : isToday(day) ? 'text-libelo-500 font-bold' : 'hover:bg-libelo-100']">{{ day }}<span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-1.5 h-1.5 rounded-full bg-libelo-500 focus:text-white"></span>
+                    <div v-for="day in daysInMonth" :key="day" @click="toggleDay(day)" class="cursor-pointer relative rounded-full size-8 flex items-center justify-center select-none transition-colors" :class="[ selectedDays.includes(day) ? 'bg-libelo-500 text-white font-semibold shadow' : isToday(day) ? 'text-libelo-500 bg-libelo-100 font-bold' : 'hover:bg-libelo-100']">{{ day }}<span v-if="hasEventOnDay(day) && !selectedDays.includes(day)" class="absolute bottom-0 w-4 h-1 rounded-full bg-libelo-500 focus:text-white"></span>
                     </div>
                 </div>
                 <BaseTitle v-if="getEventsforSelectedDays().length" :title="`Eventos para el día ${selectedDateLabel}`">
                     <template v-if="calendarEvents.length">
                         <div v-for="event in getEventsforSelectedDays()" :key="event.id" @click="openEventModal(event)" class="p-2 flex justify-between items-center text-white bg-libelo-500 hover:bg-libelo-600 rounded-xl overflow-hidden">
                             <div class="flex flex-col overflow-hidden pl-1">
-                                <span class="text-xs whitespace-nowrap">{{ formatDateTime(event.start) }} - {{ formatDateTime(event.end) }}</span>
+                                <span class="text-xs whitespace-nowrap">{{ formatDateTime(event) }}</span>
                                 <span class="font-semibold line-clamp-1 break-all">{{ event.summary }}</span>
                             </div>
                             <button class="size-11 flex items-center justify-center hover:bg-libelo-600 rounded-lg shrink-0" @click.stop="confirmDelete(event)">

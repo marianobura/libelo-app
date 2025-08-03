@@ -2,7 +2,7 @@
 import { ref, watch, defineProps, defineEmits } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseButton from '@/components/BaseButton.vue';
-import { X } from 'lucide-vue-next';
+import { Clock, X } from 'lucide-vue-next';
 import BaseInput from '../BaseInput.vue';
 
 const props = defineProps({
@@ -48,21 +48,32 @@ const handleSave = () => {
 const handleDelete = () => {
     emit('delete')
     closeModal();
-};
+}
 
-function formatFullDateTime(dateStr) {
-    if (!dateStr) return '';
-    const d = new Date(dateStr);
-    if (isNaN(d)) return '';
+function formatDateTime(event) {
+    if (event.start?.date || event.end?.date) {
+        return { type: "allDay" };
+    }
 
-    const date = d.toLocaleDateString('es-AR');
-    const time = d.toLocaleTimeString('es-AR', {
+    const start = new Date(event.start.dateTime);
+    const end = new Date(event.end.dateTime);
+
+    const startTime = start.toLocaleTimeString('es-AR', {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: false
+        hour12: false,
+    });
+    const endTime = end.toLocaleTimeString('es-AR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
     });
 
-    return `${date} a las ${time}`;
+    if (startTime === endTime) {
+        return { type: "single", time: startTime };
+    }
+
+    return { type: "range", start: startTime, end: endTime };
 }
 </script>
 
@@ -88,15 +99,11 @@ function formatFullDateTime(dateStr) {
                     </template>
                     <template v-else>
                         <h3 class="text-lg font-semibold line-clamp-1 break-all">{{ localEvent.summary }}</h3>
-                        <div class="flex flex-col">
-                            <p class="text-sm">
-                                <span class="font-semibold">Desde:</span>
-                                {{ formatFullDateTime(props.event?.start.dateTime) }}
-                            </p>
-                            <p class="text-sm">
-                                <span class="font-semibold">Hasta:</span>
-                                {{ formatFullDateTime(props.event?.end.dateTime) }}
-                            </p>
+                        <div class="flex gap-1 items-center">
+                            <Clock size="16" />
+                            <p v-if="formatDateTime(props.event).type === 'allDay'" class="text-sm">Durante todo el día</p>
+                            <p v-else-if="formatDateTime(props.event).type === 'single'" class="text-sm">A las {{ formatDateTime(props.event).time }}hs</p>
+                            <p v-else-if="formatDateTime(props.event).type === 'range'" class="text-sm">De {{ formatDateTime(props.event).start }}hs a {{ formatDateTime(props.event).end }}hs</p>
                         </div>
                     </template>
                 </div>
