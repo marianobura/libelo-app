@@ -8,6 +8,9 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import axios from "axios";
 import { Coins, Info, MapPin, TicketCheck } from "lucide-vue-next";
+import RedeemModal from "@/components/Promotions/RedeemModal.vue";
+import { watch } from "vue";
+import LibeloIsologo from "@/assets/LibeloIsologo.vue";
 
 const promotions = ref(promotionsData.promotions);
 const route = useRoute();
@@ -16,6 +19,17 @@ const showModal = ref(false);
 const userStore = useUserStore();
 const userPoints = computed(() => userStore.user?.points);
 const errors = ref({ promo: "" });
+const imageFailed = ref(false);
+const redeem = ref(false);
+const loading = ref(false);
+
+watch(() => promotion.value.image, () => {
+    imageFailed.value = false;
+});
+
+const handleImageError = () => {
+    imageFailed.value = true;
+};
 
 onMounted(() => {
     const promotionId = route.params.id;
@@ -26,12 +40,35 @@ const openModal = () => {
     showModal.value = true;
 };
 
+const openModalAsRedeemed = () => {
+    const redeemedPromo = userStore.user.promotions.find(p => p.id === promotion.value.id);
+    if (redeemedPromo) {
+        promotion.value = {
+            ...promotion.value,
+            code: redeemedPromo.code,
+        };
+        redeem.value = true;
+        showModal.value = true;
+    }
+};
+
 const closeModal = () => {
     showModal.value = false;
     errors.value.promo = "";
 };
 
+function generateRandomCode(length = 8) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
 const redeemPromotion = async () => {
+    loading.value = true;
+
     if (!promotion.value.id) {
         errors.value.promo = "Promoción no válida.";
         return;
@@ -43,10 +80,11 @@ const redeemPromotion = async () => {
     }
 
     try {
+        const promotionCode = generateRandomCode();
         const apiUrl = new URL(`/api/users/${userStore.user._id}/redeem-promotion`, process.env.VUE_APP_API_URL);
         const response = await axios.put(apiUrl, {
             promotionId: promotion.value.id,
-            promotionCode: promotion.value.code || "SIN-CÓDIGO",
+            promotionCode: promotionCode,
             newPoints: userPoints.value - promotion.value.points,
         });
 
@@ -55,14 +93,20 @@ const redeemPromotion = async () => {
         userStore.user.points = data.user.points;
         userStore.user.promotions.push({
             id: promotion.value.id,
-            promotion_code: promotion.value.code || "SIN-CÓDIGO",
+            code: promotionCode,
             redeemed: true,
         });
 
-        closeModal();
-        alert("¡Promoción canjeada con éxito!");
+        promotion.value = {
+            ...promotion.value,
+            code: promotionCode,
+        };
+
+        redeem.value = true;
     } catch (error) {
         errors.value.promo = error.response?.data?.msg || "Error al canjear la promoción.";
+    } finally {
+        loading.value = false;
     }
 };
 </script>
@@ -70,11 +114,13 @@ const redeemPromotion = async () => {
 <template>
     <BaseBody>
         <BaseNav title="Promoción" />
-        <div class="p-4">
-            <div v-if="!promotion.title" class="text-center">Promoción no encontrada.</div>
-            <div v-else class="flex flex-col justify-between h-full gap-4">
-                <div>
-                    <img :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl">
+        <div class="p-2">
+            <div class="flex flex-col justify-between h-full gap-4">
+                <div class="flex flex-col">
+                    <img v-if="promotion.image && !imageFailed" :src="promotion.image" alt="Promoción" class="w-full h-56 object-cover rounded-xl" @error="handleImageError">
+                    <div v-else class="w-full h-56 flex items-center justify-center bg-libelo-500 rounded-xl">
+                        <LibeloIsologo class="w-32 h-auto text-white" />
+                    </div>
                     <div class="flex flex-col py-2 border-b border-neutral-300">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold overflow-hidden text-ellipsis line-clamp-1">{{ promotion.title }}</h3>
@@ -107,21 +153,12 @@ const redeemPromotion = async () => {
                         </div>
                     </div>
                 </div>
-                <BaseButton v-if="userPoints >= promotion.points" @click="openModal" primary>Canjear por {{ promotion.points }} puntos</BaseButton>
+                <BaseButton v-if="userPoints >= promotion.points && !userStore.user.promotions.some(p => p.id === promotion.id)" @click="openModal" primary>Canjear por {{ promotion.points }} puntos</BaseButton>
+                <BaseButton v-else-if="userStore.user.promotions.some(p => p.id === promotion.id)" @click="openModalAsRedeemed" danger>Ya canjeaste esta promoción</BaseButton>
                 <BaseButton v-else danger>No tienes puntos suficientes</BaseButton>
             </div>
         </div>
 
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div class="bg-white p-4 rounded shadow-lg w-80">
-                <h3 class="font-bold text-lg mb-2">Canjear promoción</h3>
-                <p>¿Estás seguro de que deseas canjear esta promoción?</p>
-                <p v-if="errors.promo" class="text-red-500 text-sm">{{ errors.promo }}</p>
-                <div class="flex justify-end mt-4 gap-2">
-                    <BaseButton @click="closeModal" danger>Cancelar</BaseButton>
-                    <BaseButton @click="redeemPromotion" primary>Canjear</BaseButton>
-                </div>
-            </div>
-        </div>
+        <RedeemModal :show-modal="showModal" :promotion="promotion" :user-points="userPoints" :error="errors.promo" :promotion-redeem="redeem" :loading="loading" @close="closeModal" @redeem="redeemPromotion" />
     </BaseBody>
 </template>

@@ -42,8 +42,8 @@ const selectCategory = (categoryName) => {
 
 <template>
     <BaseBody>
-        <BaseNav title="Puntos" />
-        <div class="p-4">
+        <BaseNav title="Promociones" />
+        <div class="p-2">
             <div class="flex gap-2 items-center justify-center border-2 border-libelo-500 text-libelo-500 bg-libelo-500/5 rounded-xl h-12 mb-4">
                 <Coins size="20" stroke-width="2" />
                 <span class="font-semibold">Tienes {{ userStore.user.points }} puntos</span>
@@ -58,28 +58,28 @@ const selectCategory = (categoryName) => {
 
         <div class="overflow-hidden">
             <div class="mt-2">
-                <div class="border-b-2 border-black mb-4 mx-4">
+                <div class="border-b-2 border-black mb-4 mx-2">
                     <h2 class="font-bold text-lg w-full">Promociones destacadas</h2>
                 </div>
                 <div v-if="loading" class="text-center">Cargando promociones...</div>
                 <div v-else-if="allHighlightedPromotions.length && !loading" class="overflow-hidden w-full">
-                    <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth flex gap-2 px-4" ref="slider">
+                    <div class="overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth flex gap-2 px-2" ref="slider">
                         <ProductCard detailed v-for="(promotion, index) in allHighlightedPromotions" :key="index" :promotion="promotion" />
                     </div>
                 </div>
             </div>
             <div v-if="promotions.length > 0" :class="allHighlightedPromotions.length === 0 ? 'mt-2' : 'mt-8'">
-                <div class="border-b-2 border-black mb-4 mx-4">
+                <div class="border-b-2 border-black mb-4 mx-2">
                     <h2 class="font-bold text-lg w-full">Todas las promociones</h2>
                 </div>
                 <div v-if="loading" class="text-center">Cargando promociones...</div>
                 <div v-else-if="promotions.length && !loading" class="overflow-hidden mb-4">
-                    <div class="flex gap-2 overflow-x-auto no-scrollbar px-4" ref="slider">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar px-2" ref="slider">
                         <button v-for="category in promotions" @click="selectCategory(category.category)" :key="category.category"
-                        :class="[ 'px-6 py-4 border rounded-xl font-semibold', selectedCategory === category.category ? 'bg-libelo-100 text-libelo-500 border-libelo-100' : 'bg-white text-black hover:bg-neutral-300']">{{ category.category }}</button>
+                        :class="[ 'px-4 py-2 border rounded-xl font-semibold', selectedCategory === category.category ? 'bg-libelo-100 text-libelo-500 border-libelo-100' : 'bg-white text-black hover:bg-neutral-300']">{{ category.category }}</button>
                     </div>
                     <div v-if="selectedCategory" class="mt-4">
-                        <div class="flex flex-col gap-2 px-4" ref="slider">
+                        <div class="flex flex-col gap-2 px-2" ref="slider">
                             <ProductCard compact v-for="(promotion, index) in filteredPromotions" :key="index" :promotion="promotion" />
                         </div>
                     </div>

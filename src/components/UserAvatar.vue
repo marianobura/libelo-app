@@ -15,6 +15,10 @@ const props = defineProps({
     userLetter: {
         type: String,
         default: null
+    },
+    settings: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -26,5 +30,5 @@ const computedLetter = computed(() => {
 </script>
 
 <template>
-    <div @click="goTo('/settings')" class="flex items-center justify-center text-white rounded-full font-semibold" :class="[`size-${props.size}`, props.orange ? 'bg-orange-600' : 'bg-libelo-500']">{{ computedLetter }}</div>
+    <div @click="props.settings ? goTo('/settings') : null" class="flex items-center justify-center text-white rounded-full font-semibold" :class="[`size-${props.size}`, props.orange ? 'bg-orange-600' : 'bg-libelo-500']">{{ computedLetter }}</div>
 </template>

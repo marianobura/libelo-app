@@ -35,11 +35,19 @@ export function useCalendar() {
         );
     }
 
+    function parseEventDate(event) {
+        if (event.start?.date) {
+            const [y, m, d] = event.start.date.split('-').map(Number);
+            return new Date(y, m - 1, d);
+        }
+        return new Date(event.start.dateTime);
+    }
+
     function getEventsforSelectedDays() {
         if (selectedDays.value.length === 0) return [];
-
+    
         return calendarEvents.value.filter(event => {
-            const eventDate = new Date(event.start.dateTime || event.start.date);
+            const eventDate = parseEventDate(event);
             return (
                 eventDate.getFullYear() === currentYear.value &&
                 eventDate.getMonth() === currentMonth.value &&
@@ -47,10 +55,10 @@ export function useCalendar() {
             );
         });
     }
-
+    
     function hasEventOnDay(day) {
         return calendarEvents.value.some(event => {
-            const eventDate = new Date(event.start.dateTime || event.start.date);
+            const eventDate = parseEventDate(event);
             return (
                 eventDate.getFullYear() === currentYear.value &&
                 eventDate.getMonth() === currentMonth.value &&

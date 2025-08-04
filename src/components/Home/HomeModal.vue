@@ -1,12 +1,13 @@
 <script setup>
 import BaseButton from "@/components/BaseButton.vue";
-import { X } from "lucide-vue-next";
+import { SearchX, X } from "lucide-vue-next";
 import { defineProps, defineEmits, ref, computed } from "vue";
 import BaseModal from "@/components/BaseModal.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import subjectsData from "@/assets/subjects.json";
 import { useUserStore } from "@/stores/userStore";
 import axios from "axios";
+import EmptyState from "../EmptyState.vue";
 
 const userStore = useUserStore();
 const subjects = ref(subjectsData.subjects);
@@ -94,9 +95,7 @@ const addSubject = async () => {
                     </li>
                 </ul>
             </div>
-            <div v-else class="text-red-500 font-semibold text-center mt-4">
-                No se encontraron resultados para tu búsqueda.
-            </div>
+            <EmptyState v-else title="Sin resultados" :icon="SearchX">No se encontraron materias que coincidan con tu búsqueda.</EmptyState>
             <div class="pt-4 border-t border-t-neutral-200">
                 <BaseButton @click="addSubject" primary>{{ loading ? 'Agregando materia...' : 'Agregar materia' }}</BaseButton>
             </div>

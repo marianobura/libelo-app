@@ -5,39 +5,28 @@ import BaseTitle from "@/components/BaseTitle.vue";
 import HomeModal from "@/components/Home/HomeModal.vue";
 import { LoaderCircle, Plus } from "lucide-vue-next";
 import { goTo } from "@/router/index";
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted, computed } from "vue";
 import { useUserStore } from '@/stores/userStore';
+import { useSubjectStore } from '@/stores/subjectStore';
 import BaseButton from "@/components/BaseButton.vue";
 import HomeHeader from "@/components/Home/HomeHeader.vue";
 import HomeCard from "@/components/Home/HomeCard.vue";
 
-const userStore = useUserStore();
 const showModal = ref(false);
-const subjects = ref([]);
+const userStore = useUserStore();
+const subjectStore = useSubjectStore();
 const loading = ref(true);
-
-const refreshSubjects = async (newSubject) => {
-    subjects.value.push(newSubject);
-};
-
-const fetchSubjects = async () => {
-    try {
-        const apiUrl = new URL(`/api/subjects?studentId=${userStore.user._id}`, process.env.VUE_APP_API_URL);
-        const response = await axios.get(apiUrl.toString());
-        subjects.value = response.data.data;
-    } catch (error) {
-        console.error("Error al obtener las materias:", error);
-    } finally {
-        loading.value = false;
-    }
-};
 
 onMounted(async () => {
     await userStore.fetchUser();
-    await fetchSubjects();
+    await subjectStore.fetchSubjects();
     loading.value = false;
 });
+
+const subjects = computed(() => subjectStore.getSubjects);
+const refreshSubjects = (newSubject) => {
+    subjectStore.addSubject(newSubject)
+};
 </script>
 
 <template>

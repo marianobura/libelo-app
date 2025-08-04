@@ -11,11 +11,6 @@ export const useChatStore = defineStore("chatStore", {
         isSending: false,
     }),
 
-    getters: {
-        isChatEmpty: (state) => state.messages.length === 0,
-        getMessages: (state) => state.messages,
-    },
-
     actions: {
         async fetchChatMessages(subjectId) {
             if (!subjectId) return;
@@ -77,24 +72,19 @@ export const useChatStore = defineStore("chatStore", {
         },
 
         listenForIncomingMessages() {
+            socket.off("newMessage");
             socket.on("newMessage", (message) => {
-                const alreadyExists = this.messages.some((m) =>
-                    m.sender._id === message.sender._id &&
-                    m.text === message.text
-                );
-
-                if (!alreadyExists) {
-                    this.messages.push(message);
-                }
+                this.messages.push(message);
             });
         },
 
         listenForTeacherAssignment() {
-            socket.on("teacherAssigned", (newTeacherId) => {
+            socket.off("teacherAssigned");
+            socket.on("teacherAssigned", async (newTeacherId) => {
                 if (this.chatInfo) {
                     this.chatInfo.teacherId = newTeacherId;
                 }
-            });                       
+            });
         },
     },
 });

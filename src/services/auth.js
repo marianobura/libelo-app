@@ -8,7 +8,8 @@ export const getUserIdFromToken = () => {
         const decoded = jwtDecode(token);
         return decoded.id;
     } catch (error) {
-        console.error('Token inválido:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
         return null;
     }
 };

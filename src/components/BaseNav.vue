@@ -20,7 +20,7 @@ defineProps({
 });
 
 onMounted(async () => {
-    if (userStore.user?._id) {
+    if (userStore.user?._id && router.currentRoute.value.name === ('student-home' || 'teacher-home')) {
         await notificationStore.fetchNotifications(userStore.user._id);
     }
 });
@@ -40,12 +40,10 @@ const goBack = () => router.back();
         </div>
         <div v-if="home" class="flex gap-2 items-center">
             <router-link to="/notifications"
-                class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">
-                <div class="relative">
-                    <Bell size="20" stroke-width="2" />
-                    <span v-if="notificationStore.totalUnread > 0"
-                        class="absolute -top-3 -right-2 w-3 h-3 rounded-full bg-libelo-500 border border-white"></span>
-                </div>
+                class="relative flex items-center justify-center size-10 bg-neutral-100 rounded-full hover:bg-neutral-200">
+                <Bell size="20" stroke-width="2" />
+                <span v-if="notificationStore.totalUnread > 0"
+                    class="absolute top-0 right-0 w-3 h-3 rounded-full bg-libelo-500 border border-white"></span>
             </router-link>
             <router-link v-if="userStore.user?.role === 'teacher'" to="/teacher/promotions"
                 class="flex items-center justify-center size-10 bg-gray-100 rounded-full hover:bg-neutral-200">

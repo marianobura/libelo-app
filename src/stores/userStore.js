@@ -15,10 +15,19 @@ export const useUserStore = defineStore('user', {
     actions: {
         async fetchUser() {
             const token = localStorage.getItem('token');
-            if (!token) return;
+            if (!token) {
+                this.user = null;
+                this.isAuthenticated = false;
+                return
+            }
 
             try {
                 const userId = getUserIdFromToken();
+                if (!userId) {
+                    this.user = null;
+                    this.isAuthenticated = false;
+                    return;
+                }
 
                 const apiUrl = new URL(`/api/users/${userId}`, process.env.VUE_APP_API_URL);
                 const response = await axios.get(apiUrl, {
@@ -28,11 +37,10 @@ export const useUserStore = defineStore('user', {
                 this.user = response.data.data;
                 this.isAuthenticated = true;
             } catch (error) {
-                if (error.response?.status === 401 || error.response?.status === 403 || !this.user) {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    this.isAuthenticated = false;
-                }
+                localStorage.removeItem('token');
+                localStorage.removeItem('role');
+                this.user = null;
+                this.isAuthenticated = false;
             }
         },
     },

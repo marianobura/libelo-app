@@ -25,7 +25,7 @@ const loginWithGoogle = () => {
 onMounted(() => {
     tokenClient = window.google.accounts.oauth2.initTokenClient({
         client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-        scope: 'email profile openid https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.coursework.me.readonly https://www.googleapis.com/auth/calendar',
+        scope: 'email profile openid https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.coursework.me.readonly https://www.googleapis.com/auth/calendar',
         callback: async (response) => {
             const accessToken = response.access_token;
             props.onTokenReceived(accessToken);

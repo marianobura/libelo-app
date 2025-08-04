@@ -63,6 +63,12 @@ const routes = [
         meta: { requiresAuth: true },
     },
     {
+        path: "/settings/promotions",
+        name: "promotions-redeem",
+        component: () => import("@/views/teacher/PromotionsRedeemView.vue"),
+        meta: { requiresAuth: true },
+    },
+    {
         path: "/settings/google",
         name: "google-settings",
         component: () => import("@/views/settings/GoogleSettingsView.vue"),
@@ -73,6 +79,12 @@ const routes = [
         name: "chat",
         component: () => import("@/views/ChatView.vue"),
         meta: { requiresAuth: true },
+    },
+    {
+        path: "/download",
+        name: "download",
+        component: () => import("@/views/InstallView.vue"),
+        meta: { requiresAuth: false },
     },
 
     // Estudiante
@@ -150,18 +162,20 @@ router.beforeEach((to, from, next) => {
     const role = localStorage.getItem("role");
 
     if (to.meta.requiresAuth && !token) {
-        next({ name: "welcome" });
-    } else if (!to.meta.requiresAuth && token) {
-        if (role === 'student') {
-            next({ name: 'student-home' });
-        } else if (role === 'teacher') {
-            next({ name: 'teacher-home' });
-        } else {
-            next({ name: 'choose-role' });
-        }
-    } else {
-        next();
+        return next({ name: "welcome" });
     }
+
+    if (!to.meta.requiresAuth && token) {
+        if (role === "student") {
+            return next({ name: "student-home" });
+        } else if (role === "teacher") {
+            return next({ name: "teacher-home" });
+        } else {
+            return next({ name: "choose-role" });
+        }
+    }
+
+    return next();
 });
 
 const goTo = (path) => {

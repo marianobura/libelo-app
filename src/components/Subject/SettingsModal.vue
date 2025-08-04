@@ -6,6 +6,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useRoute } from 'vue-router';
 import axios from "axios";
 import { useSubjectStore } from "@/stores/subjectStore";
+import { Check } from "lucide-vue-next";
 
 const route = useRoute();
 const path = route.params.id;
@@ -117,6 +118,10 @@ const settings = {
 
 const saveSettings = async () => {
     loading.value = true;
+    if (!selectedColor.value) {
+        selectedColor.value = "#083DB2, #1F2B96"
+    }
+
     try {
         const apiUrl = new URL(`/api/subjects/${path}/banner-color`, process.env.VUE_APP_API_URL);
         await axios.patch(apiUrl.toString(), {
@@ -124,8 +129,16 @@ const saveSettings = async () => {
             color: selectedColor.value
         });
 
+        const updatedSubject = {
+            ...subjectStore.subject,
+            banner: selectedBanner.value,
+            color: selectedColor.value,
+        };
+
         subjectStore.subject.banner = selectedBanner.value;
         subjectStore.subject.color = selectedColor.value;
+
+        subjectStore.updateSubject(updatedSubject);
 
         closeModal();
     } catch (error) {
@@ -147,15 +160,21 @@ const saveSettings = async () => {
             </div>
             <div class="py-2 overflow-auto">
                 <div class="flex flex-col gap-2">
-                    <span class="font-semibold">Elige una portada para tu materia</span>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div v-for="url in settings.banners" :key="url" class="h-16 w-full bg-cover bg-right rounded-md cursor-pointer" :class="{ 'opacity-100': selectedBanner === null || selectedBanner === url, 'opacity-50': selectedBanner !== null && selectedBanner !== url }" :style="{ backgroundImage: `url(${url})` }" @click="selectedBanner = selectedBanner === url ? null : url " />
+                    <span class="font-semibold">Elige un color para tu materia</span>
+                    <div class="grid grid-cols-6 gap-2">
+                        <div v-for="color in settings.colors" :key="color" class="h-8 w-full rounded-xl cursor-pointer flex items-center justify-center text-white" :class="{ 'opacity-100': selectedColor === null || selectedColor === color, 'opacity-50': selectedColor !== null && selectedColor !== color }" :style="{ backgroundImage: `linear-gradient(to bottom, ${color})` }" @click="selectedColor = selectedColor === color ? null : color">
+                            <Check v-if="selectedColor === color" stroke-width="3" />
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 mt-4">
-                    <span class="font-semibold">Elige un color para tu materia</span>
-                    <div class="grid grid-cols-6 gap-2">
-                        <div v-for="color in settings.colors" :key="color" class="h-8 w-full rounded-xl cursor-pointer" :class="{ 'opacity-100': selectedColor === null || selectedColor === color, 'opacity-50': selectedColor !== null && selectedColor !== color }" :style="{ backgroundImage: `linear-gradient(to bottom, ${color})` }" @click="selectedColor = selectedColor === color ? null : color" />
+                    <span class="font-semibold">Elige una portada para tu materia</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div v-for="url in settings.banners" :key="url" class="h-16 w-full bg-cover bg-right rounded-md cursor-pointer overflow-hidden" :class="{ 'opacity-100': selectedBanner === null || selectedBanner === url, 'opacity-50': selectedBanner !== null && selectedBanner !== url }" :style="{ backgroundImage: `url(${url})` }" @click="selectedBanner = selectedBanner === url ? null : url">
+                            <div v-if="selectedBanner === url" class="flex items-center justify-center w-full h-full bg-black/50 text-white">
+                                <Check stroke-width="3" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
