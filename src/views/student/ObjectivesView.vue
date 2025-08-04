@@ -10,7 +10,7 @@ import CheckpointModal from "@/components/Objectives/CheckpointModal.vue";
 import DeleteModal from "@/components/Objectives/DeleteModal.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
-import { Check, LoaderCircle, X, Trash2 } from "lucide-vue-next";
+import { Check, LoaderCircle, X, Trash2, Hand } from "lucide-vue-next";
 import BaseTitle from "@/components/BaseTitle.vue";
 import Draggable from "vuedraggable";
 
@@ -25,7 +25,6 @@ const showDeleteModal = ref(false);
 const subjectId = computed(() => route.params.id);
 const userObjectives = computed(() => subjectStore.subject?.objectives ?? []);
 const maxProgress = 100;
-console.log(userObjectives.value);
 
 const checkpoints = computed(() => {
     return userObjectives.value.length > 0
@@ -114,6 +113,23 @@ const confirmDeleteObjectives = async () => {
         showDeleteModal.value = false;
     }
 };
+
+const saveObjectivesOrder = async () => {
+    const subject = subjectStore.subject;
+
+    if (!subject || !Array.isArray(subject.objectives) || subject.objectives.length === 0) {
+        return;
+    }
+
+    try {
+        const apiUrl = new URL(`/api/subjects/${subject._id}/objectives-order`, process.env.VUE_APP_API_URL);
+        await axios.put(apiUrl.toString(), {
+            objectives: subject.objectives,
+        });
+    } catch (error) {
+        console.error("Error al guardar el orden de los objetivos:", error.response?.data?.msg || error.message);
+    }
+};
 </script>
 
 <template>
@@ -137,21 +153,25 @@ const confirmDeleteObjectives = async () => {
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 mt-4">
-                        <Draggable v-model="subjectStore.subject.objectives" item-key="_id" handle=".drag-handle" class="flex flex-col gap-2">
+                        <Draggable v-model="subjectStore.subject.objectives" item-key="_id" handle=".drag-handle" @end="saveObjectivesOrder" class="flex flex-col gap-2">
                             <template #item="{ element: objective }">
-                                <div class="flex justify-between items-center gap-8 border border-neutral-300 p-2 rounded-xl has-[input:checked]:border-libelo-500">
-                                    <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
-                                        <div class="drag-handle cursor-move size-6 flex items-center justify-center text-gray-400 hover:text-black">⋮</div>
-                                        <div class="relative mb-auto">
-                                            <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
-                                            <span class="size-6 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
-                                                <Check v-if="objective.completed" />
-                                            </span>
+                                <div class="flex items-center border border-neutral-300 rounded-xl has-[input:checked]:border-libelo-500 has-[input:checked]:bg-libelo-50 bg-body overflow-hidden">
+                                    <div class="flex gap-8 justify-between items-center p-2 flex-1">
+                                        <label :for="objective._id" class="flex items-center gap-2 line-clamp-1 break-all w-full">
+                                            <div class="relative mb-auto">
+                                                <input type="checkbox" :id="objective._id" :checked="objective.completed" @change="toggleCompletion(objective)" class="appearance-none peer hidden" />
+                                                <span class="size-6 flex items-center justify-center border-2 border-neutral-300 text-white peer-checked:bg-libelo-500 peer-checked:border-transparent rounded-md">
+                                                    <Check v-if="objective.completed" />
+                                                </span>
+                                            </div>
+                                            <span>{{ objective.text }}</span>
+                                        </label>
+                                        <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 rounded-lg bg-red-700 text-white" @click="removeObjective(objective._id)">
+                                            <X :size="12" />
                                         </div>
-                                        <span>{{ objective.text }}</span>
-                                    </label>
-                                    <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 border border-red-700 rounded-lg text-red-700 hover:bg-red-700 hover:text-white" @click="removeObjective(objective._id)">
-                                        <X :size="12" />
+                                    </div>
+                                    <div class="drag-handle cursor-move border-l border-neutral-300 flex items-center justify-center aspect-square h-full">
+                                        <Hand size="20" />
                                     </div>
                                 </div>
                             </template>
