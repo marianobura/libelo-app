@@ -68,6 +68,12 @@ export const useSubjectStore = defineStore("subjectStore", {
 
         removeSubject(subjectId) {
             this.subjects = this.subjects.filter(subject => subject._id !== subjectId);
+        },
+
+        resetSubjects() {
+            this.subject = null;
+            this.subjects = [];
+            this.subjectsLoaded = false;
         }
     }
 });
