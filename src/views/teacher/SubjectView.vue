@@ -146,7 +146,7 @@ onMounted(fetchChats);
                         <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
                             <div class="flex justify-between items-center p-2" @click="toggleSection('pending', subject)">
                                 <span class="font-semibold">{{ subject }}</span>
-                                <ChevronUp size="24" :class="isCollapsed('pending', subject) ? 'rotate-180' : ''" />
+                                <ChevronUp size="24" class="transition-transform" :class="isCollapsed('pending', subject) ? 'rotate-180' : ''" />
                             </div>
                             <div v-if="!isCollapsed('pending', subject)" class="flex flex-col divide-y divide-neutral-300 border-t border-neutral-300">
                                 <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="red" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
@@ -165,7 +165,7 @@ onMounted(fetchChats);
                         <div v-for="(chats, subject) in groupedActiveChats" :key="'active-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
                             <div class="flex justify-between items-center p-2" @click="toggleSection('active', subject)">
                                 <span class="font-semibold">{{ subject }}</span>
-                                <ChevronUp size="24" :class="isCollapsed('active', subject) ? 'rotate-180' : ''" />
+                                <ChevronUp size="24" class="transition-transform" :class="isCollapsed('active', subject) ? 'rotate-180' : ''" />
                             </div>
                             <div v-if="!isCollapsed('active', subject)" class="flex flex-col divide-y divide-neutral-300 border-t border-neutral-300">
                                 <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="green" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
