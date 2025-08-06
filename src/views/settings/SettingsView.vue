@@ -9,17 +9,20 @@ import { useRouter } from "vue-router";
 import { goTo } from "@/router";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/userStore";
+import { useSubjectStore } from "@/stores/subjectStore";
 import { googleLogout } from "vue3-google-login";
 
 const router = useRouter();
 const loading = ref(false);
 const userStore = useUserStore();
+const subjectStore = useSubjectStore();
 
 const logout = async () => {
     loading.value = true;
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     googleLogout();
+    subjectStore.resetSubjects();
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     router.push({ path: "/" });
