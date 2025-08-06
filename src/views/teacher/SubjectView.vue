@@ -9,7 +9,7 @@ import BaseTitle from '@/components/BaseTitle.vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRoute } from 'vue-router';
 import EmptyState from '@/components/EmptyState.vue';
-import { LoaderCircle, MailX } from 'lucide-vue-next';
+import { LoaderCircle, MailX, ChevronUp } from 'lucide-vue-next';
 
 const route = useRoute();
 const currentSubject = computed(() => Object.keys(userStore.user?.preferredSubjects)[route.params.id]);
@@ -127,9 +127,11 @@ onMounted(fetchChats);
                     </div>
                     <template v-else>
                         <div v-for="(chats, subject) in groupedPendingChats" :key="'pending-' + subject" class="flex flex-col w-full border border-neutral-300 bg-neutral-200 rounded-xl overflow-hidden">
-                            <span class="font-semibold p-2">{{ subject }}</span>
-                            <hr class="w-full border-neutral-300" />
-                            <div class="flex flex-col divide-y divide-neutral-300">
+                            <div class="flex justify-between items-center p-2">
+                                <span class="font-semibold">{{ subject }}</span>
+                                <ChevronUp size="24" />
+                            </div>
+                            <div class="flex flex-col divide-y divide-neutral-300 border-t border-neutral-300">
                                 <StudentCard v-for="chat in chats" :key="chat._id" :link-to="`/subject/${chat.subjectId}/chat`" color="red" :student="{ name: chat.studentId.displayName, message: chat.lastMessageText, subjectName: chat.subjectName, ...chat.lastMessageTime }" />
                             </div>
                         </div>
