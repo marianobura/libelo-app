@@ -164,7 +164,7 @@ const saveObjectivesOrder = async () => {
                                                     <Check v-if="objective.completed" />
                                                 </span>
                                             </div>
-                                            <span>{{ objective.text }}</span>
+                                            <span class="line-clamp-1 break-all">{{ objective.text }}</span>
                                         </label>
                                         <div class="flex items-center justify-center mb-auto size-6 flex-shrink-0 rounded-lg bg-red-700 text-white" @click="removeObjective(objective._id)">
                                             <X :size="12" />

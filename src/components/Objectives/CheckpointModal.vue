@@ -24,7 +24,7 @@ const closeModal = () => emit("close");
                 </button>
             </div>
             <div class="flex flex-col gap-2">
-                <p class="font-semibold">{{ props.objective?.text }}</p>
+                <p class="font-semibold break-words">{{ props.objective?.text }}</p>
                 <div class="font-semibold flex items-center gap-2 px-3 py-1 rounded-full w-fit" :class="props.objective?.completed ? 'text-libelo-500 bg-libelo-100' : 'text-red-500 bg-red-100'">
                     <Check v-if="props.objective?.completed" size="16" />
                     <X v-else size="16" />
