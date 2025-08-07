@@ -61,7 +61,7 @@ onMounted(() => {
                 </div>
             </BaseTitle>
             <div v-else class="h-full flex items-center">
-                <EmptyState title="No tienes promociones" :icon="TicketCheck">Aún no has canjeado ninguna promoción. ¡<router-link to="/teacher/promotions" class="text-libelo-500 border-b border-libelo-500">Explora las disponibles</router-link> y canjea la que más te guste!</EmptyState>
+                <EmptyState title="No tienes promociones" :icon="TicketCheck">Aún no has canjeado ninguna promoción. ¡<router-link to="/teacher/promotions" class="text-libelo-500">Explora las disponibles</router-link> y canjea la que más te guste!</EmptyState>
             </div>
         </div>
     </BaseBody>
