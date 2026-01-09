@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyCfER8RTeEjfO3vSxvi50LGgK7wdlIUMlY" });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 let conversationHistory = [];
 let queue = Promise.resolve();
